@@ -115,3 +115,31 @@ img.mark{object-fit:contain;border-radius:inherit}
   #app{max-width:448px}
   body::after{opacity:.04}
 }
+
+/* ════════════════════════════════════════════════
+   BG IMAGE PATCH · scenezy-bg.jpg (local file)
+   ════════════════════════════════════════════════ */
+
+/* 1) body layer — full-screen image (iOS-safe: fixed pseudo-element,
+      background-attachment:fixed jaan-bujh ke use nahi kiya) */
+body::before{
+  content:"";position:fixed;inset:-24px;z-index:-1;
+  background:url('./garba_golden_bg.jpg') center/cover no-repeat;
+  transform:translateZ(0);
+  filter:saturate(.85) brightness(.82);   /* image ko thoda dark/mute — text readable rahe */
+}
+
+/* 2) app glass — home screen ke through image halki jhalke */
+#app{background:rgba(18,18,23,.66)}
+
+/* 3) home pe flat scrim — header/title text ke padhne ke liye
+      (flat overlay hai, decorative gradient nahi) */
+.home::before{
+  content:"";position:absolute;inset:0;z-index:-1;
+  background:rgba(8,8,11,.45);pointer-events:none;
+}
+
+/* 4) desktop pe frame ko thoda aur mohalla do */
+@media (min-width:480px){
+  #app{box-shadow:0 40px 90px rgba(0,0,0,.55)}
+}
