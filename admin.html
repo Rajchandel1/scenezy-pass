@@ -1,397 +1,10004 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-<title>Scenezy · Admin</title>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Outfit:wght@300..800&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1, viewport-fit=cover"
+>
+
+<meta name="theme-color" content="#090a0f">
+
+<title>Scenezy Admin</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link
+  href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Fraunces:ital,wght@0,500;1,500&display=swap"
+  rel="stylesheet"
+>
+
 <style>
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-:root{--bg:#08080b;--panel:#121217;--panel2:#1a1a21;--raise:#23232d;--ink:#f1ead9;--dim:#9d97a3;--faint:#6d6875;
---line:rgba(241,234,217,.09);--line2:rgba(241,234,217,.17);--blue:#2b4edc;--blue-deep:#1f3cb2;--on-blue:#edf1ff;
---gold:#dfb54d;--ok:#3f9e6e;--bad:#8a4a4a;
---serif:"Fraunces",Georgia,serif;--sans:"Outfit",system-ui,sans-serif}
-html,body{height:100%}
-body{background:var(--bg);color:var(--ink);font-family:var(--sans);display:flex;justify-content:center}
-#app{width:100%;max-width:540px;min-height:100dvh;position:relative;padding-bottom:60px}
-button{font-family:inherit;color:inherit;background:none;border:0;cursor:pointer}
-input,select{font-family:inherit;color:inherit}
-.ic{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
-.top{display:flex;align-items:center;gap:10px;padding:16px 18px;border-bottom:1px solid var(--line)}
-.mark{width:34px;height:34px;border-radius:11px;background:var(--blue);color:var(--on-blue);display:grid;place-items:center;font:italic 600 18px/1 var(--serif);flex:none}
-.wordmark{font:italic 500 18px var(--serif)}
-.grow{flex:1}
-.iconBtn{width:36px;height:36px;border-radius:50%;border:1px solid var(--line2);display:grid;place-items:center;flex:none}
-.wrap{padding:18px}
-/* gate */
-#gate{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100dvh;padding:30px;text-align:center}
-#gate .mark{width:58px;height:58px;border-radius:18px;font-size:28px;margin-bottom:14px}
-#gate h1{font:italic 500 30px var(--serif)}
-#gate p{font-size:13px;color:var(--dim);margin:8px 0 22px}
-#keyInput{width:100%;max-width:300px;background:var(--panel2);border:1px solid var(--line2);border-radius:999px;padding:13px 18px;font-size:15px;outline:0;text-align:center}
-#keyInput:focus{border-color:var(--blue)}
-#gateErr{color:#c04a4a;font-size:12px;margin-top:12px;min-height:16px}
-.shake{animation:shk .35s}
-@keyframes shk{20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
-/* stats */
-.statGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.stat{background:var(--panel2);border:1px solid var(--line2);border-radius:18px;padding:14px 16px}
-.stat small{display:block;font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint)}
-.stat b{display:block;font:italic 500 26px/1.1 var(--serif);margin-top:6px}
-.stat.hero{background:var(--blue);border-color:var(--blue);color:var(--on-blue)}
-.stat.hero small{color:rgba(237,241,255,.65)}
-/* panels */
-.panel{margin-top:18px;background:var(--panel2);border:1px solid var(--line2);border-radius:18px;padding:14px 16px}
-.pTitle{display:flex;align-items:center;gap:8px;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--faint);margin-bottom:10px}
-.pTitle::after{content:"";flex:1;height:1px;background:var(--line)}
-.bpRow{display:flex;align-items:baseline;gap:10px;padding:7px 0;border-bottom:1px dashed var(--line);font-size:13.5px}
-.bpRow:last-child{border-bottom:0}
-.bpRow .ld{flex:1;border-bottom:1px dotted var(--line2);transform:translateY(-4px)}
-.bpRow b{font-weight:600}
-.bpRow .qty{color:var(--dim);font-size:12px}
-/* filters */
-.chips{display:flex;gap:8px;margin:18px 0 10px;flex-wrap:wrap}
-.chip{border:1px solid var(--line2);border-radius:999px;padding:8px 14px;font-size:12.5px;color:var(--dim)}
-.chip.on{background:var(--ink);color:#121212;border-color:var(--ink);font-weight:600}
-.chip i{font-style:normal;opacity:.6;margin-left:4px;font-size:11px}
-/* leads */
-.lead{display:flex;gap:12px;align-items:center;padding:13px 4px;border-bottom:1px solid var(--line)}
-.lMain{flex:1;min-width:0}
-.lMain b{display:block;font:italic 500 16.5px var(--serif)}
-.lMain span{display:block;font-size:12px;color:var(--dim);margin-top:2px}
-.lMain small{display:block;font-size:10px;color:var(--faint);margin-top:3px;letter-spacing:.06em}
-.lSide{text-align:right;flex:none}
-.lSide>b{display:block;font-size:14px;font-weight:700}
-.pill{margin-top:6px;border-radius:999px;padding:5px 12px;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;transition:.2s}
-.st-new{background:rgba(223,181,77,.14);color:var(--gold);border:1px solid rgba(223,181,77,.4)}
-.st-converted{background:var(--blue);color:var(--on-blue);border:1px solid var(--blue)}
-.st-lost{background:none;color:var(--faint);border:1px solid var(--line2);text-decoration:line-through}
-.empty{padding:46px 20px;text-align:center;color:var(--dim);font-size:13px}
-/* events list */
-.evRow{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--line)}
-.evRow:last-child{border:0}
-.swatch{width:44px;height:44px;border-radius:12px;background-size:cover;background-position:center;flex:none;display:grid;place-items:center;font:italic 600 19px var(--serif);color:#f4ead6;overflow:hidden}
-.evRow .m{flex:1;min-width:0}
-.evRow b{display:block;font:italic 500 15.5px var(--serif)}
-.evRow span{display:block;font-size:11.5px;color:var(--dim);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.evMeta{font-size:11.5px;color:var(--dim);flex:none;text-align:right}
-.evMeta b{display:block;font:600 13px var(--sans);color:var(--ink)}
-/* add sheet */
-.veil{position:fixed;inset:0;background:rgba(5,5,8,.65);opacity:0;pointer-events:none;transition:.3s;z-index:40}
-.veil.open{opacity:1;pointer-events:auto}
-.sheet{position:fixed;left:50%;bottom:0;transform:translate(-50%,105%);width:100%;max-width:540px;
-  background:var(--panel);border-radius:26px 26px 0 0;border-top:1px solid var(--line2);z-index:50;
-  transition:transform .45s cubic-bezier(.22,1,.3,1);max-height:88dvh;display:flex;flex-direction:column}
-.sheet.open{transform:translate(-50%,0)}
-.shHead{display:flex;align-items:center;justify-content:space-between;padding:18px 20px 8px}
-.shHead h3{font:italic 500 24px var(--serif)}
-.shBody{overflow-y:auto;padding:8px 20px 20px}
-.fLab{display:block;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);margin:14px 0 6px}
-.fIn{width:100%;background:var(--panel2);border:1px solid var(--line2);border-radius:14px;padding:12px 14px;font-size:14.5px;outline:0}
-.fIn:focus{border-color:var(--blue)}
-.f2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.fRow{display:flex;align-items:center;gap:8px;margin-bottom:8px}
-.fRow input{background:var(--panel2);border:1px solid var(--line2);border-radius:12px;padding:10px 12px;font-size:13.5px;outline:0;min-width:0}
-.fRow input:focus{border-color:var(--blue)}
-.fRow .rowX{width:32px;height:32px;border-radius:10px;color:var(--faint);flex:none;font-size:18px}
-.nRow input:nth-child(1){flex:1.2}.nRow input:nth-child(2){flex:.8}.nRow input:nth-child(3){flex:.9}
-.pRow input:nth-child(1){flex:1}.pRow input:nth-child(2){flex:1.6}.pRow input:nth-child(3){flex:.7}
-.miniBtn{border:1px dashed var(--line2);border-radius:12px;padding:9px 14px;font-size:12.5px;color:var(--dim)}
-.miniBtn:hover{color:var(--ink)}
-.bigBtn{width:100%;background:var(--blue);color:var(--on-blue);border-radius:16px;padding:15px;font-size:15px;font-weight:700;margin-top:18px}
-.bigBtn:disabled{opacity:.5}
-/* toast */
-.toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,14px);background:#26262f;color:var(--ink);
-  font-size:13px;padding:11px 17px;border-radius:999px;border:1px solid var(--line2);opacity:0;transition:.3s;z-index:60;pointer-events:none;white-space:nowrap;max-width:92%;overflow:hidden;text-overflow:ellipsis}
-.toast.show{opacity:1;transform:translate(-50%,0)}
-.spin{animation:spn 1s linear infinite}
-@keyframes spn{to{transform:rotate(360deg)}}
+/* =========================================================
+   SCENEZY ADMIN
+   Mobile-first event operations dashboard
+========================================================= */
 
-/* Image Preview Box */
-.imgPreviewBox {
-  margin-top: 8px; height: 60px; width: 100%; border-radius: 10px;
-  border: 1px dashed var(--line2); display: flex; align-items: center;
-  justify-content: center; overflow: hidden; background: var(--panel2);
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
 }
-.imgPreviewBox img { height: 100%; width: auto; max-width: 100%; object-fit: cover; }
-.imgPreviewBox span { font-size: 11px; color: var(--faint); }
+
+:root {
+  --bg: #090a0f;
+  --surface: #111218;
+  --surface-2: #171820;
+  --surface-3: #1e202a;
+  --surface-4: #262834;
+
+  --ink: #f7f7fb;
+  --muted: #a1a4b3;
+  --faint: #696c7a;
+
+  --line: rgba(255,255,255,.075);
+  --line-2: rgba(255,255,255,.13);
+
+  --blue: #3157ed;
+  --blue-2: #2447cd;
+  --blue-soft: rgba(49,87,237,.13);
+
+  --green: #39ca88;
+  --green-soft: rgba(57,202,136,.12);
+
+  --orange: #f4b253;
+  --orange-soft: rgba(244,178,83,.12);
+
+  --red: #ef6c74;
+  --red-soft: rgba(239,108,116,.12);
+
+  --purple: #a68cff;
+  --purple-soft: rgba(166,140,255,.12);
+
+  --radius: 18px;
+  --radius-sm: 13px;
+
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+
+  --sans: "Outfit", system-ui, sans-serif;
+  --serif: "Fraunces", Georgia, serif;
+}
+
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+}
+
+body {
+  background:
+    radial-gradient(
+      circle at 30% -10%,
+      rgba(49,87,237,.13),
+      transparent 35%
+    ),
+    var(--bg);
+
+  color: var(--ink);
+
+  font-family: var(--sans);
+
+  overflow-x: hidden;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  border: 0;
+  color: inherit;
+  background: none;
+  cursor: pointer;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+
+  border: 1px solid var(--line-2);
+  outline: none;
+
+  color: var(--ink);
+  background: #101117;
+
+  border-radius: 13px;
+
+  transition:
+    border-color .18s ease,
+    box-shadow .18s ease,
+    background .18s ease;
+}
+
+input,
+select {
+  min-height: 46px;
+
+  padding:
+    0 13px;
+}
+
+textarea {
+  min-height: 92px;
+
+  padding: 12px 13px;
+
+  resize: vertical;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color:
+    rgba(92,120,255,.7);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(49,87,237,.10);
+
+  background: #12131b;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #555865;
+}
+
+select {
+  appearance: none;
+
+  background-image:
+    linear-gradient(
+      45deg,
+      transparent 50%,
+      #777b8a 50%
+    ),
+    linear-gradient(
+      135deg,
+      #777b8a 50%,
+      transparent 50%
+    );
+
+  background-position:
+    calc(100% - 18px) 19px,
+    calc(100% - 13px) 19px;
+
+  background-size:
+    5px 5px,
+    5px 5px;
+
+  background-repeat:
+    no-repeat;
+}
+
+svg {
+  display: block;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+
+/* =========================================================
+   APP
+========================================================= */
+
+.admin-shell {
+  min-height: 100dvh;
+}
+
+.sidebar {
+  display: none;
+}
+
+.main {
+  min-height: 100dvh;
+
+  padding-bottom:
+    calc(94px + var(--safe-bottom));
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.topbar {
+  position: sticky;
+
+  top: 0;
+
+  z-index: 100;
+
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  min-height: 70px;
+
+  padding:
+    13px
+    15px;
+
+  border-bottom:
+    1px solid
+    var(--line);
+
+  background:
+    rgba(9,10,15,.86);
+
+  backdrop-filter:
+    blur(20px);
+
+  -webkit-backdrop-filter:
+    blur(20px);
+}
+
+.brand-mini {
+  width: 38px;
+  height: 38px;
+
+  flex: none;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 13px;
+
+  font-size: 15px;
+  font-weight: 800;
+
+  background:
+    linear-gradient(
+      145deg,
+      #4064f3,
+      #2747c8
+    );
+
+  box-shadow:
+    0 7px 20px
+    rgba(49,87,237,.24);
+}
+
+.topbar-copy {
+  flex: 1;
+  min-width: 0;
+}
+
+.topbar-copy small {
+  display: block;
+
+  color: var(--faint);
+
+  font-size: 8px;
+  font-weight: 700;
+
+  letter-spacing: .18em;
+
+  text-transform: uppercase;
+}
+
+.topbar-copy h1 {
+  margin-top: 2px;
+
+  overflow: hidden;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  font-size: 19px;
+  line-height: 1.1;
+}
+
+.primary-btn,
+.secondary-btn,
+.danger-btn,
+.soft-btn {
+  min-height: 43px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  padding:
+    0 14px;
+
+  border-radius: 13px;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  transition:
+    transform .15s ease,
+    opacity .15s ease;
+}
+
+.primary-btn {
+  color: white;
+
+  background:
+    linear-gradient(
+      145deg,
+      #4064f3,
+      #2949ce
+    );
+
+  box-shadow:
+    0 8px 22px
+    rgba(49,87,237,.20);
+}
+
+.secondary-btn {
+  border:
+    1px solid
+    var(--line-2);
+
+  background: var(--surface-2);
+}
+
+.soft-btn {
+  min-height: 37px;
+
+  padding:
+    0 11px;
+
+  color: #9db0ff;
+
+  background:
+    var(--blue-soft);
+
+  border:
+    1px solid
+    rgba(80,107,235,.18);
+}
+
+.danger-btn {
+  color: #ff999f;
+
+  background:
+    var(--red-soft);
+
+  border:
+    1px solid
+    rgba(239,108,116,.16);
+}
+
+.primary-btn:active,
+.secondary-btn:active,
+.soft-btn:active,
+.danger-btn:active {
+  transform: scale(.97);
+}
+
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+.page {
+  display: none;
+
+  padding:
+    17px
+    14px
+    30px;
+}
+
+.page.active {
+  display: block;
+}
+
+.page-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 13px;
+
+  margin-bottom: 17px;
+}
+
+.page-heading h2 {
+  font-size: 23px;
+
+  letter-spacing: -.03em;
+}
+
+.page-heading p {
+  max-width: 560px;
+
+  margin-top: 5px;
+
+  color: var(--muted);
+
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   CARDS
+========================================================= */
+
+.panel {
+  border:
+    1px solid
+    var(--line);
+
+  border-radius:
+    var(--radius);
+
+  background:
+    linear-gradient(
+      160deg,
+      rgba(25,26,34,.92),
+      rgba(16,17,23,.95)
+    );
+
+  box-shadow:
+    0 14px 36px
+    rgba(0,0,0,.14);
+}
+
+.panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 12px;
+
+  padding:
+    15px 15px 12px;
+
+  border-bottom:
+    1px solid
+    var(--line);
+}
+
+.panel-head h3 {
+  font-size: 13px;
+}
+
+.panel-head small {
+  color: var(--faint);
+
+  font-size: 9px;
+}
+
+.panel-body {
+  padding: 14px;
+}
+
+
+/* =========================================================
+   DASHBOARD STATS
+========================================================= */
+
+.stat-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2,1fr);
+
+  gap: 9px;
+}
+
+.stat-card {
+  min-height: 116px;
+
+  padding: 14px;
+
+  border:
+    1px solid
+    var(--line);
+
+  border-radius: 17px;
+
+  background:
+    linear-gradient(
+      150deg,
+      rgba(27,29,39,.96),
+      rgba(17,18,25,.96)
+    );
+}
+
+.stat-icon {
+  width: 31px;
+  height: 31px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 10px;
+
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.stat-card.blue
+.stat-icon {
+  color: #8fa5ff;
+
+  background:
+    var(--blue-soft);
+}
+
+.stat-card.green
+.stat-icon {
+  color: var(--green);
+
+  background:
+    var(--green-soft);
+}
+
+.stat-card.orange
+.stat-icon {
+  color: var(--orange);
+
+  background:
+    var(--orange-soft);
+}
+
+.stat-card.purple
+.stat-icon {
+  color: var(--purple);
+
+  background:
+    var(--purple-soft);
+}
+
+.stat-label {
+  display: block;
+
+  margin-top: 12px;
+
+  color: var(--muted);
+
+  font-size: 9px;
+  font-weight: 600;
+
+  letter-spacing: .04em;
+}
+
+.stat-value {
+  display: block;
+
+  margin-top: 2px;
+
+  font-size: 24px;
+  font-weight: 750;
+
+  letter-spacing: -.04em;
+}
+
+.stat-extra {
+  display: block;
+
+  margin-top: 3px;
+
+  color: var(--faint);
+
+  font-size: 8px;
+}
+
+
+/* =========================================================
+   DASHBOARD CONTENT
+========================================================= */
+
+.dashboard-layout {
+  display: grid;
+
+  gap: 11px;
+
+  margin-top: 12px;
+}
+
+.quick-row {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2,1fr);
+
+  gap: 8px;
+}
+
+.quick-action {
+  min-height: 78px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  padding: 13px;
+
+  text-align: left;
+
+  border:
+    1px solid
+    var(--line);
+
+  border-radius: 15px;
+
+  background:
+    var(--surface-2);
+}
+
+.quick-action b {
+  font-size: 11px;
+}
+
+.quick-action span {
+  color: var(--muted);
+
+  font-size: 9px;
+  line-height: 1.35;
+}
+
+.activity-list,
+.top-event-list {
+  display: flex;
+  flex-direction: column;
+
+  gap: 8px;
+}
+
+.activity-item,
+.top-event-item {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  padding:
+    10px 11px;
+
+  border-radius: 13px;
+
+  background:
+    rgba(255,255,255,.025);
+}
+
+.activity-dot {
+  width: 8px;
+  height: 8px;
+
+  flex: none;
+
+  border-radius: 50%;
+
+  background:
+    var(--blue);
+}
+
+.activity-copy,
+.top-event-copy {
+  flex: 1;
+  min-width: 0;
+}
+
+.activity-copy b,
+.top-event-copy b {
+  display: block;
+
+  overflow: hidden;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.activity-copy span,
+.top-event-copy span {
+  display: block;
+
+  margin-top: 2px;
+
+  color: var(--faint);
+
+  font-size: 8px;
+}
+
+.top-event-number {
+  flex: none;
+
+  color: #9fb1ff;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   TOOLBAR / FILTERS
+========================================================= */
+
+.toolbar {
+  display: flex;
+  flex-direction: column;
+
+  gap: 8px;
+
+  margin-bottom: 12px;
+}
+
+.search-input {
+  position: relative;
+}
+
+.search-input input {
+  padding-left: 39px;
+}
+
+.search-input::before {
+  content: "⌕";
+
+  position: absolute;
+
+  left: 14px;
+  top: 50%;
+
+  z-index: 2;
+
+  color: var(--faint);
+
+  font-size: 20px;
+
+  transform:
+    translateY(-54%);
+}
+
+.filter-row {
+  display: flex;
+
+  gap: 7px;
+
+  overflow-x: auto;
+
+  scrollbar-width: none;
+}
+
+.filter-row::-webkit-scrollbar {
+  display: none;
+}
+
+.filter-chip {
+  min-height: 37px;
+
+  flex: none;
+
+  padding:
+    0 12px;
+
+  border-radius: 999px;
+
+  color: var(--muted);
+
+  border:
+    1px solid
+    var(--line);
+
+  background:
+    var(--surface);
+
+  font-size: 9px;
+  font-weight: 600;
+}
+
+.filter-chip.on {
+  color: white;
+
+  border-color:
+    rgba(74,103,239,.32);
+
+  background:
+    var(--blue-soft);
+}
+
+
+/* =========================================================
+   EVENT LIST
+========================================================= */
+
+.event-list {
+  display: grid;
+
+  gap: 10px;
+}
+
+.event-admin-card {
+  overflow: hidden;
+
+  border:
+    1px solid
+    var(--line);
+
+  border-radius: 18px;
+
+  background:
+    linear-gradient(
+      150deg,
+      rgba(26,27,35,.95),
+      rgba(15,16,22,.96)
+    );
+}
+
+.event-strip {
+  height: 4px;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--event-a),
+      var(--event-b)
+    );
+}
+
+.event-card-main {
+  display: flex;
+
+  gap: 11px;
+
+  padding:
+    13px;
+}
+
+.event-thumb {
+  position: relative;
+
+  width: 72px;
+  height: 91px;
+
+  flex: none;
+
+  overflow: hidden;
+
+  border-radius: 14px;
+
+  background:
+    linear-gradient(
+      145deg,
+      var(--event-a),
+      var(--event-b)
+    );
+}
+
+.event-thumb img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+.event-thumb::after {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      transparent,
+      rgba(0,0,0,.34)
+    );
+}
+
+.event-card-copy {
+  flex: 1;
+  min-width: 0;
+}
+
+.event-topline {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 7px;
+}
+
+.event-name {
+  display: -webkit-box;
+
+  overflow: hidden;
+
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+
+  font-size: 14px;
+  line-height: 1.15;
+}
+
+.status {
+  min-height: 24px;
+
+  flex: none;
+
+  display: inline-flex;
+  align-items: center;
+
+  padding:
+    0 8px;
+
+  border-radius: 999px;
+
+  font-size: 7px;
+  font-weight: 700;
+
+  letter-spacing: .07em;
+
+  text-transform: uppercase;
+}
+
+.status.live {
+  color: var(--green);
+
+  background:
+    var(--green-soft);
+}
+
+.status.hidden {
+  color: var(--faint);
+
+  background:
+    rgba(255,255,255,.05);
+}
+
+.event-place {
+  margin-top: 5px;
+
+  color: var(--muted);
+
+  font-size: 9px;
+
+  overflow: hidden;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.event-date {
+  margin-top: 3px;
+
+  color: var(--faint);
+
+  font-size: 8px;
+}
+
+.mini-metrics {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 5px;
+
+  margin-top: 9px;
+}
+
+.mini-metric {
+  min-height: 24px;
+
+  display: inline-flex;
+  align-items: center;
+
+  padding:
+    0 8px;
+
+  border:
+    1px solid
+    var(--line);
+
+  border-radius: 8px;
+
+  color: var(--muted);
+
+  background:
+    rgba(255,255,255,.025);
+
+  font-size: 7.5px;
+}
+
+.event-card-bottom {
+  display: flex;
+  align-items: center;
+
+  gap: 7px;
+
+  padding:
+    10px 12px;
+
+  border-top:
+    1px solid
+    var(--line);
+}
+
+.card-action {
+  min-height: 36px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding:
+    0 11px;
+
+  border:
+    1px solid
+    var(--line);
+
+  border-radius: 11px;
+
+  color: var(--muted);
+
+  background:
+    rgba(255,255,255,.025);
+
+  font-size: 8.5px;
+  font-weight: 600;
+}
+
+.card-action.primary {
+  color: #9db0ff;
+
+  border-color:
+    rgba(77,105,238,.18);
+
+  background:
+    var(--blue-soft);
+}
+
+.card-actions-spacer {
+  flex: 1;
+}
+
+.icon-action {
+  width: 36px;
+  height: 36px;
+
+  display: grid;
+  place-items: center;
+
+  border:
+    1px solid
+    var(--line);
+
+  border-radius: 11px;
+
+  color: var(--muted);
+}
+
+
+/* =========================================================
+   LEADS
+========================================================= */
+
+.lead-list {
+  display: grid;
+
+  gap: 9px;
+}
+
+.lead-card {
+  padding: 13px;
+
+  border:
+    1px solid
+    var(--line);
+
+  border-radius: 17px;
+
+  background:
+    linear-gradient(
+      150deg,
+      rgba(25,26,34,.94),
+      rgba(15,16,22,.96)
+    );
+}
+
+.lead-head {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 10px;
+}
+
+.lead-number {
+  width: 34px;
+  height: 34px;
+
+  flex: none;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 11px;
+
+  color: #95a9ff;
+
+  background:
+    var(--blue-soft);
+
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.lead-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.lead-main b {
+  display: block;
+
+  overflow: hidden;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  font-size: 12px;
+}
+
+.lead-ref {
+  display: block;
+
+  margin-top: 2px;
+
+  color: var(--faint);
+
+  font-size: 8px;
+}
+
+.lead-status {
+  width: 108px;
+
+  flex: none;
+}
+
+.lead-status select {
+  min-height: 34px;
+
+  padding:
+    0 25px 0 9px;
+
+  border-radius: 10px;
+
+  font-size: 8px;
+
+  background-position:
+    calc(100% - 14px) 13px,
+    calc(100% - 10px) 13px;
+}
+
+.lead-details {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 5px;
+
+  margin-top: 11px;
+}
+
+.lead-tag {
+  min-height: 25px;
+
+  display: inline-flex;
+  align-items: center;
+
+  padding:
+    0 8px;
+
+  border-radius: 8px;
+
+  color: var(--muted);
+
+  background:
+    rgba(255,255,255,.035);
+
+  border:
+    1px solid
+    var(--line);
+
+  font-size: 7.5px;
+}
+
+.lead-footer {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  margin-top: 11px;
+
+  padding-top: 10px;
+
+  border-top:
+    1px solid
+    var(--line);
+}
+
+.lead-time {
+  flex: 1;
+
+  color: var(--faint);
+
+  font-size: 8px;
+}
+
+.revenue-editor {
+  display: flex;
+  align-items: center;
+
+  gap: 6px;
+}
+
+.revenue-editor span {
+  color: var(--muted);
+
+  font-size: 8px;
+}
+
+.revenue-editor input {
+  width: 90px;
+  min-height: 34px;
+
+  padding:
+    0 9px;
+
+  border-radius: 9px;
+
+  font-size: 9px;
+}
+
+
+/* =========================================================
+   SETTINGS
+========================================================= */
+
+.settings-grid {
+  display: grid;
+
+  gap: 10px;
+}
+
+.setting-block {
+  padding: 14px;
+
+  border:
+    1px solid
+    var(--line);
+
+  border-radius: 17px;
+
+  background:
+    var(--surface);
+}
+
+.setting-block h3 {
+  font-size: 13px;
+}
+
+.setting-block p {
+  margin-top: 5px;
+
+  color: var(--muted);
+
+  font-size: 9px;
+  line-height: 1.5;
+}
+
+.setting-actions {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 7px;
+
+  margin-top: 13px;
+}
+
+.code-preview {
+  max-height: 260px;
+
+  margin-top: 11px;
+
+  overflow: auto;
+
+  padding: 12px;
+
+  border-radius: 13px;
+
+  color: #bac6ff;
+
+  background: #08090d;
+
+  border:
+    1px solid
+    var(--line);
+
+  font:
+    9px/1.55
+    monospace;
+
+  white-space: pre-wrap;
+}
+
+
+/* =========================================================
+   MOBILE NAV
+========================================================= */
+
+.mobile-nav {
+  position: fixed;
+
+  left: 50%;
+  bottom:
+    calc(10px + var(--safe-bottom));
+
+  z-index: 400;
+
+  width:
+    min(
+      calc(100% - 24px),
+      430px
+    );
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(4,1fr);
+
+  gap: 3px;
+
+  padding: 5px;
+
+  border:
+    1px solid
+    var(--line-2);
+
+  border-radius: 20px;
+
+  background:
+    rgba(24,25,32,.94);
+
+  backdrop-filter:
+    blur(20px);
+
+  -webkit-backdrop-filter:
+    blur(20px);
+
+  box-shadow:
+    0 15px 40px
+    rgba(0,0,0,.44);
+
+  transform:
+    translateX(-50%);
+}
+
+.mobile-nav button {
+  min-height: 50px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 3px;
+
+  border-radius: 15px;
+
+  color: var(--faint);
+
+  font-size: 7px;
+  font-weight: 600;
+}
+
+.mobile-nav button span:first-child {
+  font-size: 17px;
+}
+
+.mobile-nav button.on {
+  color: white;
+
+  background:
+    linear-gradient(
+      145deg,
+      #3d62f1,
+      #2949ce
+    );
+}
+
+
+/* =========================================================
+   EVENT EDITOR SHEET
+========================================================= */
+
+.editor-overlay {
+  position: fixed;
+  inset: 0;
+
+  z-index: 1000;
+
+  visibility: hidden;
+
+  pointer-events: none;
+}
+
+.editor-overlay.open {
+  visibility: visible;
+
+  pointer-events: auto;
+}
+
+.editor-veil {
+  position: absolute;
+  inset: 0;
+
+  opacity: 0;
+
+  background:
+    rgba(3,4,7,.76);
+
+  backdrop-filter:
+    blur(5px);
+
+  transition:
+    opacity .28s ease;
+}
+
+.editor-overlay.open
+.editor-veil {
+  opacity: 1;
+}
+
+.editor-sheet {
+  position: absolute;
+
+  inset:
+    12px
+    0
+    0;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+
+  border-radius:
+    25px 25px 0 0;
+
+  background:
+    #0d0e14;
+
+  border-top:
+    1px solid
+    var(--line-2);
+
+  transform:
+    translateY(102%);
+
+  transition:
+    transform
+    .42s
+    cubic-bezier(.2,.85,.24,1);
+}
+
+.editor-overlay.open
+.editor-sheet {
+  transform: none;
+}
+
+.editor-header {
+  flex: none;
+
+  display: flex;
+  align-items: center;
+
+  gap: 11px;
+
+  padding:
+    12px 14px;
+
+  border-bottom:
+    1px solid
+    var(--line);
+
+  background:
+    rgba(13,14,20,.96);
+}
+
+.editor-close {
+  width: 39px;
+  height: 39px;
+
+  flex: none;
+
+  display: grid;
+  place-items: center;
+
+  border:
+    1px solid
+    var(--line);
+
+  border-radius: 12px;
+
+  color: var(--muted);
+
+  background:
+    var(--surface);
+}
+
+.editor-heading {
+  flex: 1;
+  min-width: 0;
+}
+
+.editor-heading small {
+  display: block;
+
+  color: var(--faint);
+
+  font-size: 7px;
+  font-weight: 700;
+
+  letter-spacing: .15em;
+
+  text-transform: uppercase;
+}
+
+.editor-heading h2 {
+  margin-top: 2px;
+
+  overflow: hidden;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  font-size: 16px;
+}
+
+.editor-scroll {
+  flex: 1;
+
+  overflow-y: auto;
+
+  padding:
+    13px
+    13px
+    110px;
+
+  scrollbar-width: none;
+}
+
+.editor-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.form-section {
+  margin-bottom: 11px;
+
+  overflow: hidden;
+
+  border:
+    1px solid
+    var(--line);
+
+  border-radius: 18px;
+
+  background:
+    var(--surface);
+}
+
+.form-section-head {
+  padding:
+    13px 14px;
+
+  border-bottom:
+    1px solid
+    var(--line);
+}
+
+.form-section-head h3 {
+  font-size: 12px;
+}
+
+.form-section-head p {
+  margin-top: 3px;
+
+  color: var(--faint);
+
+  font-size: 8px;
+  line-height: 1.4;
+}
+
+.form-section-body {
+  padding: 13px;
+}
+
+.form-grid {
+  display: grid;
+
+  gap: 11px;
+}
+
+.field label {
+  display: block;
+
+  margin-bottom: 6px;
+
+  color: var(--muted);
+
+  font-size: 8px;
+  font-weight: 600;
+
+  letter-spacing: .05em;
+}
+
+.field small {
+  display: block;
+
+  margin-top: 5px;
+
+  color: var(--faint);
+
+  font-size: 7.5px;
+  line-height: 1.4;
+}
+
+.two-col {
+  display: grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap: 8px;
+}
+
+.switch-row {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  padding:
+    11px;
+
+  border:
+    1px solid
+    var(--line);
+
+  border-radius: 13px;
+
+  background:
+    rgba(255,255,255,.02);
+}
+
+.switch-copy {
+  flex: 1;
+}
+
+.switch-copy b {
+  display: block;
+
+  font-size: 10px;
+}
+
+.switch-copy span {
+  display: block;
+
+  margin-top: 2px;
+
+  color: var(--faint);
+
+  font-size: 7.5px;
+}
+
+.switch {
+  position: relative;
+
+  width: 43px;
+  height: 25px;
+
+  flex: none;
+
+  border-radius: 999px;
+
+  background: #292b35;
+
+  transition:
+    background .18s ease;
+}
+
+.switch::after {
+  content: "";
+
+  position: absolute;
+
+  left: 3px;
+  top: 3px;
+
+  width: 19px;
+  height: 19px;
+
+  border-radius: 50%;
+
+  background: white;
+
+  transition:
+    transform .18s ease;
+}
+
+.switch.on {
+  background: var(--blue);
+}
+
+.switch.on::after {
+  transform:
+    translateX(18px);
+}
+
+
+/* =========================================================
+   MEDIA PREVIEW
+========================================================= */
+
+.image-preview {
+  position: relative;
+
+  height: 160px;
+
+  overflow: hidden;
+
+  margin-top: 9px;
+
+  border:
+    1px solid
+    var(--line);
+
+  border-radius: 14px;
+
+  background:
+    linear-gradient(
+      145deg,
+      var(--preview-a,#542038),
+      var(--preview-b,#171326)
+    );
+}
+
+.image-preview img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+.image-preview::after {
+  content: "EVENT ART PREVIEW";
+
+  position: absolute;
+
+  left: 10px;
+  bottom: 9px;
+
+  padding:
+    5px 7px;
+
+  border-radius: 6px;
+
+  color: white;
+
+  background:
+    rgba(0,0,0,.45);
+
+  font-size: 6px;
+  font-weight: 700;
+
+  letter-spacing: .12em;
+}
+
+
+/* =========================================================
+   PASS EDITOR
+========================================================= */
+
+.pass-editor-list {
+  display: flex;
+  flex-direction: column;
+
+  gap: 7px;
+}
+
+.pass-editor-row {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0,1fr)
+    86px
+    34px;
+
+  gap: 6px;
+
+  align-items: center;
+}
+
+.pass-editor-row
+.pass-note {
+  grid-column:
+    1 / 3;
+}
+
+.pass-editor-row input {
+  min-height: 40px;
+
+  border-radius: 10px;
+
+  font-size: 9px;
+}
+
+.remove-pass {
+  width: 34px;
+  height: 40px;
+
+  display: grid;
+  place-items: center;
+
+  grid-column: 3;
+  grid-row:
+    1 / span 2;
+
+  border-radius: 10px;
+
+  color: #ff8c94;
+
+  background:
+    var(--red-soft);
+}
+
+.add-pass-btn {
+  width: 100%;
+
+  min-height: 41px;
+
+  margin-top: 8px;
+
+  border:
+    1px dashed
+    rgba(108,129,239,.30);
+
+  border-radius: 12px;
+
+  color: #91a5ff;
+
+  background:
+    rgba(49,87,237,.06);
+
+  font-size: 9px;
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   DATE PRICING
+========================================================= */
+
+.date-pricing-list {
+  display: flex;
+  flex-direction: column;
+
+  gap: 8px;
+}
+
+.date-price-card {
+  overflow: hidden;
+
+  border:
+    1px solid
+    var(--line);
+
+  border-radius: 14px;
+
+  background:
+    rgba(255,255,255,.02);
+}
+
+.date-price-head {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  padding:
+    10px 11px;
+}
+
+.date-badge {
+  width: 45px;
+  height: 45px;
+
+  flex: none;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 11px;
+
+  color: #aab8ff;
+
+  background:
+    var(--blue-soft);
+}
+
+.date-badge strong {
+  font-size: 13px;
+}
+
+.date-badge span {
+  margin-top: -1px;
+
+  font-size: 6px;
+  font-weight: 700;
+
+  text-transform: uppercase;
+}
+
+.date-price-copy {
+  flex: 1;
+  min-width: 0;
+}
+
+.date-price-copy b {
+  display: block;
+
+  font-size: 10px;
+}
+
+.date-price-copy span {
+  display: block;
+
+  margin-top: 2px;
+
+  color: var(--faint);
+
+  font-size: 7.5px;
+}
+
+.date-price-actions {
+  display: flex;
+
+  gap: 5px;
+}
+
+.small-action {
+  min-height: 32px;
+
+  padding:
+    0 9px;
+
+  border:
+    1px solid
+    var(--line);
+
+  border-radius: 9px;
+
+  color: var(--muted);
+
+  background:
+    var(--surface-2);
+
+  font-size: 7px;
+  font-weight: 600;
+}
+
+.small-action.blue {
+  color: #9eafff;
+
+  background:
+    var(--blue-soft);
+}
+
+.date-price-custom {
+  padding:
+    10px;
+
+  border-top:
+    1px solid
+    var(--line);
+}
+
+.date-copy-actions {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 5px;
+
+  margin-top: 8px;
+}
+
+
+/* =========================================================
+   EDITOR BOTTOM BAR
+========================================================= */
+
+.editor-bottom {
+  position: absolute;
+
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  z-index: 10;
+
+  display: grid;
+
+  grid-template-columns:
+    1fr 1.7fr;
+
+  gap: 8px;
+
+  padding:
+    10px
+    13px
+    calc(10px + var(--safe-bottom));
+
+  border-top:
+    1px solid
+    var(--line);
+
+  background:
+    rgba(13,14,20,.96);
+
+  backdrop-filter:
+    blur(18px);
+}
+
+
+/* =========================================================
+   MODAL / CONFIRM
+========================================================= */
+
+.confirm-overlay {
+  position: fixed;
+  inset: 0;
+
+  z-index: 1500;
+
+  display: none;
+  place-items: center;
+
+  padding: 20px;
+
+  background:
+    rgba(4,5,8,.77);
+
+  backdrop-filter:
+    blur(5px);
+}
+
+.confirm-overlay.open {
+  display: grid;
+}
+
+.confirm-card {
+  width:
+    min(
+      100%,
+      380px
+    );
+
+  padding: 18px;
+
+  border:
+    1px solid
+    var(--line-2);
+
+  border-radius: 20px;
+
+  background:
+    #15161e;
+
+  box-shadow:
+    0 30px 90px
+    rgba(0,0,0,.45);
+}
+
+.confirm-card h3 {
+  font-size: 17px;
+}
+
+.confirm-card p {
+  margin-top: 7px;
+
+  color: var(--muted);
+
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.confirm-actions {
+  display: grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap: 7px;
+
+  margin-top: 16px;
+}
+
+
+/* =========================================================
+   EMPTY
+========================================================= */
+
+.empty-state {
+  padding:
+    35px 20px;
+
+  text-align: center;
+
+  color: var(--muted);
+
+  border:
+    1px dashed
+    var(--line-2);
+
+  border-radius: 17px;
+}
+
+.empty-state strong {
+  display: block;
+
+  color: var(--ink);
+
+  font-size: 13px;
+}
+
+.empty-state span {
+  display: block;
+
+  max-width: 320px;
+
+  margin:
+    5px auto 0;
+
+  font-size: 9px;
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast {
+  position: fixed;
+
+  left: 50%;
+  bottom:
+    calc(86px + var(--safe-bottom));
+
+  z-index: 2000;
+
+  max-width:
+    calc(100% - 30px);
+
+  padding:
+    10px 14px;
+
+  border:
+    1px solid
+    var(--line-2);
+
+  border-radius: 999px;
+
+  color: var(--ink);
+
+  background:
+    rgba(40,42,53,.97);
+
+  box-shadow:
+    0 10px 30px
+    rgba(0,0,0,.3);
+
+  font-size: 9px;
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  transform:
+    translate(-50%,12px);
+
+  transition:
+    opacity .22s ease,
+    transform .22s ease;
+}
+
+.toast.show {
+  opacity: 1;
+
+  transform:
+    translate(-50%,0);
+}
+
+
+/* =========================================================
+   DESKTOP
+========================================================= */
+
+@media (min-width: 900px) {
+  .admin-shell {
+    display: grid;
+
+    grid-template-columns:
+      235px
+      minmax(0,1fr);
+  }
+
+  .sidebar {
+    position: sticky;
+
+    top: 0;
+
+    height: 100dvh;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 19px 14px;
+
+    border-right:
+      1px solid
+      var(--line);
+
+    background:
+      rgba(13,14,20,.92);
+  }
+
+  .side-brand {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    padding:
+      0 7px 22px;
+  }
+
+  .side-brand-mark {
+    width: 40px;
+    height: 40px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 13px;
+
+    background:
+      linear-gradient(
+        145deg,
+        #4165f3,
+        #2949d1
+      );
+
+    font-size: 15px;
+    font-weight: 800;
+  }
+
+  .side-brand-copy strong {
+    display: block;
+
+    font-size: 14px;
+  }
+
+  .side-brand-copy span {
+    color: var(--faint);
+
+    font-size: 8px;
+  }
+
+  .side-nav {
+    display: flex;
+    flex-direction: column;
+
+    gap: 4px;
+  }
+
+  .side-nav button {
+    min-height: 46px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    padding:
+      0 12px;
+
+    border-radius: 13px;
+
+    color: var(--muted);
+
+    text-align: left;
+
+    font-size: 10px;
+    font-weight: 600;
+  }
+
+  .side-nav button.on {
+    color: white;
+
+    background:
+      var(--blue-soft);
+
+    border:
+      1px solid
+      rgba(77,105,238,.14);
+  }
+
+  .side-nav button span:first-child {
+    width: 22px;
+
+    font-size: 15px;
+  }
+
+  .side-footer {
+    margin-top: auto;
+
+    padding: 13px;
+
+    border:
+      1px solid
+      var(--line);
+
+    border-radius: 14px;
+
+    color: var(--muted);
+
+    background:
+      rgba(255,255,255,.02);
+
+    font-size: 8px;
+    line-height: 1.5;
+  }
+
+  .main {
+    padding-bottom: 0;
+  }
+
+  .topbar {
+    padding:
+      13px
+      22px;
+  }
+
+  .brand-mini {
+    display: none;
+  }
+
+  .page {
+    max-width: 1250px;
+
+    margin: 0 auto;
+
+    padding:
+      23px
+      22px
+      50px;
+  }
+
+  .stat-grid {
+    grid-template-columns:
+      repeat(6,1fr);
+  }
+
+  .stat-card {
+    min-height: 130px;
+  }
+
+  .dashboard-layout {
+    grid-template-columns:
+      1.2fr
+      .8fr;
+  }
+
+  .quick-row {
+    grid-template-columns:
+      repeat(4,1fr);
+  }
+
+  .toolbar {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .search-input {
+    width: 310px;
+  }
+
+  .event-list {
+    grid-template-columns:
+      repeat(2,minmax(0,1fr));
+  }
+
+  .lead-list {
+    grid-template-columns:
+      repeat(2,minmax(0,1fr));
+  }
+
+  .settings-grid {
+    grid-template-columns:
+      repeat(2,minmax(0,1fr));
+  }
+
+  .mobile-nav {
+    display: none;
+  }
+
+  .editor-sheet {
+    inset:
+      18px
+      18px
+      18px
+      auto;
+
+    width:
+      min(
+        760px,
+        calc(100% - 36px)
+      );
+
+    border-radius: 24px;
+
+    border:
+      1px solid
+      var(--line-2);
+
+    transform:
+      translateX(105%);
+  }
+
+  .editor-overlay.open
+  .editor-sheet {
+    transform: none;
+  }
+
+  .editor-scroll {
+    padding:
+      14px
+      16px
+      105px;
+  }
+
+  .form-grid.cols-2 {
+    grid-template-columns:
+      1fr 1fr;
+  }
+
+  .form-grid.cols-3 {
+    grid-template-columns:
+      repeat(3,1fr);
+  }
+}
+
 </style>
-<link rel="stylesheet" href="scenezy-ui.css">
-<script src="scenezy-api.js"></script>
 </head>
+
+
 <body>
-<div id="app">
 
-  <!-- key gate -->
-  <!-- key gate -->
-  <section id="gate">
-    <img class="mark" src="scenezy-logo.png" alt="Scenezy" width="38" height="38">
-    <h1>scenezy admin</h1>
-    <p>Admin key daalo — Code.gs wali hi</p>
-    <form id="gateForm" style="width:100%;display:flex;flex-direction:column;align-items:center;gap:12px">
-      <input id="keyInput" type="password" placeholder="admin key" autocomplete="off"/>
-      
-      <!-- NEW: Login Button Added Here -->
-      <button type="submit" class="bigBtn" style="max-width:300px;margin-top:4px;padding:14px">
-        Enter Admin
+<div class="admin-shell">
+
+  <!-- =====================================================
+       DESKTOP SIDEBAR
+  ====================================================== -->
+
+  <aside class="sidebar">
+
+    <div class="side-brand">
+
+      <div class="side-brand-mark">
+        S
+      </div>
+
+      <div class="side-brand-copy">
+
+        <strong>
+          Scenezy
+        </strong>
+
+        <span>
+          Event Operations
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <nav class="side-nav">
+
+      <button
+        class="on"
+        data-go="dashboard"
+      >
+        <span>◫</span>
+        Dashboard
       </button>
-      
-      <p id="gateErr"></p>
-    </form>
-  </section>
 
-  <!-- dashboard -->
-  <main id="main" hidden>
-    <header class="top">
-      <img class="mark" src="scenezy-logo.png" alt="Scenezy" width="38" height="38">
-      <div class="wordmark">scenezy · admin</div>
-      <div class="grow"></div>
-      <button class="iconBtn" id="refreshBtn" aria-label="Refresh"><svg class="ic" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 6.3M20 5v6h-6"/></svg></button>
-      <button class="iconBtn" id="addBtn" aria-label="Add event"><svg class="ic" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
-      <button class="iconBtn" id="logoutBtn" aria-label="Logout"><svg class="ic" viewBox="0 0 24 24"><path d="M15 4h4v16h-4M10 8l-4 4 4 4M6 12h9"/></svg></button>
+
+      <button
+        data-go="events"
+      >
+        <span>◇</span>
+        Events
+      </button>
+
+
+      <button
+        data-go="leads"
+      >
+        <span>↗</span>
+        WhatsApp Leads
+      </button>
+
+
+      <button
+        data-go="settings"
+      >
+        <span>⚙</span>
+        Settings
+      </button>
+
+    </nav>
+
+
+    <div class="side-footer">
+
+      <strong>
+        Scenezy Admin
+      </strong>
+
+      <br>
+
+      Mobile-first control panel for
+      events, pricing, leads and revenue.
+
+    </div>
+
+  </aside>
+
+
+  <!-- =====================================================
+       MAIN
+  ====================================================== -->
+
+  <main class="main">
+
+    <header class="topbar">
+
+      <div class="brand-mini">
+        S
+      </div>
+
+
+      <div class="topbar-copy">
+
+        <small>
+          Scenezy Admin
+        </small>
+
+        <h1 id="topbarTitle">
+          Dashboard
+        </h1>
+
+      </div>
+
+
+      <button
+        class="primary-btn"
+        id="topAddEvent"
+      >
+        + Event
+      </button>
+
     </header>
 
-    <div class="wrap">
-      <div class="statGrid">
-        <div class="stat"><small>Total leads</small><b id="stLeads">—</b></div>
-        <div class="stat"><small>Converted</small><b id="stConv">—</b></div>
-        <div class="stat"><small>Passes sold</small><b id="stSold">—</b></div>
-        <div class="stat hero"><small>Revenue</small><b id="stRev">—</b></div>
+
+    <!-- ===================================================
+         DASHBOARD
+    ==================================================== -->
+
+    <section
+      class="page active"
+      id="page-dashboard"
+    >
+
+      <div class="page-heading">
+
+        <div>
+
+          <h2>
+            Good to see you.
+          </h2>
+
+          <p>
+            Everything important about your Navratri events,
+            WhatsApp interest and conversions in one place.
+          </p>
+
+        </div>
+
       </div>
 
-      <div class="panel">
-        <div class="pTitle">revenue by pass · converted only</div>
-        <div id="byPass"><div class="empty" style="padding:14px">Abhi tak koi conversion nahi</div></div>
+
+      <div
+        class="stat-grid"
+        id="dashboardStats"
+      ></div>
+
+
+      <div class="dashboard-layout">
+
+        <div>
+
+          <div class="panel">
+
+            <div class="panel-head">
+
+              <div>
+
+                <h3>
+                  Quick Actions
+                </h3>
+
+                <small>
+                  Most-used admin jobs
+                </small>
+
+              </div>
+
+            </div>
+
+
+            <div class="panel-body">
+
+              <div class="quick-row">
+
+                <button
+                  class="quick-action"
+                  id="quickAdd"
+                >
+
+                  <b>
+                    + Add Event
+                  </b>
+
+                  <span>
+                    Create a new Garba event
+                  </span>
+
+                </button>
+
+
+                <button
+                  class="quick-action"
+                  data-go="events"
+                >
+
+                  <b>
+                    Manage Pricing
+                  </b>
+
+                  <span>
+                    Date-wise passes & pricing
+                  </span>
+
+                </button>
+
+
+                <button
+                  class="quick-action"
+                  data-go="leads"
+                >
+
+                  <b>
+                    WhatsApp Leads
+                  </b>
+
+                  <span>
+                    Review clicks & conversions
+                  </span>
+
+                </button>
+
+
+                <button
+                  class="quick-action"
+                  id="quickExport"
+                >
+
+                  <b>
+                    Export Public JSON
+                  </b>
+
+                  <span>
+                    Only currently visible events
+                  </span>
+
+                </button>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div
+            class="panel"
+            style="margin-top:11px"
+          >
+
+            <div class="panel-head">
+
+              <div>
+
+                <h3>
+                  Event Performance
+                </h3>
+
+                <small>
+                  Ranked by WhatsApp clicks
+                </small>
+
+              </div>
+
+            </div>
+
+
+            <div
+              class="panel-body"
+              id="topEvents"
+            ></div>
+
+          </div>
+
+        </div>
+
+
+        <div class="panel">
+
+          <div class="panel-head">
+
+            <div>
+
+              <h3>
+                Recent Activity
+              </h3>
+
+              <small>
+                Latest admin actions
+              </small>
+
+            </div>
+
+          </div>
+
+
+          <div
+            class="panel-body"
+            id="activityList"
+          ></div>
+
+        </div>
+
       </div>
 
-      <div class="chips" id="chips"></div>
-      <div id="leadList"></div>
+    </section>
 
-      <div class="panel" style="margin-top:26px">
-        <div class="pTitle">live events · app me dikh rahe</div>
-        <div id="evList"></div>
+
+    <!-- ===================================================
+         EVENTS
+    ==================================================== -->
+
+    <section
+      class="page"
+      id="page-events"
+    >
+
+      <div class="page-heading">
+
+        <div>
+
+          <h2>
+            Events
+          </h2>
+
+          <p>
+            Create, edit, hide, duplicate and manage
+            every night's passes independently.
+          </p>
+
+        </div>
+
+
+        <button
+          class="primary-btn"
+          id="eventsAdd"
+        >
+          + Add
+        </button>
+
       </div>
-    </div>
+
+
+      <div class="toolbar">
+
+        <div class="search-input">
+
+          <input
+            id="eventSearch"
+            placeholder="Search event, venue or area"
+          >
+
+        </div>
+
+
+        <div
+          class="filter-row"
+          id="eventFilters"
+        >
+
+          <button
+            class="filter-chip on"
+            data-event-filter="all"
+          >
+            All
+          </button>
+
+          <button
+            class="filter-chip"
+            data-event-filter="live"
+          >
+            Live
+          </button>
+
+          <button
+            class="filter-chip"
+            data-event-filter="hidden"
+          >
+            Hidden
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <div
+        class="event-list"
+        id="eventList"
+      ></div>
+
+    </section>
+
+
+    <!-- ===================================================
+         LEADS
+    ==================================================== -->
+
+    <section
+      class="page"
+      id="page-leads"
+    >
+
+      <div class="page-heading">
+
+        <div>
+
+          <h2>
+            WhatsApp Leads
+          </h2>
+
+          <p>
+            Every booking-button click can become a lead.
+            Update its status to understand conversions
+            and actual revenue.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="toolbar">
+
+        <div class="search-input">
+
+          <input
+            id="leadSearch"
+            placeholder="Search event or booking ref"
+          >
+
+        </div>
+
+
+        <div
+          class="filter-row"
+          id="leadFilters"
+        >
+
+          <button
+            class="filter-chip on"
+            data-lead-filter="all"
+          >
+            All
+          </button>
+
+          <button
+            class="filter-chip"
+            data-lead-filter="New"
+          >
+            New
+          </button>
+
+          <button
+            class="filter-chip"
+            data-lead-filter="Contacted"
+          >
+            Contacted
+          </button>
+
+          <button
+            class="filter-chip"
+            data-lead-filter="Converted"
+          >
+            Converted
+          </button>
+
+          <button
+            class="filter-chip"
+            data-lead-filter="Lost"
+          >
+            Lost
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <div
+        class="lead-list"
+        id="leadList"
+      ></div>
+
+    </section>
+
+
+    <!-- ===================================================
+         SETTINGS
+    ==================================================== -->
+
+    <section
+      class="page"
+      id="page-settings"
+    >
+
+      <div class="page-heading">
+
+        <div>
+
+          <h2>
+            Settings & Data
+          </h2>
+
+          <p>
+            Booking number, backups and public event
+            JSON are managed here.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="settings-grid">
+
+        <div class="setting-block">
+
+          <h3>
+            Booking WhatsApp
+          </h3>
+
+          <p>
+            Number used by the public booking flow.
+            Use country code without "+".
+          </p>
+
+
+          <div
+            class="field"
+            style="margin-top:12px"
+          >
+
+            <label>
+              WhatsApp Number
+            </label>
+
+            <input
+              id="settingsWhatsapp"
+              placeholder="919876543210"
+            >
+
+          </div>
+
+
+          <div class="setting-actions">
+
+            <button
+              class="primary-btn"
+              id="saveSettings"
+            >
+              Save
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <div class="setting-block">
+
+          <h3>
+            Public Event JSON
+          </h3>
+
+          <p>
+            Hidden events are automatically excluded.
+            Format stays compatible with the Scenezy
+            public event structure.
+          </p>
+
+
+          <div class="setting-actions">
+
+            <button
+              class="secondary-btn"
+              id="copyPublicJSON"
+            >
+              Copy JSON
+            </button>
+
+
+            <button
+              class="secondary-btn"
+              id="downloadPublicJSON"
+            >
+              Download
+            </button>
+
+          </div>
+
+
+          <pre
+            class="code-preview"
+            id="publicJSONPreview"
+          ></pre>
+
+        </div>
+
+
+        <div class="setting-block">
+
+          <h3>
+            Admin Backup
+          </h3>
+
+          <p>
+            Includes events, hidden states, Google Map links,
+            WhatsApp leads, conversion statuses and revenue.
+          </p>
+
+
+          <div class="setting-actions">
+
+            <button
+              class="secondary-btn"
+              id="exportBackup"
+            >
+              Export Backup
+            </button>
+
+
+            <label
+              class="secondary-btn"
+              style="cursor:pointer"
+            >
+
+              Import Backup
+
+              <input
+                id="importBackup"
+                type="file"
+                accept=".json,application/json"
+                hidden
+              >
+
+            </label>
+
+          </div>
+
+        </div>
+
+
+        <div class="setting-block">
+
+          <h3>
+            Production Tracking
+          </h3>
+
+          <p>
+            For real cross-device WhatsApp click tracking,
+            connect the public app and this admin to the same
+            backend/database. Local browser storage cannot
+            receive visitor activity from other phones.
+          </p>
+
+
+          <div class="setting-actions">
+
+            <span
+              class="status hidden"
+              style="min-height:30px"
+            >
+              Local Prototype Mode
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
   </main>
 
-  <!-- add event sheet -->
-  <div class="veil" id="veil"></div>
-  <div class="sheet" id="addSheet">
-    <div class="shHead">
-      <h3>Naya event</h3>
-      <button class="iconBtn" id="sheetX"><svg class="ic" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
-    </div>
-    <div class="shBody">
-      <label class="fLab">Event name *</label>
-      <input class="fIn" id="fName" placeholder="Rajpath Rang Garba"/>
-      <label class="fLab">Tagline</label>
-      <input class="fIn" id="fTag" placeholder="One line ka vibe"/>
-      <div class="f2">
-        <div><label class="fLab">Venue *</label><input class="fIn" id="fVenue" placeholder="Farm / Hall"/></div>
-        <div><label class="fLab">Area</label><input class="fIn" id="fArea" placeholder="Area / Road"/></div>
-      </div>
-      <div class="f2">
-        <div><label class="fLab">Theme colour</label><input class="fIn" id="fColor" type="color" value="#2b4edc" style="padding:6px;height:46px"/></div>
-        <div>
-          <label class="fLab">Poster Image URL</label>
-          <input class="fIn" id="fImg" placeholder="https://.../poster.jpg"/>
-        </div>
-      </div>
-      
-      <!-- Image Preview -->
-      <div class="imgPreviewBox" id="imgPreview">
-        <span>No image selected</span>
-      </div>
-
-      <label class="fLab">Nights — date · day · price</label>
-      <div id="nRows"></div>
-      <div style="display:flex;gap:8px">
-        <button class="miniBtn" id="nAdd" type="button">+ night</button>
-        <button class="miniBtn" id="nPreset" type="button">⚡ 11–19 Oct · 9 nights</button>
-      </div>
-
-      <label class="fLab">Passes — name · note · extra ₹</label>
-      <div id="pRows"></div>
-      <button class="miniBtn" id="pAdd" type="button">+ pass type</button>
-
-      <button class="bigBtn" id="fSave">Create event</button>
-    </div>
-  </div>
-
-  <div class="toast" id="toast"></div>
 </div>
 
+
+<!-- =======================================================
+     MOBILE NAV
+======================================================== -->
+
+<nav class="mobile-nav">
+
+  <button
+    class="on"
+    data-go="dashboard"
+  >
+    <span>◫</span>
+    Dashboard
+  </button>
+
+
+  <button
+    data-go="events"
+  >
+    <span>◇</span>
+    Events
+  </button>
+
+
+  <button
+    data-go="leads"
+  >
+    <span>↗</span>
+    Leads
+  </button>
+
+
+  <button
+    data-go="settings"
+  >
+    <span>⚙</span>
+    Settings
+  </button>
+
+</nav>
+
+
+<!-- =======================================================
+     EVENT EDITOR
+======================================================== -->
+
+<div
+  class="editor-overlay"
+  id="eventEditor"
+>
+
+  <div
+    class="editor-veil"
+    id="editorVeil"
+  ></div>
+
+
+  <div class="editor-sheet">
+
+    <header class="editor-header">
+
+      <button
+        class="editor-close"
+        id="editorClose"
+      >
+        ✕
+      </button>
+
+
+      <div class="editor-heading">
+
+        <small id="editorMode">
+          New Event
+        </small>
+
+        <h2 id="editorTitle">
+          Create Event
+        </h2>
+
+      </div>
+
+
+      <button
+        class="soft-btn"
+        id="editorDuplicate"
+        hidden
+      >
+        Duplicate
+      </button>
+
+    </header>
+
+
+    <div
+      class="editor-scroll"
+      id="editorScroll"
+    >
+
+
+      <!-- BASIC -->
+
+      <section class="form-section">
+
+        <div class="form-section-head">
+
+          <h3>
+            Event Information
+          </h3>
+
+          <p>
+            Public event name and short description.
+          </p>
+
+        </div>
+
+
+        <div class="form-section-body">
+
+          <div class="form-grid">
+
+            <div class="field">
+
+              <label>
+                Event Name *
+              </label>
+
+              <input
+                id="fName"
+                placeholder="Mandalam Garba"
+              >
+
+            </div>
+
+
+            <div class="field">
+
+              <label>
+                Tagline
+              </label>
+
+              <textarea
+                id="fTagline"
+                placeholder="Nine nights of Garba..."
+              ></textarea>
+
+            </div>
+
+
+            <div class="field">
+
+              <label>
+                Internal Event ID
+              </label>
+
+              <input
+                id="fId"
+                placeholder="mandalam-garba"
+              >
+
+              <small>
+                Used as the stable event identifier.
+              </small>
+
+            </div>
+
+
+            <div
+              class="switch-row"
+              id="visibilityRow"
+            >
+
+              <div class="switch-copy">
+
+                <b>
+                  Visible on public app
+                </b>
+
+                <span>
+                  Turn off to temporarily hide without deleting.
+                </span>
+
+              </div>
+
+
+              <button
+                class="switch on"
+                id="fVisible"
+                type="button"
+              ></button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- VENUE -->
+
+      <section class="form-section">
+
+        <div class="form-section-head">
+
+          <h3>
+            Venue & Location
+          </h3>
+
+          <p>
+            Everything an admin may need about the venue.
+          </p>
+
+        </div>
+
+
+        <div class="form-section-body">
+
+          <div class="form-grid cols-2">
+
+            <div class="field">
+
+              <label>
+                Venue Name *
+              </label>
+
+              <input
+                id="fVenue"
+                placeholder="Master Farm"
+              >
+
+            </div>
+
+
+            <div class="field">
+
+              <label>
+                Area
+              </label>
+
+              <input
+                id="fArea"
+                placeholder="Near Vaishnodevi Circle"
+              >
+
+            </div>
+
+
+            <div
+              class="field"
+              style="grid-column:1/-1"
+            >
+
+              <label>
+                Full Address
+              </label>
+
+              <textarea
+                id="fAddress"
+                placeholder="Complete Ahmedabad address"
+              ></textarea>
+
+            </div>
+
+
+            <div
+              class="field"
+              style="grid-column:1/-1"
+            >
+
+              <label>
+                Google Maps Link · Optional
+              </label>
+
+              <input
+                id="fMapUrl"
+                placeholder="https://maps.google.com/..."
+              >
+
+              <small>
+                Can later be used for a public "Open in Maps" action.
+              </small>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- DATES -->
+
+      <section class="form-section">
+
+        <div class="form-section-head">
+
+          <h3>
+            Event Schedule
+          </h3>
+
+          <p>
+            Date range automatically creates individual nights.
+          </p>
+
+        </div>
+
+
+        <div class="form-section-body">
+
+          <div class="form-grid cols-2">
+
+            <div class="field">
+
+              <label>
+                Start Date
+              </label>
+
+              <input
+                id="fStartDate"
+                type="date"
+              >
+
+            </div>
+
+
+            <div class="field">
+
+              <label>
+                End Date
+              </label>
+
+              <input
+                id="fEndDate"
+                type="date"
+              >
+
+            </div>
+
+
+            <div
+              class="field"
+              style="grid-column:1/-1"
+            >
+
+              <label>
+                Public Date Label
+              </label>
+
+              <input
+                id="fDateLabel"
+                placeholder="11 Oct – 19 Oct"
+              >
+
+              <small>
+                Leave empty and Scenezy will generate it.
+              </small>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- MEDIA -->
+
+      <section class="form-section">
+
+        <div class="form-section-head">
+
+          <h3>
+            Event Artwork
+          </h3>
+
+          <p>
+            Public image path or hosted image URL.
+          </p>
+
+        </div>
+
+
+        <div class="form-section-body">
+
+          <div class="form-grid">
+
+            <div class="field">
+
+              <label>
+                Image
+              </label>
+
+              <input
+                id="fImage"
+                placeholder="./event-1.jpeg"
+              >
+
+            </div>
+
+
+            <div class="two-col">
+
+              <div class="field">
+
+                <label>
+                  Poster Color A
+                </label>
+
+                <input
+                  id="fColorA"
+                  type="color"
+                  value="#831e36"
+                >
+
+              </div>
+
+
+              <div class="field">
+
+                <label>
+                  Poster Color B
+                </label>
+
+                <input
+                  id="fColorB"
+                  type="color"
+                  value="#35101f"
+                >
+
+              </div>
+
+            </div>
+
+
+            <div
+              class="image-preview"
+              id="imagePreview"
+            ></div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- DEFAULT PASSES -->
+
+      <section class="form-section">
+
+        <div class="form-section-head">
+
+          <h3>
+            Default Pass Types
+          </h3>
+
+          <p>
+            Used automatically for every night unless that
+            specific date has custom pricing.
+          </p>
+
+        </div>
+
+
+        <div class="form-section-body">
+
+          <div
+            class="pass-editor-list"
+            id="defaultPassList"
+          ></div>
+
+
+          <button
+            class="add-pass-btn"
+            id="addDefaultPass"
+            type="button"
+          >
+            + Add Pass Type
+          </button>
+
+        </div>
+
+      </section>
+
+
+      <!-- DATE PRICING -->
+
+      <section class="form-section">
+
+        <div class="form-section-head">
+
+          <h3>
+            Night-by-Night Pricing
+          </h3>
+
+          <p>
+            Override pass types and prices only on nights
+            where they are different.
+          </p>
+
+        </div>
+
+
+        <div class="form-section-body">
+
+          <div
+            class="date-pricing-list"
+            id="datePricingList"
+          ></div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ADVANCED -->
+
+      <section class="form-section">
+
+        <div class="form-section-head">
+
+          <h3>
+            Admin Notes
+          </h3>
+
+          <p>
+            Internal information. Never shown to users.
+          </p>
+
+        </div>
+
+
+        <div class="form-section-body">
+
+          <div class="field">
+
+            <textarea
+              id="fAdminNotes"
+              placeholder="Contact person, pending info, organiser notes..."
+            ></textarea>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    </div>
+
+
+    <div class="editor-bottom">
+
+      <button
+        class="secondary-btn"
+        id="editorCancel"
+      >
+        Cancel
+      </button>
+
+
+      <button
+        class="primary-btn"
+        id="editorSave"
+      >
+        Save Event
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =======================================================
+     CONFIRM
+======================================================== -->
+
+<div
+  class="confirm-overlay"
+  id="confirmOverlay"
+>
+
+  <div class="confirm-card">
+
+    <h3 id="confirmTitle">
+      Delete event?
+    </h3>
+
+    <p id="confirmText">
+      This cannot be undone.
+    </p>
+
+
+    <div class="confirm-actions">
+
+      <button
+        class="secondary-btn"
+        id="confirmCancel"
+      >
+        Cancel
+      </button>
+
+
+      <button
+        class="danger-btn"
+        id="confirmYes"
+      >
+        Delete
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<div
+  class="toast"
+  id="toast"
+></div>
+
+
 <script>
-/* ══════════ CONFIG ═════════ */
-const API = 'https://script.google.com/macros/s/AKfycbwc4RDdlvvkQth7jgoAI7iqt68IXf89VwVW3XxzZByWAw9paejwVIJ5fXqjyu633VoWGw/exec';
-let KEY = ScenezyAPI.read('admin.session') || '';
-if(!KEY){try{KEY=sessionStorage.getItem('sz_key')||'';if(KEY)ScenezyAPI.write('admin.session',KEY)}catch{}}
-let leads = [], events = [], filter = 'All', busy = false;
-let editingIndex = null;
+/* =========================================================
+   SCENEZY ADMIN DATA
+========================================================= */
 
-const $=s=>document.querySelector(s);
-const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const inr=n=>'₹'+(+n||0).toLocaleString('en-IN');
-const ORDER=['New','Converted','Lost'];
-const cls=s=>'st-'+(ORDER.includes(s)?s:'New').toLowerCase();
-let toastT;
-function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2600)}
+const ADMIN_CONFIG = {
 
-// FIXED: Ab har request mein key automatically jud jayegi
-async function apiCall(params){
-  try { return await ScenezyAPI.call(params,KEY); }
-  catch(error){if(/Unauthorized/i.test(error.message)){ScenezyAPI.remove('admin.session');ScenezyAPI.remove('admin.v2');KEY='';$('#gate').hidden=false;$('#main').hidden=true;}throw error}
-}
-function saveDashboardCache(){
-  const previous=ScenezyAPI.read('admin.v2');
-  ScenezyAPI.cacheAdmin({events,leads},KEY,previous?.at||0);
-}
-function when(ts){const d=new Date(ts);if(isNaN(d))return'';return d.toLocaleDateString('en-IN',{day:'numeric',month:'short'})+', '+d.toLocaleTimeString('en-IN',{hour:'numeric',minute:'2-digit'})}
+  /* USER + ADMIN SAME DATABASE */
 
-/* ══════════ auth gate ══════════ */
-function gateErr(msg){$('#gateErr').textContent=msg;$('#gateForm').classList.add('shake');setTimeout(()=>$('#gateForm').classList.remove('shake'),400)}
- $('#gateForm').onsubmit=async e=>{
-  e.preventDefault();
-  const btn=$('#gateForm button'); if(btn.disabled)return;
-  KEY=$('#keyInput').value.trim();
-  if(!KEY)return gateErr('Key daalo');
-  $('#gateErr').textContent='';
-  ScenezyAPI.busy(btn,true,'Opening your dashboard');
-  try{
-    const d=await apiCall({action:'getAllData'});
-    if(d.error) return gateErr('Galat key ya API error');
-    ScenezyAPI.write('admin.session',KEY);
-    ScenezyAPI.cacheAdmin(d,KEY); ScenezyAPI.cacheEvents(d.events);
-    leads=d.leads||[]; events=d.events||[];
-    enter();
-  }catch(error){gateErr(error.message)}finally{ScenezyAPI.busy(btn,false)}
+  storageKey:
+    "scenezy.shared.v1",
+
+
+  /* old data automatically migrate ho jayega */
+
+  legacyStorageKey:
+    "scenezy.admin.v1",
+
+
+  bookingWhatsapp:
+    "919999999999"
+
 };
 
-function enter(){$('#gate').hidden=true;$('#main').hidden=false;render()}
- $('#logoutBtn').onclick=()=>{ScenezyAPI.remove('admin.session');ScenezyAPI.remove('admin.v2');try{sessionStorage.removeItem('sz_key')}catch{}location.reload()};
 
-/* ══════════ render functions (Same as before) ══════════ */
-function render(){renderStats();renderByPass();renderChips();renderLeads();renderEvents()}
-function renderStats(){
-  const conv=leads.filter(l=>l.status==='Converted');
-  const rev=conv.reduce((s,l)=>s+(+l.amount||0),0);
-  const sold=conv.reduce((s,l)=>s+(+l.qty||0),0);
-  $('#stLeads').textContent=leads.length; $('#stConv').textContent=conv.length;
-  $('#stSold').textContent=sold; $('#stRev').textContent=inr(rev);
+/*
+   Seed is intentionally compatible with the locked
+   Scenezy public event structure.
+*/
+
+const SEED_EVENTS = [
+
+  {
+    id:
+      "parampara-navratri",
+
+    name:
+      "Parampara Navratri",
+
+    tagline:
+      "A Navratri celebration in Ahmedabad.",
+
+    venue:
+      "Gheljipura",
+
+    area:
+      "Makarba",
+
+    address:
+      "Gheljipura, Sardar Patel Ring Rd, Makarba, Ahmedabad, Gujarat 382210, India",
+
+    mapUrl:
+      "",
+
+    dateLabel:
+      "Navratri 2026",
+
+    startDate:
+      null,
+
+    endDate:
+      null,
+
+    image:
+      "./event-1.jpeg",
+
+    poster: {
+      a: "#831e36",
+      b: "#35101f",
+      ink: "#f8ead9"
+    },
+
+    defaultPasses: [
+      {
+        id: "regular",
+        name: "Regular",
+        note: "General entry",
+        price: null
+      }
+    ],
+
+    passesByDate: {},
+
+    visible:
+      true,
+
+    adminNotes:
+      "",
+
+    createdAt:
+      Date.now(),
+
+    updatedAt:
+      Date.now()
+  },
+
+
+  {
+    id:
+      "divi-garba",
+
+    name:
+      "Divi Garba",
+
+    tagline:
+      "Navratri nights near Vaishnodevi Circle.",
+
+    venue:
+      "Master Farm",
+
+    area:
+      "Near Vaishnodevi Circle",
+
+    address:
+      "Master Farm, Near Vaishnodevi Circle, Ahmedabad, Gujarat, India",
+
+    mapUrl:
+      "",
+
+    dateLabel:
+      "11 Oct – 19 Oct",
+
+    startDate:
+      "2026-10-11",
+
+    endDate:
+      "2026-10-19",
+
+    image:
+      "./event-2.jpeg",
+
+    poster: {
+      a: "#7d2033",
+      b: "#301018",
+      ink: "#f5ead7"
+    },
+
+    defaultPasses: [
+      {
+        id: "regular",
+        name: "Regular",
+        note: "General entry",
+        price: 750
+      }
+    ],
+
+    passesByDate: {},
+
+    visible:
+      true,
+
+    adminNotes:
+      "",
+
+    createdAt:
+      Date.now(),
+
+    updatedAt:
+      Date.now()
+  },
+
+
+  {
+    id:
+      "mandalam-garba",
+
+    name:
+      "Mandalam Garba",
+
+    tagline:
+      "Nine nights of Garba on VIP Road.",
+
+    venue:
+      "VIP Road",
+
+    area:
+      "Ahmedabad",
+
+    address:
+      "VIP Road, Ahmedabad, Gujarat, India",
+
+    mapUrl:
+      "",
+
+    dateLabel:
+      "11 Oct – 19 Oct",
+
+    startDate:
+      "2026-10-11",
+
+    endDate:
+      "2026-10-19",
+
+    image:
+      "./event-3.jpeg",
+
+    poster: {
+      a: "#31458f",
+      b: "#141a49",
+      ink: "#f4ebda"
+    },
+
+    defaultPasses: [
+      {
+        id: "regular",
+        name: "Regular",
+        note: "General entry",
+        price: 800
+      }
+    ],
+
+    passesByDate: {},
+
+    visible:
+      true,
+
+    adminNotes:
+      "",
+
+    createdAt:
+      Date.now(),
+
+    updatedAt:
+      Date.now()
+  },
+
+
+  {
+    id:
+      "saibo-og-garba",
+
+    name:
+      "Saibo The OG Garba",
+
+    tagline:
+      "Navratri at Mahendra Farm, Shilaj.",
+
+    venue:
+      "Mahendra Farm",
+
+    area:
+      "Shilaj",
+
+    address:
+      "Mahendra Farm, Shilaj, Ahmedabad, Gujarat, India",
+
+    mapUrl:
+      "",
+
+    dateLabel:
+      "11 Oct – 19 Oct",
+
+    startDate:
+      "2026-10-11",
+
+    endDate:
+      "2026-10-19",
+
+    image:
+      "./event-4.jpeg",
+
+    poster: {
+      a: "#956219",
+      b: "#3a250d",
+      ink: "#fff0cf"
+    },
+
+    defaultPasses: [
+      {
+        id: "regular",
+        name: "Regular",
+        note: "General entry",
+        price: 900
+      }
+    ],
+
+    passesByDate: {},
+
+    visible:
+      true,
+
+    adminNotes:
+      "",
+
+    createdAt:
+      Date.now(),
+
+    updatedAt:
+      Date.now()
+  },
+
+
+  {
+    id:
+      "swarnim-nagri",
+
+    name:
+      "Swarnim Nagri",
+
+    tagline:
+      "Swarnim Nagri with Aishwariya.",
+
+    venue:
+      "New LJ College Road",
+
+    area:
+      "S.G. Highway",
+
+    address:
+      "New LJ College Road, S.G. Highway, Ahmedabad, Gujarat, India",
+
+    mapUrl:
+      "",
+
+    dateLabel:
+      "11 Oct – 19 Oct",
+
+    startDate:
+      "2026-10-11",
+
+    endDate:
+      "2026-10-19",
+
+    image:
+      "./event-5.jpeg",
+
+    poster: {
+      a: "#285e47",
+      b: "#102f25",
+      ink: "#eff7e3"
+    },
+
+    defaultPasses: [
+      {
+        id: "regular",
+        name: "Regular",
+        note: "General entry",
+        price: null
+      }
+    ],
+
+    passesByDate: {},
+
+    visible:
+      true,
+
+    adminNotes:
+      "",
+
+    createdAt:
+      Date.now(),
+
+    updatedAt:
+      Date.now()
+  }
+
+];
+
+
+/* =========================================================
+   DOM SHORTCUTS
+========================================================= */
+
+const $ =
+  selector =>
+    document.querySelector(
+      selector
+    );
+
+
+const $$ =
+  selector =>
+    [
+      ...document.querySelectorAll(
+        selector
+      )
+    ];
+
+
+/* =========================================================
+   STATE
+========================================================= */
+
+let database =
+  loadDatabase();
+
+
+let activePage =
+  "dashboard";
+
+
+let eventFilter =
+  "all";
+
+
+let leadFilter =
+  "all";
+
+
+let editingEventId =
+  null;
+
+
+let eventDraft =
+  null;
+
+
+let confirmAction =
+  null;
+
+
+/* =========================================================
+   STORAGE
+========================================================= */
+
+/* =========================================================
+   SHARED LOCAL DATABASE
+========================================================= */
+
+function defaultDatabase() {
+
+  const now =
+    Date.now();
+
+
+  return {
+
+    version:
+      1,
+
+
+    settings: {
+
+      whatsapp:
+        ADMIN_CONFIG.bookingWhatsapp,
+
+      city:
+        "Ahmedabad",
+
+      season:
+        "Navratri 2026"
+
+    },
+
+
+    events:
+
+      structuredCloneSafe(
+        SEED_EVENTS
+      )
+      .map(
+        event => ({
+
+          ...normalizeEvent(
+            event
+          ),
+
+          visible:
+            event.visible !==
+            false,
+
+          mapUrl:
+            event.mapUrl ||
+            "",
+
+          adminNotes:
+            event.adminNotes ||
+            "",
+
+          createdAt:
+            event.createdAt ||
+            now,
+
+          updatedAt:
+            event.updatedAt ||
+            now
+
+        })
+      ),
+
+
+    leads:
+      [],
+
+
+    activity: [
+
+      {
+
+        id:
+          uid(),
+
+        type:
+          "system",
+
+        text:
+          "Scenezy local database initialized",
+
+        createdAt:
+          now
+
+      }
+
+    ],
+
+
+    updatedAt:
+      now
+
+  };
+
 }
-function renderByPass(){
-  const conv=leads.filter(l=>l.status==='Converted'); const g={};
-  conv.forEach(l=>{const k=l.pass||'—';g[k]=g[k]||{q:0,a:0};g[k].q+=(+l.qty||0);g[k].a+=(+l.amount||0)});
-  const rows=Object.entries(g).sort((a,b)=>b[1].a-a[1].a);
-  $('#byPass').innerHTML=rows.length?rows.map(([n,v])=>`<div class="bpRow"><span>${esc(n)}</span><span class="ld"></span><span class="qty">${v.q} sold</span><b>${inr(v.a)}</b></div>`).join(''):`<div class="empty" style="padding:14px">Abhi tak koi conversion nahi</div>`;
+
+
+/* ---------------------------------------------------------
+   NORMALIZE WHOLE DATABASE
+--------------------------------------------------------- */
+
+function normalizeDatabase(
+  data
+) {
+
+  const database =
+    data &&
+    typeof data ===
+    "object"
+    ?
+    data
+    :
+    {};
+
+
+  database.version ??=
+    1;
+
+
+  database.settings ??=
+    {};
+
+
+  database.settings.whatsapp ??=
+    ADMIN_CONFIG.bookingWhatsapp;
+
+
+  database.settings.city ??=
+    "Ahmedabad";
+
+
+  database.settings.season ??=
+    "Navratri 2026";
+
+
+  database.events =
+    Array.isArray(
+      database.events
+    )
+    ?
+    database.events.map(
+      normalizeEvent
+    )
+    :
+    [];
+
+
+  database.events.forEach(
+    event => {
+
+      event.visible =
+        event.visible !==
+        false;
+
+
+      event.mapUrl ??=
+        "";
+
+
+      event.adminNotes ??=
+        "";
+
+
+      event.createdAt ??=
+        Date.now();
+
+
+      event.updatedAt ??=
+        Date.now();
+
+    }
+  );
+
+
+  database.leads =
+    Array.isArray(
+      database.leads
+    )
+    ?
+    database.leads
+    :
+    [];
+
+
+  database.leads =
+    database.leads.map(
+      lead => ({
+
+        id:
+          lead.id ||
+          uid(),
+
+
+        eventId:
+          lead.eventId ||
+          "",
+
+
+        eventName:
+          lead.eventName ||
+          lead.event ||
+          "Unknown Event",
+
+
+        ref:
+          lead.ref ||
+          "",
+
+
+        night:
+          lead.night ||
+          "",
+
+
+        passName:
+          lead.passName ||
+          lead.pass ||
+          "",
+
+
+        quantity:
+          Number(
+            lead.quantity ??
+            lead.qty ??
+            1
+          ),
+
+
+        expectedAmount:
+
+          lead.expectedAmount ===
+          null ||
+          lead.expectedAmount ===
+          undefined
+          ?
+          (
+            lead.total ??
+            null
+          )
+          :
+          lead.expectedAmount,
+
+
+        source:
+          lead.source ||
+          "WhatsApp CTA",
+
+
+        status:
+          [
+            "New",
+            "Contacted",
+            "Converted",
+            "Lost"
+          ]
+          .includes(
+            lead.status
+          )
+          ?
+          lead.status
+          :
+          "New",
+
+
+        revenue:
+
+          lead.revenue ===
+          undefined
+          ?
+          null
+          :
+          lead.revenue,
+
+
+        clickedAt:
+          lead.clickedAt ||
+          lead.createdAt ||
+          lead.ts ||
+          Date.now(),
+
+
+        convertedAt:
+          lead.convertedAt ||
+          null
+
+      })
+    );
+
+
+  database.activity =
+    Array.isArray(
+      database.activity
+    )
+    ?
+    database.activity
+    :
+    [];
+
+
+  database.updatedAt ??=
+    Date.now();
+
+
+  return database;
+
 }
-function renderChips(){
-  const counts={All:leads.length,New:0,Converted:0,Lost:0};
-  leads.forEach(l=>counts[l.status]=(counts[l.status]||0)+1);
-  $('#chips').innerHTML=['All','New','Converted','Lost'].map(f=>`<button class="chip ${filter===f?'on':''}" data-f="${f}">${f}<i>${counts[f]}</i></button>`).join('');
+
+
+/* ---------------------------------------------------------
+   LOAD DATABASE
+
+   Priority:
+   1. shared storage
+   2. old admin storage migration
+   3. seed database
+--------------------------------------------------------- */
+
+function loadDatabase() {
+
+  try {
+
+    /* SHARED STORE */
+
+    const shared =
+      localStorage.getItem(
+        ADMIN_CONFIG.storageKey
+      );
+
+
+    if (
+      shared
+    ) {
+
+      return normalizeDatabase(
+        JSON.parse(
+          shared
+        )
+      );
+
+    }
+
+
+    /* OLD ADMIN STORE MIGRATION */
+
+    const legacy =
+      localStorage.getItem(
+        ADMIN_CONFIG.legacyStorageKey
+      );
+
+
+    if (
+      legacy
+    ) {
+
+      const migrated =
+        normalizeDatabase(
+          JSON.parse(
+            legacy
+          )
+        );
+
+
+      localStorage.setItem(
+
+        ADMIN_CONFIG.storageKey,
+
+        JSON.stringify(
+          migrated
+        )
+
+      );
+
+
+      return migrated;
+
+    }
+
+
+    /* BRAND NEW */
+
+    const fresh =
+      defaultDatabase();
+
+
+    localStorage.setItem(
+
+      ADMIN_CONFIG.storageKey,
+
+      JSON.stringify(
+        fresh
+      )
+
+    );
+
+
+    return fresh;
+
+  } catch (
+    error
+  ) {
+
+    console.error(
+      "Scenezy database load failed",
+      error
+    );
+
+
+    return defaultDatabase();
+
+  }
+
 }
- $('#chips').onclick=e=>{const c=e.target.closest('.chip');if(!c)return;filter=c.dataset.f;renderChips();renderLeads()};
-function renderLeads(){
-  const list=leads.filter(l=>filter==='All'||l.status===filter).sort((a,b)=>new Date(b.ts)-new Date(a.ts));
-  $('#leadList').innerHTML=list.length?list.map(l=>`<div class="lead"><div class="lMain"><b>${esc(l.event)}</b><span>${esc(l.night)} · ${esc(l.pass)}${l.qty?` × ${l.qty}`:''}</span><small>${esc(l.ref)} · ${esc(l.venue)} · ${when(l.ts)}</small></div><div class="lSide"><b>${inr(l.amount)}</b><select aria-label="Booking status for ${esc(l.ref)}" class="pill ${cls(l.status)}" data-ref="${esc(l.ref)}" ${busy?'disabled':''}>${ORDER.map(status=>`<option value="${status}" ${status===l.status?'selected':''}>${status}</option>`).join('')}</select></div></div>`).join(''):`<div class="empty">Is filter me kuch nahi</div>`;
+
+
+/* ---------------------------------------------------------
+   SAVE DATABASE
+--------------------------------------------------------- */
+
+function saveDatabase() {
+
+  database =
+    normalizeDatabase(
+      database
+    );
+
+
+  database.updatedAt =
+    Date.now();
+
+
+  try {
+
+    localStorage.setItem(
+
+      ADMIN_CONFIG.storageKey,
+
+      JSON.stringify(
+        database
+      )
+
+    );
+
+  } catch (
+    error
+  ) {
+
+    console.error(
+      "Scenezy save failed",
+      error
+    );
+
+
+    toast(
+      "Storage full · try a smaller event image"
+    );
+
+
+    return false;
+
+  }
+
+
+  renderAll();
+
+
+  return true;
+
 }
- $('#leadList').onchange=async e=>{
-  const b=e.target.closest('.pill'); if(!b||busy)return;
-  const l=leads.find(x=>String(x.ref)===b.dataset.ref); if(!l)return;
-  const next=b.value; const old=l.status; busy=true;
-  b.disabled=true; b.setAttribute('aria-busy','true');
-  $('#leadList').querySelectorAll('select').forEach(s=>s.disabled=true);
-  try{
-    const d=await apiCall({action:'updateStatus',ref:l.ref,newStatus:next});
-    if(d.error) throw 0; l.status=next; saveDashboardCache(); ScenezyAPI.write('status.changed',{ref:l.ref,status:next,at:Date.now()}); render(); toast(`${l.ref} → ${next}`);
-  }catch(_){l.status=old;renderLeads();renderStats();renderByPass();renderChips();toast('Save fail')}
-  busy=false; render();
+
+function structuredCloneSafe(
+  value
+) {
+
+  return JSON.parse(
+    JSON.stringify(
+      value
+    )
+  );
+
+}
+
+
+/* =========================================================
+   NORMALIZATION
+========================================================= */
+
+function normalizeEvent(
+  event
+) {
+
+  return {
+
+    id:
+      event.id ||
+      slugify(
+        event.name ||
+        "event"
+      ),
+
+    name:
+      event.name ||
+      "Untitled Event",
+
+    tagline:
+      event.tagline ||
+      "",
+
+    venue:
+      event.venue ||
+      "",
+
+    area:
+      event.area ||
+      "",
+
+    address:
+      event.address ||
+      "",
+
+    mapUrl:
+      event.mapUrl ||
+      "",
+
+    dateLabel:
+      event.dateLabel ||
+      "",
+
+    startDate:
+      event.startDate ||
+      null,
+
+    endDate:
+      event.endDate ||
+      null,
+
+    image:
+      event.image ||
+      "",
+
+    poster: {
+      a:
+        event.poster?.a ||
+        "#31458f",
+
+      b:
+        event.poster?.b ||
+        "#141a49",
+
+      ink:
+        event.poster?.ink ||
+        "#f4ebda"
+    },
+
+    defaultPasses:
+      (
+        event.defaultPasses ||
+        []
+      )
+      .map(
+        normalizePass
+      ),
+
+    passesByDate:
+      Object.fromEntries(
+
+        Object.entries(
+          event.passesByDate ||
+          {}
+        )
+        .map(
+          (
+            [
+              date,
+              passes
+            ]
+          ) => [
+
+            date,
+
+            (
+              passes ||
+              []
+            )
+            .map(
+              normalizePass
+            )
+
+          ]
+        )
+      ),
+
+    visible:
+      event.visible !==
+      false,
+
+    adminNotes:
+      event.adminNotes ||
+      "",
+
+    createdAt:
+      event.createdAt ||
+      Date.now(),
+
+    updatedAt:
+      event.updatedAt ||
+      Date.now()
+
+  };
+
+}
+
+
+function normalizePass(
+  pass
+) {
+
+  return {
+
+    id:
+      pass.id ||
+      slugify(
+        pass.name ||
+        "pass"
+      ),
+
+    name:
+      pass.name ||
+      "Regular",
+
+    note:
+      pass.note ||
+      "",
+
+    price:
+      pass.price ===
+      null ||
+      pass.price ===
+      undefined ||
+      pass.price ===
+      ""
+      ?
+      null
+      :
+      Number(
+        pass.price
+      )
+
+  };
+
+}
+
+
+/* =========================================================
+   GENERAL HELPERS
+========================================================= */
+
+function uid() {
+
+  return (
+    Date.now()
+      .toString(36) +
+    Math.random()
+      .toString(36)
+      .slice(
+        2,
+        8
+      )
+  );
+
+}
+
+
+function slugify(
+  value
+) {
+
+  return String(
+    value ||
+    ""
+  )
+  .trim()
+  .toLowerCase()
+  .replace(
+    /[^a-z0-9]+/g,
+    "-"
+  )
+  .replace(
+    /^-+|-+$/g,
+    ""
+  );
+
+}
+
+
+function escapeHTML(
+  value
+) {
+
+  return String(
+    value ??
+    ""
+  )
+  .replace(
+    /[&<>"']/g,
+
+    character =>
+      ({
+
+        "&":
+          "&amp;",
+
+        "<":
+          "&lt;",
+
+        ">":
+          "&gt;",
+
+        '"':
+          "&quot;",
+
+        "'":
+          "&#39;"
+
+      }[
+        character
+      ])
+  );
+
+}
+
+
+function money(
+  amount
+) {
+
+  if (
+    amount ===
+    null ||
+    amount ===
+    undefined
+  ) {
+
+    return "TBA";
+
+  }
+
+
+  return (
+    "₹" +
+    Number(
+      amount
+    )
+    .toLocaleString(
+      "en-IN"
+    )
+  );
+
+}
+
+
+function formatDateTime(
+  timestamp
+) {
+
+  if (
+    !timestamp
+  ) {
+
+    return "—";
+
+  }
+
+
+  return new Date(
+    timestamp
+  )
+  .toLocaleString(
+    "en-IN",
+    {
+      day:
+        "2-digit",
+
+      month:
+        "short",
+
+      hour:
+        "2-digit",
+
+      minute:
+        "2-digit"
+    }
+  );
+
+}
+
+
+function toast(
+  message
+) {
+
+  const element =
+    $("#toast");
+
+
+  element.textContent =
+    message;
+
+
+  element.classList.add(
+    "show"
+  );
+
+
+  clearTimeout(
+    toast.timer
+  );
+
+
+  toast.timer =
+    setTimeout(
+      () => {
+
+        element.classList.remove(
+          "show"
+        );
+
+      },
+      2200
+    );
+
+}
+
+
+/* =========================================================
+   ACTIVITY
+========================================================= */
+
+function addActivity(
+  text,
+  type = "admin"
+) {
+
+  database.activity.unshift({
+
+    id:
+      uid(),
+
+    type,
+
+    text,
+
+    createdAt:
+      Date.now()
+
+  });
+
+
+  database.activity =
+    database.activity.slice(
+      0,
+      100
+    );
+
+}
+
+
+/* =========================================================
+   EVENT ANALYTICS
+========================================================= */
+
+function leadsForEvent(
+  eventId
+) {
+
+  return database.leads.filter(
+    lead =>
+      lead.eventId ===
+      eventId
+  );
+
+}
+
+
+function eventClicks(
+  eventId
+) {
+
+  return leadsForEvent(
+    eventId
+  ).length;
+
+}
+
+
+function eventConversions(
+  eventId
+) {
+
+  return leadsForEvent(
+    eventId
+  )
+  .filter(
+    lead =>
+      lead.status ===
+      "Converted"
+  )
+  .length;
+
+}
+
+
+function eventRevenue(
+  eventId
+) {
+
+  return leadsForEvent(
+    eventId
+  )
+  .filter(
+    lead =>
+      lead.status ===
+      "Converted"
+  )
+  .reduce(
+    (
+      total,
+      lead
+    ) =>
+      total +
+      Number(
+        lead.revenue ||
+        0
+      ),
+    0
+  );
+
+}
+
+
+function minEventPrice(
+  event
+) {
+
+  const prices =
+    [];
+
+
+  (
+    event.defaultPasses ||
+    []
+  )
+  .forEach(
+    pass => {
+
+      if (
+        pass.price !==
+        null
+      ) {
+
+        prices.push(
+          Number(
+            pass.price
+          )
+        );
+
+      }
+
+    }
+  );
+
+
+  Object.values(
+    event.passesByDate ||
+    {}
+  )
+  .flat()
+  .forEach(
+    pass => {
+
+      if (
+        pass.price !==
+        null
+      ) {
+
+        prices.push(
+          Number(
+            pass.price
+          )
+        );
+
+      }
+
+    }
+  );
+
+
+  return prices.length
+  ?
+  Math.min(
+    ...prices
+  )
+  :
+  null;
+
+}
+
+
+function customNightCount(
+  event
+) {
+
+  return Object.keys(
+    event.passesByDate ||
+    {}
+  ).length;
+
+}
+
+
+/* =========================================================
+   PAGE NAVIGATION
+========================================================= */
+
+function goPage(
+  page
+) {
+
+  activePage =
+    page;
+
+
+  $$(".page")
+    .forEach(
+      element => {
+
+        element.classList.toggle(
+          "active",
+          element.id ===
+          `page-${page}`
+        );
+
+      }
+    );
+
+
+  $$("[data-go]")
+    .forEach(
+      button => {
+
+        button.classList.toggle(
+          "on",
+          button.dataset.go ===
+          page
+        );
+
+      }
+    );
+
+
+  const titles = {
+
+    dashboard:
+      "Dashboard",
+
+    events:
+      "Events",
+
+    leads:
+      "WhatsApp Leads",
+
+    settings:
+      "Settings & Data"
+
+  };
+
+
+  $("#topbarTitle")
+    .textContent =
+    titles[
+      page
+    ] ||
+    "Scenezy";
+
+
+  if (
+    page ===
+    "settings"
+  ) {
+
+    renderSettings();
+
+  }
+
+
+  window.scrollTo({
+    top:
+      0,
+
+    behavior:
+      "smooth"
+  });
+
+}
+
+
+$$("[data-go]")
+  .forEach(
+    button => {
+
+      button.onclick =
+        () =>
+          goPage(
+            button.dataset.go
+          );
+
+    }
+  );
+
+
+/* =========================================================
+   DASHBOARD
+========================================================= */
+
+function renderDashboard() {
+
+  const events =
+    database.events;
+
+
+  const live =
+    events.filter(
+      event =>
+        event.visible
+    ).length;
+
+
+  const hidden =
+    events.length -
+    live;
+
+
+  const clicks =
+    database.leads.length;
+
+
+  const converted =
+    database.leads.filter(
+      lead =>
+        lead.status ===
+        "Converted"
+    ).length;
+
+
+  const revenue =
+    database.leads
+      .filter(
+        lead =>
+          lead.status ===
+          "Converted"
+      )
+      .reduce(
+        (
+          total,
+          lead
+        ) =>
+          total +
+          Number(
+            lead.revenue ||
+            0
+          ),
+        0
+      );
+
+
+  const conversionRate =
+    clicks
+    ?
+    Math.round(
+      converted /
+      clicks *
+      100
+    )
+    :
+    0;
+
+
+  const stats = [
+
+    {
+      class:
+        "blue",
+
+      icon:
+        "◇",
+
+      label:
+        "Live Events",
+
+      value:
+        live,
+
+      extra:
+        `${events.length} total events`
+    },
+
+    {
+      class:
+        "orange",
+
+      icon:
+        "◌",
+
+      label:
+        "Hidden",
+
+      value:
+        hidden,
+
+      extra:
+        "Temporarily offline"
+    },
+
+    {
+      class:
+        "purple",
+
+      icon:
+        "↗",
+
+      label:
+        "WhatsApp Clicks",
+
+      value:
+        clicks,
+
+      extra:
+        "Booking intent"
+    },
+
+    {
+      class:
+        "green",
+
+      icon:
+        "✓",
+
+      label:
+        "Converted",
+
+      value:
+        converted,
+
+      extra:
+        `${conversionRate}% conversion`
+    },
+
+    {
+      class:
+        "green",
+
+      icon:
+        "₹",
+
+      label:
+        "Revenue",
+
+      value:
+        money(
+          revenue
+        ),
+
+      extra:
+        "Converted leads"
+    },
+
+    {
+      class:
+        "blue",
+
+      icon:
+        "%",
+
+      label:
+        "Conversion Rate",
+
+      value:
+        `${conversionRate}%`,
+
+      extra:
+        `${converted}/${clicks || 0} leads`
+    }
+
+  ];
+
+
+  $("#dashboardStats")
+    .innerHTML =
+    stats.map(
+      stat => `
+
+        <div class="stat-card ${stat.class}">
+
+          <div class="stat-icon">
+            ${stat.icon}
+          </div>
+
+          <span class="stat-label">
+            ${stat.label}
+          </span>
+
+          <strong class="stat-value">
+            ${stat.value}
+          </strong>
+
+          <span class="stat-extra">
+            ${stat.extra}
+          </span>
+
+        </div>
+
+      `
+    )
+    .join("");
+
+
+  renderTopEvents();
+
+  renderActivity();
+
+}
+
+
+function renderTopEvents() {
+
+  const ranked =
+    [
+      ...database.events
+    ]
+    .sort(
+      (
+        a,
+        b
+      ) =>
+        eventClicks(
+          b.id
+        ) -
+        eventClicks(
+          a.id
+        )
+    )
+    .slice(
+      0,
+      5
+    );
+
+
+  if (
+    !ranked.length
+  ) {
+
+    $("#topEvents")
+      .innerHTML =
+      emptyHTML(
+        "No events yet",
+        "Create your first event to start tracking performance."
+      );
+
+
+    return;
+
+  }
+
+
+  $("#topEvents")
+    .innerHTML =
+    `
+
+      <div class="top-event-list">
+
+        ${
+          ranked.map(
+            event => `
+
+              <div class="top-event-item">
+
+                <div class="top-event-copy">
+
+                  <b>
+                    ${escapeHTML(event.name)}
+                  </b>
+
+                  <span>
+                    ${eventConversions(event.id)} conversions ·
+                    ${money(eventRevenue(event.id))}
+                  </span>
+
+                </div>
+
+
+                <div class="top-event-number">
+                  ${eventClicks(event.id)} clicks
+                </div>
+
+              </div>
+
+            `
+          )
+          .join("")
+        }
+
+      </div>
+
+    `;
+
+}
+
+
+function renderActivity() {
+
+  const items =
+    database.activity.slice(
+      0,
+      8
+    );
+
+
+  if (
+    !items.length
+  ) {
+
+    $("#activityList")
+      .innerHTML =
+      emptyHTML(
+        "No activity yet",
+        "Admin actions will appear here."
+      );
+
+
+    return;
+
+  }
+
+
+  $("#activityList")
+    .innerHTML =
+    `
+
+      <div class="activity-list">
+
+        ${
+          items.map(
+            item => `
+
+              <div class="activity-item">
+
+                <span class="activity-dot"></span>
+
+
+                <div class="activity-copy">
+
+                  <b>
+                    ${escapeHTML(item.text)}
+                  </b>
+
+                  <span>
+                    ${formatDateTime(item.createdAt)}
+                  </span>
+
+                </div>
+
+              </div>
+
+            `
+          )
+          .join("")
+        }
+
+      </div>
+
+    `;
+
+}
+
+
+/* =========================================================
+   EVENTS
+========================================================= */
+
+function renderEvents() {
+
+  const query =
+    $("#eventSearch")
+    ?.value
+    .trim()
+    .toLowerCase() ||
+    "";
+
+
+  let events =
+    [
+      ...database.events
+    ];
+
+
+  if (
+    eventFilter ===
+    "live"
+  ) {
+
+    events =
+      events.filter(
+        event =>
+          event.visible
+      );
+
+  }
+
+
+  if (
+    eventFilter ===
+    "hidden"
+  ) {
+
+    events =
+      events.filter(
+        event =>
+          !event.visible
+      );
+
+  }
+
+
+  if (
+    query
+  ) {
+
+    events =
+      events.filter(
+        event =>
+          [
+            event.name,
+            event.venue,
+            event.area,
+            event.address
+          ]
+          .join(" ")
+          .toLowerCase()
+          .includes(
+            query
+          )
+      );
+
+  }
+
+
+  events.sort(
+    (
+      a,
+      b
+    ) =>
+      Number(
+        b.updatedAt
+      ) -
+      Number(
+        a.updatedAt
+      )
+  );
+
+
+  if (
+    !events.length
+  ) {
+
+    $("#eventList")
+      .innerHTML =
+      emptyHTML(
+        "No matching events",
+        "Try another search/filter or create a new event."
+      );
+
+
+    return;
+
+  }
+
+
+  $("#eventList")
+    .innerHTML =
+    events.map(
+      event => {
+
+        const price =
+          minEventPrice(
+            event
+          );
+
+
+        const passCount =
+          event.defaultPasses
+          .length;
+
+
+        const custom =
+          customNightCount(
+            event
+          );
+
+
+        return `
+
+          <article
+            class="event-admin-card"
+
+            style="
+              --event-a:${event.poster.a};
+              --event-b:${event.poster.b};
+            "
+          >
+
+            <div class="event-strip"></div>
+
+
+            <div class="event-card-main">
+
+              <div
+                class="event-thumb"
+
+                style="
+                  --event-a:${event.poster.a};
+                  --event-b:${event.poster.b};
+                "
+              >
+
+                ${
+                  event.image
+                  ?
+                  `
+
+                    <img
+                      src="${escapeHTML(event.image)}"
+                      alt=""
+                      onerror="this.remove()"
+                    >
+
+                  `
+                  :
+                  ""
+                }
+
+              </div>
+
+
+              <div class="event-card-copy">
+
+                <div class="event-topline">
+
+                  <strong class="event-name">
+                    ${escapeHTML(event.name)}
+                  </strong>
+
+
+                  <span
+                    class="
+                      status
+                      ${
+                        event.visible
+                        ?
+                        "live"
+                        :
+                        "hidden"
+                      }
+                    "
+                  >
+
+                    ${
+                      event.visible
+                      ?
+                      "Live"
+                      :
+                      "Hidden"
+                    }
+
+                  </span>
+
+                </div>
+
+
+                <div class="event-place">
+
+                  ${escapeHTML(event.venue)}
+
+                  ${
+                    event.area
+                    ?
+                    ` · ${escapeHTML(event.area)}`
+                    :
+                    ""
+                  }
+
+                </div>
+
+
+                <div class="event-date">
+                  ${escapeHTML(event.dateLabel || "Date TBA")}
+                </div>
+
+
+                <div class="mini-metrics">
+
+                  <span class="mini-metric">
+                    ${
+                      price === null
+                      ?
+                      "Price TBA"
+                      :
+                      `From ${money(price)}`
+                    }
+                  </span>
+
+                  <span class="mini-metric">
+                    ${passCount} default pass${passCount !== 1 ? "es" : ""}
+                  </span>
+
+                  <span class="mini-metric">
+                    ${custom} custom night${custom !== 1 ? "s" : ""}
+                  </span>
+
+                  <span class="mini-metric">
+                    ${eventClicks(event.id)} clicks
+                  </span>
+
+                  <span class="mini-metric">
+                    ${eventConversions(event.id)} converted
+                  </span>
+
+                  <span class="mini-metric">
+                    ${money(eventRevenue(event.id))} revenue
+                  </span>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <div class="event-card-bottom">
+
+              <button
+                class="card-action primary"
+                data-edit-event="${event.id}"
+              >
+                Edit Event
+              </button>
+
+
+              <button
+                class="card-action"
+                data-toggle-event="${event.id}"
+              >
+
+                ${
+                  event.visible
+                  ?
+                  "Hide"
+                  :
+                  "Show"
+                }
+
+              </button>
+
+
+              ${
+                event.mapUrl
+                ?
+                `
+
+                  <button
+                    class="card-action"
+                    data-map="${escapeHTML(event.mapUrl)}"
+                  >
+                    Map
+                  </button>
+
+                `
+                :
+                ""
+              }
+
+
+              <span class="card-actions-spacer"></span>
+
+
+              <button
+                class="icon-action"
+                data-duplicate-event="${event.id}"
+                title="Duplicate event"
+              >
+                ⧉
+              </button>
+
+
+              <button
+                class="icon-action"
+                data-delete-event="${event.id}"
+                title="Delete event"
+              >
+                ×
+              </button>
+
+            </div>
+
+          </article>
+
+        `;
+
+      }
+    )
+    .join("");
+
+
+  bindEventActions();
+
+}
+
+
+function bindEventActions() {
+
+  $$("[data-edit-event]")
+    .forEach(
+      button => {
+
+        button.onclick =
+          () =>
+            openEventEditor(
+              button.dataset.editEvent
+            );
+
+      }
+    );
+
+
+  $$("[data-toggle-event]")
+    .forEach(
+      button => {
+
+        button.onclick =
+          () =>
+            toggleEventVisibility(
+              button.dataset.toggleEvent
+            );
+
+      }
+    );
+
+
+  $$("[data-duplicate-event]")
+    .forEach(
+      button => {
+
+        button.onclick =
+          () =>
+            duplicateEvent(
+              button.dataset.duplicateEvent
+            );
+
+      }
+    );
+
+
+  $$("[data-delete-event]")
+    .forEach(
+      button => {
+
+        button.onclick =
+          () =>
+            askDeleteEvent(
+              button.dataset.deleteEvent
+            );
+
+      }
+    );
+
+
+  $$("[data-map]")
+    .forEach(
+      button => {
+
+        button.onclick =
+          () => {
+
+            window.open(
+              button.dataset.map,
+              "_blank",
+              "noopener"
+            );
+
+          };
+
+      }
+    );
+
+}
+
+
+function toggleEventVisibility(
+  id
+) {
+
+  const event =
+    database.events.find(
+      item =>
+        item.id ===
+        id
+    );
+
+
+  if (
+    !event
+  ) {
+
+    return;
+
+  }
+
+
+  event.visible =
+    !event.visible;
+
+
+  event.updatedAt =
+    Date.now();
+
+
+  addActivity(
+    `${event.name} ${
+      event.visible
+      ?
+      "shown"
+      :
+      "hidden"
+    }`
+  );
+
+
+  saveDatabase();
+
+
+  toast(
+    event.visible
+    ?
+    "Event is now live"
+    :
+    "Event hidden from public"
+  );
+
+}
+
+
+function duplicateEvent(
+  id
+) {
+
+  const source =
+    database.events.find(
+      event =>
+        event.id ===
+        id
+    );
+
+
+  if (
+    !source
+  ) {
+
+    return;
+
+  }
+
+
+  const duplicate =
+    structuredCloneSafe(
+      source
+    );
+
+
+  duplicate.id =
+    uniqueEventId(
+      `${source.id}-copy`
+    );
+
+
+  duplicate.name =
+    `${source.name} Copy`;
+
+
+  duplicate.visible =
+    false;
+
+
+  duplicate.createdAt =
+    Date.now();
+
+
+  duplicate.updatedAt =
+    Date.now();
+
+
+  database.events.unshift(
+    duplicate
+  );
+
+
+  addActivity(
+    `Duplicated ${source.name}`
+  );
+
+
+  saveDatabase();
+
+
+  toast(
+    "Event duplicated as hidden"
+  );
+
+
+  openEventEditor(
+    duplicate.id
+  );
+
+}
+
+
+function askDeleteEvent(
+  id
+) {
+
+  const event =
+    database.events.find(
+      item =>
+        item.id ===
+        id
+    );
+
+
+  if (
+    !event
+  ) {
+
+    return;
+
+  }
+
+
+  showConfirm({
+
+    title:
+      `Delete ${event.name}?`,
+
+    text:
+      "The event will be removed from the admin database. Existing lead records will be preserved.",
+
+    yes:
+      "Delete",
+
+    onConfirm:
+      () => {
+
+        database.events =
+          database.events.filter(
+            item =>
+              item.id !==
+              id
+          );
+
+
+        addActivity(
+          `Deleted ${event.name}`
+        );
+
+
+        saveDatabase();
+
+
+        toast(
+          "Event deleted"
+        );
+
+      }
+
+  });
+
+}
+
+
+/* =========================================================
+   EVENT FILTERS
+========================================================= */
+
+$("#eventSearch")
+  .addEventListener(
+    "input",
+    renderEvents
+  );
+
+
+$$("[data-event-filter]")
+  .forEach(
+    button => {
+
+      button.onclick =
+        () => {
+
+          eventFilter =
+            button.dataset.eventFilter;
+
+
+          $$("[data-event-filter]")
+            .forEach(
+              item => {
+
+                item.classList.toggle(
+                  "on",
+                  item ===
+                  button
+                );
+
+              }
+            );
+
+
+          renderEvents();
+
+        };
+
+    }
+  );
+
+
+/* =========================================================
+   EVENT EDITOR
+========================================================= */
+
+function emptyEvent() {
+
+  const now =
+    Date.now();
+
+
+  return {
+
+    id:
+      "",
+
+    name:
+      "",
+
+    tagline:
+      "",
+
+    venue:
+      "",
+
+    area:
+      "",
+
+    address:
+      "",
+
+    mapUrl:
+      "",
+
+    dateLabel:
+      "",
+
+    startDate:
+      null,
+
+    endDate:
+      null,
+
+    image:
+      "",
+
+    poster: {
+      a:
+        "#31458f",
+
+      b:
+        "#141a49",
+
+      ink:
+        "#f4ebda"
+    },
+
+    defaultPasses: [
+      {
+        id:
+          "regular",
+
+        name:
+          "Regular",
+
+        note:
+          "General entry",
+
+        price:
+          null
+      }
+    ],
+
+    passesByDate:
+      {},
+
+    visible:
+      true,
+
+    adminNotes:
+      "",
+
+    createdAt:
+      now,
+
+    updatedAt:
+      now
+
+  };
+
+}
+
+
+function openEventEditor(
+  id = null
+) {
+
+  editingEventId =
+    id;
+
+
+  if (
+    id
+  ) {
+
+    const event =
+      database.events.find(
+        item =>
+          item.id ===
+          id
+      );
+
+
+    if (
+      !event
+    ) {
+
+      return;
+
+    }
+
+
+    eventDraft =
+      structuredCloneSafe(
+        event
+      );
+
+
+    $("#editorMode")
+      .textContent =
+      "Editing Event";
+
+
+    $("#editorTitle")
+      .textContent =
+      event.name;
+
+
+    $("#editorDuplicate")
+      .hidden =
+      false;
+
+  } else {
+
+    eventDraft =
+      emptyEvent();
+
+
+    /* New event should always restore automatic ID generation. */
+    delete $("#fId").dataset.manual;
+
+
+    $("#editorMode")
+      .textContent =
+      "New Event";
+
+
+    $("#editorTitle")
+      .textContent =
+      "Create Event";
+
+
+    $("#editorDuplicate")
+      .hidden =
+      true;
+
+  }
+
+
+  fillEditorFields();
+
+  renderDefaultPasses();
+
+  renderDatePricing();
+
+  updateImagePreview();
+
+
+  $("#eventEditor")
+    .classList
+    .add(
+      "open"
+    );
+
+
+  $("#editorScroll")
+    .scrollTop =
+    0;
+
+}
+
+
+function closeEventEditor() {
+
+  $("#eventEditor")
+    .classList
+    .remove(
+      "open"
+    );
+
+
+  editingEventId =
+    null;
+
+
+  eventDraft =
+    null;
+
+}
+
+
+function fillEditorFields() {
+
+  $("#fName").value =
+    eventDraft.name;
+
+
+  $("#fTagline").value =
+    eventDraft.tagline;
+
+
+  $("#fId").value =
+    eventDraft.id;
+
+
+  $("#fVenue").value =
+    eventDraft.venue;
+
+
+  $("#fArea").value =
+    eventDraft.area;
+
+
+  $("#fAddress").value =
+    eventDraft.address;
+
+
+  $("#fMapUrl").value =
+    eventDraft.mapUrl;
+
+
+  $("#fStartDate").value =
+    eventDraft.startDate ||
+    "";
+
+
+  $("#fEndDate").value =
+    eventDraft.endDate ||
+    "";
+
+
+  $("#fDateLabel").value =
+    eventDraft.dateLabel;
+
+
+  $("#fImage").value =
+    eventDraft.image;
+
+
+  $("#fColorA").value =
+    eventDraft.poster.a;
+
+
+  $("#fColorB").value =
+    eventDraft.poster.b;
+
+
+  $("#fAdminNotes").value =
+    eventDraft.adminNotes;
+
+
+  $("#fVisible")
+    .classList
+    .toggle(
+      "on",
+      eventDraft.visible
+    );
+
+}
+
+
+function syncEditorFields() {
+
+  if (
+    !eventDraft
+  ) {
+
+    return;
+
+  }
+
+
+  eventDraft.name =
+    $("#fName")
+    .value
+    .trim();
+
+
+  eventDraft.tagline =
+    $("#fTagline")
+    .value
+    .trim();
+
+
+  eventDraft.id =
+    $("#fId")
+    .value
+    .trim();
+
+
+  eventDraft.venue =
+    $("#fVenue")
+    .value
+    .trim();
+
+
+  eventDraft.area =
+    $("#fArea")
+    .value
+    .trim();
+
+
+  eventDraft.address =
+    $("#fAddress")
+    .value
+    .trim();
+
+
+  eventDraft.mapUrl =
+    $("#fMapUrl")
+    .value
+    .trim();
+
+
+  eventDraft.startDate =
+    $("#fStartDate")
+    .value ||
+    null;
+
+
+  eventDraft.endDate =
+    $("#fEndDate")
+    .value ||
+    null;
+
+
+  eventDraft.dateLabel =
+    $("#fDateLabel")
+    .value
+    .trim();
+
+
+  eventDraft.image =
+    $("#fImage")
+    .value
+    .trim();
+
+
+  eventDraft.poster.a =
+    $("#fColorA")
+    .value;
+
+
+  eventDraft.poster.b =
+    $("#fColorB")
+    .value;
+
+
+  eventDraft.adminNotes =
+    $("#fAdminNotes")
+    .value
+    .trim();
+
+}
+
+
+/* =========================================================
+   AUTO ID
+========================================================= */
+
+$("#fName")
+  .addEventListener(
+    "input",
+    () => {
+
+      if (
+        !editingEventId &&
+        !$("#fId").dataset.manual
+      ) {
+
+        $("#fId").value =
+          slugify(
+            $("#fName").value
+          );
+
+      }
+
+
+      $("#editorTitle")
+        .textContent =
+        $("#fName").value.trim() ||
+        "Create Event";
+
+    }
+  );
+
+
+$("#fId")
+  .addEventListener(
+    "input",
+    () => {
+
+      $("#fId").dataset.manual =
+        "1";
+
+    }
+  );
+
+
+/* =========================================================
+   VISIBILITY
+========================================================= */
+
+$("#fVisible")
+  .onclick =
+  () => {
+
+    eventDraft.visible =
+      !eventDraft.visible;
+
+
+    $("#fVisible")
+      .classList
+      .toggle(
+        "on",
+        eventDraft.visible
+      );
+
+  };
+
+
+/* =========================================================
+   IMAGE PREVIEW
+========================================================= */
+
+function updateImagePreview() {
+
+  if (
+    !eventDraft
+  ) {
+
+    return;
+
+  }
+
+
+  syncEditorFields();
+
+
+  const preview =
+    $("#imagePreview");
+
+
+  preview.style.setProperty(
+    "--preview-a",
+    eventDraft.poster.a
+  );
+
+
+  preview.style.setProperty(
+    "--preview-b",
+    eventDraft.poster.b
+  );
+
+
+  preview.innerHTML =
+    eventDraft.image
+    ?
+    `
+
+      <img
+        src="${escapeHTML(eventDraft.image)}"
+        alt=""
+        onerror="this.remove()"
+      >
+
+    `
+    :
+    "";
+
+}
+
+
+[
+  "#fImage",
+  "#fColorA",
+  "#fColorB"
+]
+.forEach(
+  selector => {
+
+    $(
+      selector
+    )
+    .addEventListener(
+      "input",
+      updateImagePreview
+    );
+
+  }
+);
+
+
+/* =========================================================
+   DEFAULT PASSES
+========================================================= */
+
+function renderDefaultPasses() {
+
+  const container =
+    $("#defaultPassList");
+
+
+  if (
+    !eventDraft.defaultPasses.length
+  ) {
+
+    container.innerHTML =
+      `
+
+        <div class="empty-state">
+
+          <strong>
+            No default pass types
+          </strong>
+
+          <span>
+            Add at least one pass type or leave all
+            pricing night-specific.
+          </span>
+
+        </div>
+
+      `;
+
+
+    return;
+
+  }
+
+
+  container.innerHTML =
+    eventDraft.defaultPasses.map(
+      (
+        pass,
+        index
+      ) => `
+
+        <div
+          class="pass-editor-row"
+          data-default-pass="${index}"
+        >
+
+          <input
+            class="pass-name"
+            value="${escapeHTML(pass.name)}"
+            placeholder="Pass type"
+          >
+
+
+          <input
+            class="pass-price-input"
+            type="number"
+            min="0"
+            value="${
+              pass.price ===
+              null
+              ?
+              ""
+              :
+              pass.price
+            }"
+            placeholder="Price"
+          >
+
+
+          <input
+            class="pass-note"
+            value="${escapeHTML(pass.note)}"
+            placeholder="Short note"
+          >
+
+
+          <button
+            class="remove-pass"
+            type="button"
+            data-remove-default="${index}"
+          >
+            ×
+          </button>
+
+        </div>
+
+      `
+    )
+    .join("");
+
+
+  bindDefaultPassEditor();
+
+}
+
+
+function bindDefaultPassEditor() {
+
+  $$("[data-default-pass]")
+    .forEach(
+      row => {
+
+        const index =
+          Number(
+            row.dataset.defaultPass
+          );
+
+
+        row.querySelector(
+          ".pass-name"
+        )
+        .addEventListener(
+          "input",
+          event => {
+
+            eventDraft.defaultPasses[
+              index
+            ].name =
+              event.target.value;
+
+
+            eventDraft.defaultPasses[
+              index
+            ].id =
+              slugify(
+                event.target.value ||
+                `pass-${index + 1}`
+              );
+
+          }
+        );
+
+
+        row.querySelector(
+          ".pass-price-input"
+        )
+        .addEventListener(
+          "input",
+          event => {
+
+            eventDraft.defaultPasses[
+              index
+            ].price =
+              event.target.value ===
+              ""
+              ?
+              null
+              :
+              Number(
+                event.target.value
+              );
+
+          }
+        );
+
+
+        row.querySelector(
+          ".pass-note"
+        )
+        .addEventListener(
+          "input",
+          event => {
+
+            eventDraft.defaultPasses[
+              index
+            ].note =
+              event.target.value;
+
+          }
+        );
+
+      }
+    );
+
+
+  $$("[data-remove-default]")
+    .forEach(
+      button => {
+
+        button.onclick =
+          () => {
+
+            const index =
+              Number(
+                button.dataset.removeDefault
+              );
+
+
+            eventDraft.defaultPasses.splice(
+              index,
+              1
+            );
+
+
+            renderDefaultPasses();
+
+            renderDatePricing();
+
+          };
+
+      }
+    );
+
+}
+
+
+$("#addDefaultPass")
+  .onclick =
+  () => {
+
+    eventDraft.defaultPasses.push({
+
+      id:
+        `pass-${eventDraft.defaultPasses.length + 1}`,
+
+      name:
+        "",
+
+      note:
+        "",
+
+      price:
+        null
+
+    });
+
+
+    renderDefaultPasses();
+
 };
-function renderEvents(){
-  $('#evList').innerHTML=events.length?events.map((ev,index)=>{
-    const min=Math.min(...(ev.nights?.length?ev.nights:[{price:0}]).map(n=>+n.price||0));
-    let bgStyle = `background-color:${esc(ev.poster?.bg||'#2b4edc')}`;
-    if(ev.img) bgStyle += `;background-image:url('${esc(ev.img)}')`;
-    return `<div class="evRow"><span class="swatch" style="${bgStyle}">${ev.img?'':esc((ev.name||'?')[0])}</span><div class="m"><b>${esc(ev.name)}</b><span>${esc(ev.venue)}${ev.area?' · '+esc(ev.area):''}</span></div><div class="evMeta"><b>${inr(min)}</b>${(ev.nights||[]).length} nights</div><button class="miniBtn" data-edit="${index}" aria-label="Edit ${esc(ev.name)}">Edit</button></div>`;}).join(''):`<div class="empty" style="padding:14px">Sheet me events nahi — “+” se add karo</div>`;
-}
-$('#evList').onclick=e=>{const b=e.target.closest('[data-edit]');if(b&&!busy)openSheet(Number(b.dataset.edit))};
 
-/* ══════════ refresh & add-event ══════════ */
- $('#refreshBtn').onclick=async()=>{
-  if(busy)return; busy=true; const btn=$('#refreshBtn'); ScenezyAPI.busy(btn,true,'');
-  try{ const d=await apiCall({action:'getAllData'}); if(d.error)throw 0; leads=d.leads||[];events=d.events||[];ScenezyAPI.cacheAdmin(d,KEY);ScenezyAPI.cacheEvents(events);render();toast('Refreshed'); }
-  catch(error){toast(error.message)} finally {busy=false;ScenezyAPI.busy(btn,false);renderLeads()}
+
+/* =========================================================
+   DATE RANGE
+========================================================= */
+
+function datesForEvent(
+  event
+) {
+
+  if (
+    !event.startDate ||
+    !event.endDate
+  ) {
+
+    return [];
+
+  }
+
+
+  const start =
+    new Date(
+      `${event.startDate}T12:00:00`
+    );
+
+
+  const end =
+    new Date(
+      `${event.endDate}T12:00:00`
+    );
+
+
+  if (
+    Number.isNaN(
+      start.getTime()
+    ) ||
+    Number.isNaN(
+      end.getTime()
+    ) ||
+    end <
+    start
+  ) {
+
+    return [];
+
+  }
+
+
+  const dates =
+    [];
+
+
+  const cursor =
+    new Date(
+      start
+    );
+
+
+  let safety =
+    0;
+
+
+  while (
+    cursor <=
+    end &&
+    safety <
+    90
+  ) {
+
+    dates.push({
+
+      iso:
+        cursor
+          .toISOString()
+          .slice(
+            0,
+            10
+          ),
+
+      day:
+        cursor
+          .toLocaleDateString(
+            "en-US",
+            {
+              weekday:
+                "short"
+            }
+          ),
+
+      date:
+        cursor
+          .toLocaleDateString(
+            "en-US",
+            {
+              day:
+                "numeric",
+
+              month:
+                "short"
+            }
+          ),
+
+      dayNumber:
+        cursor
+          .toLocaleDateString(
+            "en-US",
+            {
+              day:
+                "2-digit"
+            }
+          ),
+
+      month:
+        cursor
+          .toLocaleDateString(
+            "en-US",
+            {
+              month:
+                "short"
+            }
+          )
+
+    });
+
+
+    cursor.setDate(
+      cursor.getDate() +
+      1
+    );
+
+
+    safety++;
+
+  }
+
+
+  return dates;
+
+}
+
+
+function autoDateLabel(
+  start,
+  end
+) {
+
+  if (
+    !start ||
+    !end
+  ) {
+
+    return "";
+
+  }
+
+
+  const startDate =
+    new Date(
+      `${start}T12:00:00`
+    );
+
+
+  const endDate =
+    new Date(
+      `${end}T12:00:00`
+    );
+
+
+  if (
+    Number.isNaN(
+      startDate.getTime()
+    ) ||
+    Number.isNaN(
+      endDate.getTime()
+    )
+  ) {
+
+    return "";
+
+  }
+
+
+  const startText =
+    startDate
+      .toLocaleDateString(
+        "en-US",
+        {
+          day:
+            "numeric",
+
+          month:
+            "short"
+        }
+      );
+
+
+  const endText =
+    endDate
+      .toLocaleDateString(
+        "en-US",
+        {
+          day:
+            "numeric",
+
+          month:
+            "short"
+        }
+      );
+
+
+  return `${startText} – ${endText}`;
+
+}
+
+
+[
+  "#fStartDate",
+  "#fEndDate"
+]
+.forEach(
+  selector => {
+
+    $(
+      selector
+    )
+    .addEventListener(
+      "change",
+      () => {
+
+        syncEditorFields();
+
+
+        if (
+          !$("#fDateLabel")
+          .value
+          .trim()
+        ) {
+
+          $("#fDateLabel")
+            .value =
+            autoDateLabel(
+              eventDraft.startDate,
+              eventDraft.endDate
+            );
+
+        }
+
+
+        syncEditorFields();
+
+        renderDatePricing();
+
+      }
+    );
+
+  }
+);
+
+
+/* =========================================================
+   NIGHT PRICING
+========================================================= */
+
+function renderDatePricing() {
+
+  syncEditorFields();
+
+
+  const container =
+    $("#datePricingList");
+
+
+  const dates =
+    datesForEvent(
+      eventDraft
+    );
+
+
+  if (
+    !dates.length
+  ) {
+
+    container.innerHTML =
+      `
+
+        <div class="empty-state">
+
+          <strong>
+            Select start & end dates
+          </strong>
+
+          <span>
+            Scenezy will then create each night here
+            automatically.
+          </span>
+
+        </div>
+
+      `;
+
+
+    return;
+
+  }
+
+
+  container.innerHTML =
+    dates.map(
+      (
+        date,
+        index
+      ) => {
+
+        const custom =
+          Array.isArray(
+            eventDraft.passesByDate[
+              date.iso
+            ]
+          );
+
+
+        const passes =
+          custom
+          ?
+          eventDraft.passesByDate[
+            date.iso
+          ]
+          :
+          eventDraft.defaultPasses;
+
+
+        const priceText =
+          pricingSummary(
+            passes
+          );
+
+
+        return `
+
+          <div
+            class="date-price-card"
+            data-date-card="${date.iso}"
+          >
+
+            <div class="date-price-head">
+
+              <div class="date-badge">
+
+                <strong>
+                  ${date.dayNumber}
+                </strong>
+
+                <span>
+                  ${date.month}
+                </span>
+
+              </div>
+
+
+              <div class="date-price-copy">
+
+                <b>
+                  Night ${index + 1} · ${date.day}
+                </b>
+
+                <span>
+
+                  ${
+                    custom
+                    ?
+                    `Custom · ${priceText}`
+                    :
+                    `Using defaults · ${priceText}`
+                  }
+
+                </span>
+
+              </div>
+
+
+              <div class="date-price-actions">
+
+                ${
+                  custom
+                  ?
+                  `
+
+                    <button
+                      class="small-action"
+                      data-use-default="${date.iso}"
+                    >
+                      Reset
+                    </button>
+
+                  `
+                  :
+                  `
+
+                    <button
+                      class="small-action blue"
+                      data-customize-date="${date.iso}"
+                    >
+                      Customize
+                    </button>
+
+                  `
+                }
+
+              </div>
+
+            </div>
+
+
+            ${
+              custom
+              ?
+              renderCustomDatePasses(
+                date.iso,
+                eventDraft.passesByDate[
+                  date.iso
+                ]
+              )
+              :
+              ""
+            }
+
+          </div>
+
+        `;
+
+      }
+    )
+    .join("");
+
+
+  bindDatePricingActions();
+
+}
+
+
+function pricingSummary(
+  passes
+) {
+
+  const realPrices =
+    (
+      passes ||
+      []
+    )
+    .map(
+      pass =>
+        pass.price
+    )
+    .filter(
+      price =>
+        price !==
+        null &&
+        price !==
+        undefined
+    );
+
+
+  if (
+    !realPrices.length
+  ) {
+
+    return "Price TBA";
+
+  }
+
+
+  return (
+    "from " +
+    money(
+      Math.min(
+        ...realPrices
+      )
+    )
+  );
+
+}
+
+
+function renderCustomDatePasses(
+  date,
+  passes
+) {
+
+  return `
+
+    <div class="date-price-custom">
+
+      <div
+        class="pass-editor-list"
+        data-date-pass-list="${date}"
+      >
+
+        ${
+          passes.map(
+            (
+              pass,
+              index
+            ) => `
+
+              <div
+                class="pass-editor-row"
+                data-date-pass="${date}"
+                data-date-pass-index="${index}"
+              >
+
+                <input
+                  class="pass-name"
+                  value="${escapeHTML(pass.name)}"
+                  placeholder="Pass type"
+                >
+
+
+                <input
+                  class="pass-price-input"
+                  type="number"
+                  min="0"
+                  value="${
+                    pass.price ===
+                    null
+                    ?
+                    ""
+                    :
+                    pass.price
+                  }"
+                  placeholder="Price"
+                >
+
+
+                <input
+                  class="pass-note"
+                  value="${escapeHTML(pass.note)}"
+                  placeholder="Short note"
+                >
+
+
+                <button
+                  class="remove-pass"
+                  type="button"
+                  data-remove-date-pass="${date}"
+                  data-remove-date-index="${index}"
+                >
+                  ×
+                </button>
+
+              </div>
+
+            `
+          )
+          .join("")
+        }
+
+      </div>
+
+
+      <button
+        class="add-pass-btn"
+        data-add-date-pass="${date}"
+        type="button"
+      >
+        + Add Pass Type For This Night
+      </button>
+
+
+      <div class="date-copy-actions">
+
+        <button
+          class="small-action"
+          data-copy-defaults="${date}"
+        >
+          Copy Defaults Here
+        </button>
+
+
+        <button
+          class="small-action blue"
+          data-copy-forward="${date}"
+        >
+          Apply This Night To Remaining Dates
+        </button>
+
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+function bindDatePricingActions() {
+
+  $$("[data-customize-date]")
+    .forEach(
+      button => {
+
+        button.onclick =
+          () => {
+
+            const date =
+              button.dataset.customizeDate;
+
+
+            eventDraft.passesByDate[
+              date
+            ] =
+              structuredCloneSafe(
+                eventDraft.defaultPasses
+              );
+
+
+            renderDatePricing();
+
+          };
+
+      }
+    );
+
+
+  $$("[data-use-default]")
+    .forEach(
+      button => {
+
+        button.onclick =
+          () => {
+
+            delete eventDraft.passesByDate[
+              button.dataset.useDefault
+            ];
+
+
+            renderDatePricing();
+
+          };
+
+      }
+    );
+
+
+  $$("[data-date-pass]")
+    .forEach(
+      row => {
+
+        const date =
+          row.dataset.datePass;
+
+
+        const index =
+          Number(
+            row.dataset.datePassIndex
+          );
+
+
+        row.querySelector(
+          ".pass-name"
+        )
+        .addEventListener(
+          "input",
+          event => {
+
+            const pass =
+              eventDraft.passesByDate[
+                date
+              ][
+                index
+              ];
+
+
+            pass.name =
+              event.target.value;
+
+
+            pass.id =
+              slugify(
+                event.target.value ||
+                `pass-${index + 1}`
+              );
+
+          }
+        );
+
+
+        row.querySelector(
+          ".pass-price-input"
+        )
+        .addEventListener(
+          "input",
+          event => {
+
+            eventDraft.passesByDate[
+              date
+            ][
+              index
+            ].price =
+              event.target.value ===
+              ""
+              ?
+              null
+              :
+              Number(
+                event.target.value
+              );
+
+          }
+        );
+
+
+        row.querySelector(
+          ".pass-note"
+        )
+        .addEventListener(
+          "input",
+          event => {
+
+            eventDraft.passesByDate[
+              date
+            ][
+              index
+            ].note =
+              event.target.value;
+
+          }
+        );
+
+      }
+    );
+
+
+  $$("[data-remove-date-pass]")
+    .forEach(
+      button => {
+
+        button.onclick =
+          () => {
+
+            const date =
+              button.dataset.removeDatePass;
+
+
+            const index =
+              Number(
+                button.dataset.removeDateIndex
+              );
+
+
+            eventDraft.passesByDate[
+              date
+            ].splice(
+              index,
+              1
+            );
+
+
+            renderDatePricing();
+
+          };
+
+      }
+    );
+
+
+  $$("[data-add-date-pass]")
+    .forEach(
+      button => {
+
+        button.onclick =
+          () => {
+
+            const date =
+              button.dataset.addDatePass;
+
+
+            eventDraft.passesByDate[
+              date
+            ].push({
+
+              id:
+                `pass-${eventDraft.passesByDate[date].length + 1}`,
+
+              name:
+                "",
+
+              note:
+                "",
+
+              price:
+                null
+
+            });
+
+
+            renderDatePricing();
+
+          };
+
+      }
+    );
+
+
+  $$("[data-copy-defaults]")
+    .forEach(
+      button => {
+
+        button.onclick =
+          () => {
+
+            const date =
+              button.dataset.copyDefaults;
+
+
+            eventDraft.passesByDate[
+              date
+            ] =
+              structuredCloneSafe(
+                eventDraft.defaultPasses
+              );
+
+
+            renderDatePricing();
+
+
+            toast(
+              "Default passes copied"
+            );
+
+          };
+
+      }
+    );
+
+
+  $$("[data-copy-forward]")
+    .forEach(
+      button => {
+
+        button.onclick =
+          () => {
+
+            const sourceDate =
+              button.dataset.copyForward;
+
+
+            const sourcePasses =
+              eventDraft.passesByDate[
+                sourceDate
+              ];
+
+
+            const dates =
+              datesForEvent(
+                eventDraft
+              );
+
+
+            const sourceIndex =
+              dates.findIndex(
+                item =>
+                  item.iso ===
+                  sourceDate
+              );
+
+
+            dates
+              .slice(
+                sourceIndex +
+                1
+              )
+              .forEach(
+                date => {
+
+                  eventDraft.passesByDate[
+                    date.iso
+                  ] =
+                    structuredCloneSafe(
+                      sourcePasses
+                    );
+
+                }
+              );
+
+
+            renderDatePricing();
+
+
+            toast(
+              "Pricing applied to remaining nights"
+            );
+
+          };
+
+      }
+    );
+
+}
+
+
+/* =========================================================
+   SAVE EVENT
+========================================================= */
+
+function saveEventFromEditor() {
+
+  const wasEditing =
+    Boolean(editingEventId);
+
+
+  syncEditorFields();
+
+
+  if (
+    !eventDraft.name
+  ) {
+
+    toast(
+      "Event name is required"
+    );
+
+
+    $("#fName").focus();
+
+    return;
+
+  }
+
+
+  if (
+    !eventDraft.venue
+  ) {
+
+    toast(
+      "Venue name is required"
+    );
+
+
+    $("#fVenue").focus();
+
+    return;
+
+  }
+
+
+  if (
+    !eventDraft.id
+  ) {
+
+    eventDraft.id =
+      slugify(
+        eventDraft.name
+      );
+
+  }
+
+
+  if (
+    !eventDraft.dateLabel
+  ) {
+
+    eventDraft.dateLabel =
+      autoDateLabel(
+        eventDraft.startDate,
+        eventDraft.endDate
+      ) ||
+      "Navratri 2026";
+
+  }
+
+
+  if (
+    eventDraft.startDate &&
+    eventDraft.endDate &&
+    eventDraft.endDate <
+    eventDraft.startDate
+  ) {
+
+    toast(
+      "End date cannot be before start date"
+    );
+
+
+    return;
+
+  }
+
+
+  /*
+     Keep only overrides which are still
+     inside the active date range.
+  */
+
+  const validDates =
+    new Set(
+      datesForEvent(
+        eventDraft
+      )
+      .map(
+        item =>
+          item.iso
+      )
+    );
+
+
+  if (
+    validDates.size
+  ) {
+
+    Object.keys(
+      eventDraft.passesByDate
+    )
+    .forEach(
+      date => {
+
+        if (
+          !validDates.has(
+            date
+          )
+        ) {
+
+          delete eventDraft.passesByDate[
+            date
+          ];
+
+        }
+
+      }
+    );
+
+  }
+
+
+  eventDraft.updatedAt =
+    Date.now();
+
+
+  if (
+    editingEventId
+  ) {
+
+    const index =
+      database.events.findIndex(
+        event =>
+          event.id ===
+          editingEventId
+      );
+
+
+    if (
+      index ===
+      -1
+    ) {
+
+      return;
+
+    }
+
+
+    const idChanged =
+      eventDraft.id !==
+      editingEventId;
+
+
+    if (
+      idChanged &&
+      database.events.some(
+        event =>
+          event.id ===
+          eventDraft.id
+      )
+    ) {
+
+      toast(
+        "That Event ID already exists"
+      );
+
+
+      return;
+
+    }
+
+
+    /*
+       Preserve event analytics if ID changes.
+    */
+
+    if (
+      idChanged
+    ) {
+
+      database.leads.forEach(
+        lead => {
+
+          if (
+            lead.eventId ===
+            editingEventId
+          ) {
+
+            lead.eventId =
+              eventDraft.id;
+
+
+            lead.eventName =
+              eventDraft.name;
+
+          }
+
+        }
+      );
+
+    }
+
+
+    database.events[
+      index
+    ] =
+      normalizeEvent(
+        eventDraft
+      );
+
+
+    addActivity(
+      `Updated ${eventDraft.name}`
+    );
+
+  } else {
+
+    if (
+      database.events.some(
+        event =>
+          event.id ===
+          eventDraft.id
+      )
+    ) {
+
+      eventDraft.id =
+        uniqueEventId(
+          eventDraft.id
+        );
+
+    }
+
+
+    eventDraft.createdAt =
+      Date.now();
+
+
+    database.events.unshift(
+      normalizeEvent(
+        eventDraft
+      )
+    );
+
+
+    addActivity(
+      `Created ${eventDraft.name}`
+    );
+
+  }
+
+
+  saveDatabase();
+
+  closeEventEditor();
+
+
+  toast(
+    wasEditing
+    ?
+    "Event updated"
+    :
+    "Event created"
+  );
+
+}
+
+
+function uniqueEventId(
+  base
+) {
+
+  let id =
+    slugify(
+      base
+    ) ||
+    "event";
+
+
+  let counter =
+    2;
+
+
+  while (
+    database.events.some(
+      event =>
+        event.id ===
+        id
+    )
+  ) {
+
+    id =
+      `${slugify(base)}-${counter}`;
+
+
+    counter++;
+
+  }
+
+
+  return id;
+
+}
+
+
+/* =========================================================
+   EDITOR BUTTONS
+========================================================= */
+
+$("#topAddEvent")
+  .onclick =
+  () =>
+    openEventEditor();
+
+
+$("#eventsAdd")
+  .onclick =
+  () =>
+    openEventEditor();
+
+
+$("#quickAdd")
+  .onclick =
+  () =>
+    openEventEditor();
+
+
+$("#editorClose")
+  .onclick =
+  closeEventEditor;
+
+
+$("#editorCancel")
+  .onclick =
+  closeEventEditor;
+
+
+$("#editorVeil")
+  .onclick =
+  closeEventEditor;
+
+
+$("#editorSave")
+  .onclick =
+  saveEventFromEditor;
+
+
+$("#editorDuplicate")
+  .onclick =
+  () => {
+
+    if (
+      editingEventId
+    ) {
+
+      closeEventEditor();
+
+      duplicateEvent(
+        editingEventId
+      );
+
+    }
+
+  };
+
+
+/* =========================================================
+   LEADS
+========================================================= */
+
+function renderLeads() {
+
+  const query =
+    $("#leadSearch")
+    ?.value
+    .trim()
+    .toLowerCase() ||
+    "";
+
+
+  let leads =
+    [
+      ...database.leads
+    ];
+
+
+  if (
+    leadFilter !==
+    "all"
+  ) {
+
+    leads =
+      leads.filter(
+        lead =>
+          lead.status ===
+          leadFilter
+      );
+
+  }
+
+
+  if (
+    query
+  ) {
+
+    leads =
+      leads.filter(
+        lead =>
+          [
+            lead.eventName,
+            lead.ref,
+            lead.night,
+            lead.passName
+          ]
+          .join(" ")
+          .toLowerCase()
+          .includes(
+            query
+          )
+      );
+
+  }
+
+
+  leads.sort(
+    (
+      a,
+      b
+    ) =>
+      Number(
+        b.clickedAt
+      ) -
+      Number(
+        a.clickedAt
+      )
+  );
+
+
+  if (
+    !leads.length
+  ) {
+
+    $("#leadList")
+      .innerHTML =
+      emptyHTML(
+        "No WhatsApp leads yet",
+        "Once click tracking is connected to the backend, every booking-button click will appear here automatically."
+      );
+
+
+    return;
+
+  }
+
+
+  $("#leadList")
+    .innerHTML =
+    leads.map(
+      (
+        lead,
+        index
+      ) => `
+
+        <article
+          class="lead-card"
+          data-lead="${lead.id}"
+        >
+
+          <div class="lead-head">
+
+            <div class="lead-number">
+              ${index + 1}
+            </div>
+
+
+            <div class="lead-main">
+
+              <b>
+                ${escapeHTML(lead.eventName)}
+              </b>
+
+              <span class="lead-ref">
+                ${escapeHTML(lead.ref || "No booking ref")}
+              </span>
+
+            </div>
+
+
+            <div class="lead-status">
+
+              <select
+                data-lead-status="${lead.id}"
+              >
+
+                ${leadStatusOptions(lead.status)}
+
+              </select>
+
+            </div>
+
+          </div>
+
+
+          <div class="lead-details">
+
+            ${
+              lead.night
+              ?
+              `
+                <span class="lead-tag">
+                  ${escapeHTML(lead.night)}
+                </span>
+              `
+              :
+              ""
+            }
+
+            ${
+              lead.passName
+              ?
+              `
+                <span class="lead-tag">
+                  ${escapeHTML(lead.passName)}
+                </span>
+              `
+              :
+              ""
+            }
+
+            ${
+              lead.quantity
+              ?
+              `
+                <span class="lead-tag">
+                  Qty ${lead.quantity}
+                </span>
+              `
+              :
+              ""
+            }
+
+            <span class="lead-tag">
+              Expected ${money(lead.expectedAmount)}
+            </span>
+
+            <span class="lead-tag">
+              ${escapeHTML(lead.source || "WhatsApp CTA")}
+            </span>
+
+          </div>
+
+
+          <div class="lead-footer">
+
+            <span class="lead-time">
+
+              Clicked
+              ${formatDateTime(lead.clickedAt)}
+
+              ${
+                lead.convertedAt
+                ?
+                ` · Converted ${formatDateTime(lead.convertedAt)}`
+                :
+                ""
+              }
+
+            </span>
+
+
+            ${
+              lead.status ===
+              "Converted"
+              ?
+              `
+
+                <div class="revenue-editor">
+
+                  <span>
+                    Revenue
+                  </span>
+
+                  <input
+                    type="number"
+                    min="0"
+
+                    value="${
+                      lead.revenue ??
+                      lead.expectedAmount ??
+                      0
+                    }"
+
+                    data-lead-revenue="${lead.id}"
+                  >
+
+                </div>
+
+              `
+              :
+              ""
+            }
+
+          </div>
+
+        </article>
+
+      `
+    )
+    .join("");
+
+
+  bindLeadActions();
+
+}
+
+
+function leadStatusOptions(
+  current
+) {
+
+  return [
+    "New",
+    "Contacted",
+    "Converted",
+    "Lost"
+  ]
+  .map(
+    status => `
+
+      <option
+        value="${status}"
+
+        ${
+          status ===
+          current
+          ?
+          "selected"
+          :
+          ""
+        }
+      >
+        ${status}
+      </option>
+
+    `
+  )
+  .join("");
+
+}
+
+
+function bindLeadActions() {
+
+  $$("[data-lead-status]")
+    .forEach(
+      select => {
+
+        select.onchange =
+          () => {
+
+            updateLeadStatus(
+              select.dataset.leadStatus,
+              select.value
+            );
+
+          };
+
+      }
+    );
+
+
+  $$("[data-lead-revenue]")
+    .forEach(
+      input => {
+
+        input.onchange =
+          () => {
+
+            const lead =
+              database.leads.find(
+                item =>
+                  item.id ===
+                  input.dataset.leadRevenue
+              );
+
+
+            if (
+              !lead
+            ) {
+
+              return;
+
+            }
+
+
+            lead.revenue =
+              Math.max(
+                0,
+                Number(
+                  input.value ||
+                  0
+                )
+              );
+
+
+            addActivity(
+              `Revenue updated for ${lead.eventName}`
+            );
+
+
+            saveDatabase();
+
+
+            toast(
+              "Revenue updated"
+            );
+
+          };
+
+      }
+    );
+
+}
+
+
+function updateLeadStatus(
+  id,
+  status
+) {
+
+  const lead =
+    database.leads.find(
+      item =>
+        item.id ===
+        id
+    );
+
+
+  if (
+    !lead
+  ) {
+
+    return;
+
+  }
+
+
+  lead.status =
+    status;
+
+
+  if (
+    status ===
+    "Converted"
+  ) {
+
+    lead.convertedAt ??=
+      Date.now();
+
+
+    if (
+      lead.revenue ===
+      null ||
+      lead.revenue ===
+      undefined
+    ) {
+
+      lead.revenue =
+        Number(
+          lead.expectedAmount ||
+          0
+        );
+
+    }
+
+  } else {
+
+    lead.convertedAt =
+      null;
+
+  }
+
+
+  addActivity(
+    `${lead.eventName} lead → ${status}`
+  );
+
+
+  saveDatabase();
+
+
+  toast(
+    `Lead marked ${status}`
+  );
+
+}
+
+
+/* =========================================================
+   LEAD FILTERS
+========================================================= */
+
+$("#leadSearch")
+  .addEventListener(
+    "input",
+    renderLeads
+  );
+
+
+$$("[data-lead-filter]")
+  .forEach(
+    button => {
+
+      button.onclick =
+        () => {
+
+          leadFilter =
+            button.dataset.leadFilter;
+
+
+          $$("[data-lead-filter]")
+            .forEach(
+              item => {
+
+                item.classList.toggle(
+                  "on",
+                  item ===
+                  button
+                );
+
+              }
+            );
+
+
+          renderLeads();
+
+        };
+
+    }
+  );
+
+
+/* =========================================================
+   FUTURE BACKEND LEAD INGESTION CONTRACT
+========================================================= */
+
+/*
+   When backend is connected, a WhatsApp click should
+   create a record shaped like this:
+
+   {
+     id: "lead_xxx",
+     eventId: "mandalam-garba",
+     eventName: "Mandalam Garba",
+     ref: "SZ-MG-AB12",
+     night: "Sat, 17 Oct 2026",
+     passName: "VIP",
+     quantity: 2,
+     expectedAmount: 3000,
+     source: "WhatsApp CTA",
+     status: "New",
+     revenue: null,
+     clickedAt: 1792261234567,
+     convertedAt: null
+   }
+
+   Admin UX above already understands that object.
+*/
+
+
+/* =========================================================
+   SETTINGS
+========================================================= */
+
+function renderSettings() {
+
+  $("#settingsWhatsapp")
+    .value =
+    database.settings.whatsapp ||
+    "";
+
+
+  $("#publicJSONPreview")
+    .textContent =
+    JSON.stringify(
+      publicEvents(),
+      null,
+      2
+    );
+
+}
+
+
+$("#saveSettings")
+  .onclick =
+  () => {
+
+    database.settings.whatsapp =
+      $("#settingsWhatsapp")
+      .value
+      .replace(
+        /\D/g,
+        ""
+      );
+
+
+    addActivity(
+      "Updated booking WhatsApp number"
+    );
+
+
+    saveDatabase();
+
+
+    toast(
+      "Settings saved"
+    );
+
 };
 
-function nRow(d='',day='',p=''){
-  const div=document.createElement('div');div.className='fRow nRow';
-  div.innerHTML=`<input placeholder="11 Oct" value="${esc(d)}"><input placeholder="Sun" value="${esc(day)}"><input type="number" placeholder="750" value="${esc(p)}"><button type="button" class="rowX">×</button>`;
-  div.querySelector('.rowX').onclick=()=>div.remove(); $('#nRows').appendChild(div);
-}
-function pRow(n='',note='',add=''){
-  const div=document.createElement('div');div.className='fRow pRow';
-  div.innerHTML=`<input placeholder="VIP" value="${esc(n)}"><input placeholder="note" value="${esc(note)}"><input type="number" placeholder="+300" value="${esc(add)}"><button type="button" class="rowX">×</button>`;
-  div.querySelector('.rowX').onclick=()=>div.remove(); $('#pRows').appendChild(div);
-}
- $('#nAdd').onclick=()=>nRow(); $('#pAdd').onclick=()=>pRow();
- $('#nPreset').onclick=()=>{ $('#nRows').innerHTML=''; const days=['Sun','Mon','Tue','Wed','Thu','Fri','Sat']; for(let d=11;d<=19;d++)nRow(d+' Oct',days[(d+3)%7],''); toast('9 nights fill ho gaye'); };
 
-$('#fImg').addEventListener('input', (e) => {
-  const url = e.target.value.trim(); const box = $('#imgPreview');
-  if(url) box.innerHTML = `<img src="${esc(url)}" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span style="display:none">Invalid URL</span>`;
-  else box.innerHTML = `<span>No image selected</span>`;
-});
+/* =========================================================
+   PUBLIC JSON
+========================================================= */
 
-function openSheet(index=null){
-  if(busy)return;
-  editingIndex=typeof index==='number'?index:null;
-  const ev=editingIndex===null?null:events[editingIndex];
-  $('#addSheet h3').textContent=ev?'Edit event':'Naya event';
-  $('#fSave').textContent=ev?'Save changes':'Create event';
-  for(const [id,key] of [['fName','name'],['fTag','tagline'],['fVenue','venue'],['fArea','area'],['fImg','img']])$('#'+id).value=ev?.[key]||'';
-  $('#fColor').value=ev?.poster?.bg||'#2b4edc';
-  $('#fImg').dispatchEvent(new Event('input'));
-  $('#nRows').innerHTML='';$('#pRows').innerHTML='';
-  if(ev){(ev.nights||[]).forEach(n=>nRow(n.d,n.day,n.price));(ev.passes||[]).forEach(p=>pRow(p.name,p.note,p.add))}
-  else{$('#nPreset').click();pRow('Regular','General entry',0);pRow('VIP','Front zone + seats',300);pRow('Couple','One pass, entry for two',550)}
-  $('#veil').classList.add('open');$('#addSheet').classList.add('open');
+function publicEvents() {
+
+  return database.events
+
+    .filter(
+      event =>
+        event.visible
+    )
+
+    .map(
+      event => ({
+
+        id:
+          event.id,
+
+        name:
+          event.name,
+
+        tagline:
+          event.tagline,
+
+        venue:
+          event.venue,
+
+        area:
+          event.area,
+
+        address:
+          event.address,
+
+        /*
+           Extra field is harmless to the locked UI
+           and useful when Maps is enabled later.
+        */
+
+        mapUrl:
+          event.mapUrl,
+
+        dateLabel:
+          event.dateLabel,
+
+        startDate:
+          event.startDate,
+
+        endDate:
+          event.endDate,
+
+        image:
+          event.image,
+
+        poster:
+          structuredCloneSafe(
+            event.poster
+          ),
+
+        defaultPasses:
+          structuredCloneSafe(
+            event.defaultPasses
+          ),
+
+        passesByDate:
+          structuredCloneSafe(
+            event.passesByDate
+          )
+
+      }));
+
 }
-function closeSheet(){if($('#fSave').disabled && busy)return;$('#veil').classList.remove('open');$('#addSheet').classList.remove('open')}
- $('#addBtn').onclick=openSheet; $('#sheetX').onclick=$('#veil').onclick=closeSheet;
 
- $('#fSave').onclick=async()=>{
-  const btn=$('#fSave'); if(btn.disabled || busy)return; const name=$('#fName').value.trim(),venue=$('#fVenue').value.trim();
-  if(!name||!venue)return toast('Name & venue required');
-  const nights=[...$('#nRows').children].map(r=>({d:r.children[0].value.trim(),day:r.children[1].value.trim(),price:+r.children[2].value||0})).filter(n=>n.d);
-  const passes=[...$('#pRows').children].map(r=>({name:r.children[0].value.trim(),note:r.children[1].value.trim(),add:+r.children[2].value||0})).filter(p=>p.name);
-  if(!nights.length)return toast('Kam se kam 1 night chahiye');
-  
-  if(!passes.length)return toast('Kam se kam 1 pass type chahiye');
-  if(nights.some(n=>n.price<0)||passes.some(p=>p.add<0))return toast('Prices cannot be negative');
-  busy=true; ScenezyAPI.busy(btn,true,editingIndex===null?'Publishing your event':'Polishing the details');
-  try{
-    const original=editingIndex===null?null:events[editingIndex];
-    const payload={ action: original?'updateEvent':'addEvent', original, event: { ...original, id:original?.id||crypto.randomUUID(), name, tagline:$('#fTag').value.trim(), venue, area:$('#fArea').value.trim(), poster: { ...original?.poster, bg: $('#fColor').value }, img: $('#fImg').value.trim(), nights, passes } };
-    const d=await apiCall(payload);
-    if(d.error) throw 0;
-    ['fName','fTag','fVenue','fArea','fImg'].forEach(id=>$('#'+id).value='');
-    $('#imgPreview').innerHTML = `<span>No image selected</span>`; $('#nRows').innerHTML='';$('#pRows').innerHTML='';
-    $('#veil').classList.remove('open');$('#addSheet').classList.remove('open');
-    if(editingIndex===null)events.push(payload.event);else events[editingIndex]=payload.event;
-    saveDashboardCache(); ScenezyAPI.cacheEvents(events);
-    renderEvents(); renderStats(); toast('Event live — app me refresh pe dikh jayega');
-  }catch(error){toast(error.message)}
-  finally { busy=false; ScenezyAPI.busy(btn,false); }
-};
 
-/* ══════════ boot ══════════ */
-if(KEY){
-  const cached=ScenezyAPI.read('admin.v2');
-  if(cached?.key===KEY && Array.isArray(cached.events) && Array.isArray(cached.leads)){
-    events=cached.events;leads=cached.leads;enter();
-    if(Date.now()-cached.at>=ScenezyAPI.adminTTL)$('#refreshBtn').click();
-  }else{$('#keyInput').value=KEY;$('#gateForm').requestSubmit()}
+async function copyPublicJSON() {
+
+  const text =
+    JSON.stringify(
+      publicEvents(),
+      null,
+      2
+    );
+
+
+  try {
+
+    await navigator.clipboard.writeText(
+      text
+    );
+
+
+    toast(
+      "Public JSON copied"
+    );
+
+  } catch {
+
+    toast(
+      "Clipboard unavailable"
+    );
+
+  }
+
 }
+
+
+function downloadJSON(
+  filename,
+  data
+) {
+
+  const blob =
+    new Blob(
+      [
+        JSON.stringify(
+          data,
+          null,
+          2
+        )
+      ],
+      {
+        type:
+          "application/json"
+      }
+    );
+
+
+  const url =
+    URL.createObjectURL(
+      blob
+    );
+
+
+  const anchor =
+    document.createElement(
+      "a"
+    );
+
+
+  anchor.href =
+    url;
+
+
+  anchor.download =
+    filename;
+
+
+  document.body.appendChild(
+    anchor
+  );
+
+
+  anchor.click();
+
+
+  anchor.remove();
+
+
+  setTimeout(
+    () =>
+      URL.revokeObjectURL(
+        url
+      ),
+    1000
+  );
+
+}
+
+
+$("#copyPublicJSON")
+  .onclick =
+  copyPublicJSON;
+
+
+$("#downloadPublicJSON")
+  .onclick =
+  () => {
+
+    downloadJSON(
+      "scenezy-public-events.json",
+      publicEvents()
+    );
+
+  };
+
+
+$("#quickExport")
+  .onclick =
+  () => {
+
+    downloadJSON(
+      "scenezy-public-events.json",
+      publicEvents()
+    );
+
+  };
+
+
+/* =========================================================
+   ADMIN BACKUP
+========================================================= */
+
+$("#exportBackup")
+  .onclick =
+  () => {
+
+    downloadJSON(
+      "scenezy-admin-backup.json",
+      database
+    );
+
+  };
+
+
+$("#importBackup")
+  .onchange =
+  event => {
+
+    const file =
+      event.target.files?.[
+        0
+      ];
+
+
+    if (
+      !file
+    ) {
+
+      return;
+
+    }
+
+
+    const reader =
+      new FileReader();
+
+
+    reader.onload =
+      () => {
+
+        try {
+
+          const imported =
+            JSON.parse(
+              reader.result
+            );
+
+
+          if (
+            !Array.isArray(
+              imported.events
+            ) ||
+            !Array.isArray(
+              imported.leads
+            )
+          ) {
+
+            throw new Error(
+              "Invalid backup"
+            );
+
+          }
+
+
+          showConfirm({
+
+            title:
+              "Replace current admin data?",
+
+            text:
+              "The imported backup will replace current events, leads and admin settings.",
+
+            yes:
+              "Import",
+
+            onConfirm:
+              () => {
+
+                database =
+                  imported;
+
+
+                database.events =
+                  database.events.map(
+                    normalizeEvent
+                  );
+
+
+                database.activity ??=
+                  [];
+
+
+                database.settings ??=
+                  {
+                    whatsapp:
+                      ADMIN_CONFIG.bookingWhatsapp
+                  };
+
+
+                addActivity(
+                  "Imported admin backup"
+                );
+
+
+                saveDatabase();
+
+
+                toast(
+                  "Backup imported"
+                );
+
+              }
+
+          });
+
+        } catch {
+
+          toast(
+            "Invalid backup file"
+          );
+
+        }
+
+      };
+
+
+    reader.readAsText(
+      file
+    );
+
+
+    event.target.value =
+      "";
+
+  };
+
+
+/* =========================================================
+   CONFIRM
+========================================================= */
+
+function showConfirm({
+  title,
+  text,
+  yes,
+  onConfirm
+}) {
+
+  $("#confirmTitle")
+    .textContent =
+    title;
+
+
+  $("#confirmText")
+    .textContent =
+    text;
+
+
+  $("#confirmYes")
+    .textContent =
+    yes ||
+    "Confirm";
+
+
+  confirmAction =
+    onConfirm;
+
+
+  $("#confirmOverlay")
+    .classList
+    .add(
+      "open"
+    );
+
+}
+
+
+function closeConfirm() {
+
+  $("#confirmOverlay")
+    .classList
+    .remove(
+      "open"
+    );
+
+
+  confirmAction =
+    null;
+
+}
+
+
+$("#confirmCancel")
+  .onclick =
+  closeConfirm;
+
+
+$("#confirmYes")
+  .onclick =
+  () => {
+
+    const action =
+      confirmAction;
+
+
+    closeConfirm();
+
+
+    action?.();
+
+  };
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+function emptyHTML(
+  title,
+  message
+) {
+
+  return `
+
+    <div class="empty-state">
+
+      <strong>
+        ${escapeHTML(title)}
+      </strong>
+
+      <span>
+        ${escapeHTML(message)}
+      </span>
+
+    </div>
+
+  `;
+
+}
+
+
+/* =========================================================
+   RENDER
+========================================================= */
+
+function renderAll() {
+
+  renderDashboard();
+
+  renderEvents();
+
+  renderLeads();
+
+  renderSettings();
+
+}
+
+
+/* =========================================================
+   DEMO LEAD HELPER
+   Remove later when backend is connected.
+========================================================= */
+
+/*
+   Open browser console and run:
+
+   addDemoLead("mandalam-garba")
+
+   to test lead status / conversion / revenue UI.
+*/
+
+window.addDemoLead =
+  function (
+    eventId
+  ) {
+
+    const event =
+      database.events.find(
+        item =>
+          item.id ===
+          eventId
+      );
+
+
+    if (
+      !event
+    ) {
+
+      console.warn(
+        "Event not found"
+      );
+
+
+      return;
+
+    }
+
+
+    const price =
+      minEventPrice(
+        event
+      );
+
+
+    database.leads.unshift({
+
+      id:
+        uid(),
+
+      eventId:
+        event.id,
+
+      eventName:
+        event.name,
+
+      ref:
+        `SZ-${Math.random()
+          .toString(36)
+          .slice(2,7)
+          .toUpperCase()}`,
+
+      night:
+        event.dateLabel,
+
+      passName:
+        event.defaultPasses[
+          0
+        ]?.name ||
+        "Regular",
+
+      quantity:
+        1,
+
+      expectedAmount:
+        price,
+
+      source:
+        "WhatsApp CTA",
+
+      status:
+        "New",
+
+      revenue:
+        null,
+
+      clickedAt:
+        Date.now(),
+
+      convertedAt:
+        null
+
+    });
+
+
+    addActivity(
+      `WhatsApp click · ${event.name}`
+    );
+
+
+    saveDatabase();
+
+
+    toast(
+      "Demo WhatsApp click added"
+    );
+
+  };
+
+
+/* =========================================================
+   BOOT
+========================================================= */
+
+function boot() {
+
+  renderAll();
+
+  goPage(
+    "dashboard"
+  );
+
+}
+
+/* =========================================================
+   LOCAL IMAGE UPLOAD
+   JS ITSELF ADDS THE FILE INPUT TO EXISTING ADMIN UI
+========================================================= */
+
+function compressScenezyImage(
+  file,
+  maxDimension = 900,
+  quality = .72
+) {
+
+  return new Promise(
+    (
+      resolve,
+      reject
+    ) => {
+
+      const reader =
+        new FileReader();
+
+
+      reader.onload =
+        () => {
+
+          const image =
+            new Image();
+
+
+          image.onload =
+            () => {
+
+              let width =
+                image.naturalWidth ||
+                image.width;
+
+
+              let height =
+                image.naturalHeight ||
+                image.height;
+
+
+              if (
+                width >
+                maxDimension ||
+                height >
+                maxDimension
+              ) {
+
+                const scale =
+                  Math.min(
+
+                    maxDimension /
+                    width,
+
+                    maxDimension /
+                    height
+
+                  );
+
+
+                width =
+                  Math.round(
+                    width *
+                    scale
+                  );
+
+
+                height =
+                  Math.round(
+                    height *
+                    scale
+                  );
+
+              }
+
+
+              const canvas =
+                document.createElement(
+                  "canvas"
+                );
+
+
+              canvas.width =
+                width;
+
+
+              canvas.height =
+                height;
+
+
+              const context =
+                canvas.getContext(
+                  "2d"
+                );
+
+
+              context.drawImage(
+
+                image,
+
+                0,
+                0,
+
+                width,
+                height
+
+              );
+
+
+              let output;
+
+
+              try {
+
+                output =
+                  canvas.toDataURL(
+                    "image/webp",
+                    quality
+                  );
+
+              } catch {
+
+                output =
+                  reader.result;
+
+              }
+
+
+              resolve(
+                output
+              );
+
+            };
+
+
+          image.onerror =
+            () => {
+
+              reject(
+                new Error(
+                  "Could not read image"
+                )
+              );
+
+            };
+
+
+          image.src =
+            reader.result;
+
+        };
+
+
+      reader.onerror =
+        () => {
+
+          reject(
+            new Error(
+              "Could not read image"
+            )
+          );
+
+        };
+
+
+      reader.readAsDataURL(
+        file
+      );
+
+    }
+  );
+
+}
+
+
+/* ---------------------------------------------------------
+   INSTALL UPLOAD UI
+--------------------------------------------------------- */
+
+function installScenezyImageUploader() {
+
+  if (
+    $("#scenezyLocalImageUpload")
+  ) {
+
+    return;
+
+  }
+
+
+  const imageInput =
+    $("#fImage");
+
+
+  if (
+    !imageInput
+  ) {
+
+    return;
+
+  }
+
+
+  const imageField =
+    imageInput.closest(
+      ".field"
+    );
+
+
+  if (
+    !imageField
+  ) {
+
+    return;
+
+  }
+
+
+  const uploadField =
+    document.createElement(
+      "div"
+    );
+
+
+  uploadField.className =
+    "field";
+
+
+  uploadField.innerHTML =
+    `
+
+      <label>
+        Upload Event Image
+      </label>
+
+
+      <input
+        id="scenezyLocalImageUpload"
+        type="file"
+        accept="image/jpeg,image/png,image/webp,image/*"
+      >
+
+
+      <small>
+        Testing mode · image is compressed and saved
+        inside browser localStorage.
+      </small>
+
+    `;
+
+
+  imageField.insertAdjacentElement(
+    "afterend",
+    uploadField
+  );
+
+
+  $(
+    "#scenezyLocalImageUpload"
+  )
+  .addEventListener(
+    "change",
+    async event => {
+
+      const file =
+        event.target.files?.[
+          0
+        ];
+
+
+      if (
+        !file
+      ) {
+
+        return;
+
+      }
+
+
+      if (
+        !file.type.startsWith(
+          "image/"
+        )
+      ) {
+
+        toast(
+          "Please select an image"
+        );
+
+
+        event.target.value =
+          "";
+
+
+        return;
+
+      }
+
+
+      toast(
+        "Optimising image..."
+      );
+
+
+      try {
+
+        const imageData =
+          await compressScenezyImage(
+            file
+          );
+
+
+        /*
+           LocalStorage gets uncomfortable with huge Base64.
+        */
+
+        if (
+          imageData.length >
+          1200000
+        ) {
+
+          toast(
+            "Image is large · a smaller image is recommended"
+          );
+
+        }
+
+
+        $("#fImage").value =
+          imageData;
+
+
+        if (
+          eventDraft
+        ) {
+
+          eventDraft.image =
+            imageData;
+
+        }
+
+
+        updateImagePreview();
+
+
+        toast(
+          "Image saved locally"
+        );
+
+      } catch (
+        error
+      ) {
+
+        console.error(
+          error
+        );
+
+
+        toast(
+          "Could not process image"
+        );
+
+      }
+
+
+      event.target.value =
+        "";
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   LIVE USER → ADMIN SYNC
+
+   When user clicks WhatsApp in another tab,
+   lead instantly arrives here.
+========================================================= */
+
+window.addEventListener(
+  "storage",
+  event => {
+
+    if (
+      event.key !==
+      ADMIN_CONFIG.storageKey
+    ) {
+
+      return;
+
+    }
+
+
+    if (
+      !event.newValue
+    ) {
+
+      return;
+
+    }
+
+
+    try {
+
+      const oldLeadCount =
+        database.leads?.length ||
+        0;
+
+
+      const incoming =
+        normalizeDatabase(
+          JSON.parse(
+            event.newValue
+          )
+        );
+
+
+      database =
+        incoming;
+
+
+      renderAll();
+
+
+      const newLeadCount =
+        database.leads.length;
+
+
+      if (
+        newLeadCount >
+        oldLeadCount
+      ) {
+
+        toast(
+          "New WhatsApp lead received"
+        );
+
+      }
+
+    } catch (
+      error
+    ) {
+
+      console.error(
+        "Live Scenezy sync failed",
+        error
+      );
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   BOOT
+========================================================= */
+
+boot();
+
+
+installScenezyImageUploader();
 </script>
+
 </body>
 </html>
