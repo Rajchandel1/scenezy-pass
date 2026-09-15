@@ -1,0 +1,21 @@
+[hidden]{display:none!important}
+.mark, #gate .mark, .tBrand .mark{background:transparent;border-radius:0;object-fit:contain;flex-shrink:0}
+button:disabled{cursor:wait;opacity:.65}
+select.pill{font-family:inherit;cursor:pointer;max-width:125px;padding-right:8px}
+select.pill option{background:#1a1a21;color:#f1ead9}
+select.pill:disabled{opacity:.5;cursor:wait}
+#eventHeading{flex-shrink:0}
+.evActions{display:flex;flex-direction:column;gap:6px;flex-shrink:0}
+button[aria-busy="true"]{display:inline-flex;align-items:center;justify-content:center;gap:10px}
+.loading-orbit{display:inline-block;width:18px;height:18px;border:1px solid currentColor;border-right-color:transparent;border-radius:50%;animation:orbit 1.2s linear infinite;flex-shrink:0}
+.scene-state{position:absolute;inset:0;z-index:120;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:28px;text-align:center;background:radial-gradient(ellipse at 50% 40%,#252334 0%,#121217 65%);color:var(--ink)}
+.scene-state h3{font:italic 500 27px var(--serif)}
+.scene-state p{font-size:13px;line-height:1.7;color:var(--dim);max-width:280px}
+.scene-state button{padding:12px 24px;border:1px solid var(--line2);border-radius:999px}
+.scene-emblem{width:100px;height:100px;position:relative;display:grid;place-items:center}
+.scene-emblem img{width:58px;height:70px;object-fit:contain;animation:breathe 2.4s ease-in-out infinite}
+.scene-emblem:before,.scene-emblem:after{content:'';position:absolute;inset:0;border:1px dashed #dfb54d66;border-radius:50%;animation:orbit 14s linear infinite}
+.scene-emblem:after{inset:-12px;border-style:solid;border-color:transparent #dfb54d44;animation-direction:reverse}
+@keyframes orbit{to{transform:rotate(360deg)}}
+@keyframes breathe{50%{opacity:.55;transform:translateY(-4px)}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;scroll-behavior:auto!important;transition:none!important}}

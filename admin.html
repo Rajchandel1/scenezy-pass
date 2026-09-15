@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<title>Scenezy · Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Outfit:wght@300..800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{--bg:#08080b;--panel:#121217;--panel2:#1a1a21;--raise:#23232d;--ink:#f1ead9;--dim:#9d97a3;--faint:#6d6875;
+--line:rgba(241,234,217,.09);--line2:rgba(241,234,217,.17);--blue:#2b4edc;--blue-deep:#1f3cb2;--on-blue:#edf1ff;
+--gold:#dfb54d;--ok:#3f9e6e;--bad:#8a4a4a;
+--serif:"Fraunces",Georgia,serif;--sans:"Outfit",system-ui,sans-serif}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);display:flex;justify-content:center}
+#app{width:100%;max-width:540px;min-height:100dvh;position:relative;padding-bottom:60px}
+button{font-family:inherit;color:inherit;background:none;border:0;cursor:pointer}
+input,select{font-family:inherit;color:inherit}
+.ic{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.top{display:flex;align-items:center;gap:10px;padding:16px 18px;border-bottom:1px solid var(--line)}
+.mark{width:34px;height:34px;border-radius:11px;background:var(--blue);color:var(--on-blue);display:grid;place-items:center;font:italic 600 18px/1 var(--serif);flex:none}
+.wordmark{font:italic 500 18px var(--serif)}
+.grow{flex:1}
+.iconBtn{width:36px;height:36px;border-radius:50%;border:1px solid var(--line2);display:grid;place-items:center;flex:none}
+.wrap{padding:18px}
+/* gate */
+#gate{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100dvh;padding:30px;text-align:center}
+#gate .mark{width:58px;height:58px;border-radius:18px;font-size:28px;margin-bottom:14px}
+#gate h1{font:italic 500 30px var(--serif)}
+#gate p{font-size:13px;color:var(--dim);margin:8px 0 22px}
+#keyInput{width:100%;max-width:300px;background:var(--panel2);border:1px solid var(--line2);border-radius:999px;padding:13px 18px;font-size:15px;outline:0;text-align:center}
+#keyInput:focus{border-color:var(--blue)}
+#gateErr{color:#c04a4a;font-size:12px;margin-top:12px;min-height:16px}
+.shake{animation:shk .35s}
+@keyframes shk{20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+/* stats */
+.statGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat{background:var(--panel2);border:1px solid var(--line2);border-radius:18px;padding:14px 16px}
+.stat small{display:block;font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint)}
+.stat b{display:block;font:italic 500 26px/1.1 var(--serif);margin-top:6px}
+.stat.hero{background:var(--blue);border-color:var(--blue);color:var(--on-blue)}
+.stat.hero small{color:rgba(237,241,255,.65)}
+/* panels */
+.panel{margin-top:18px;background:var(--panel2);border:1px solid var(--line2);border-radius:18px;padding:14px 16px}
+.pTitle{display:flex;align-items:center;gap:8px;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--faint);margin-bottom:10px}
+.pTitle::after{content:"";flex:1;height:1px;background:var(--line)}
+.bpRow{display:flex;align-items:baseline;gap:10px;padding:7px 0;border-bottom:1px dashed var(--line);font-size:13.5px}
+.bpRow:last-child{border-bottom:0}
+.bpRow .ld{flex:1;border-bottom:1px dotted var(--line2);transform:translateY(-4px)}
+.bpRow b{font-weight:600}
+.bpRow .qty{color:var(--dim);font-size:12px}
+/* filters */
+.chips{display:flex;gap:8px;margin:18px 0 10px;flex-wrap:wrap}
+.chip{border:1px solid var(--line2);border-radius:999px;padding:8px 14px;font-size:12.5px;color:var(--dim)}
+.chip.on{background:var(--ink);color:#121212;border-color:var(--ink);font-weight:600}
+.chip i{font-style:normal;opacity:.6;margin-left:4px;font-size:11px}
+/* leads */
+.lead{display:flex;gap:12px;align-items:center;padding:13px 4px;border-bottom:1px solid var(--line)}
+.lMain{flex:1;min-width:0}
+.lMain b{display:block;font:italic 500 16.5px var(--serif)}
+.lMain span{display:block;font-size:12px;color:var(--dim);margin-top:2px}
+.lMain small{display:block;font-size:10px;color:var(--faint);margin-top:3px;letter-spacing:.06em}
+.lSide{text-align:right;flex:none}
+.lSide>b{display:block;font-size:14px;font-weight:700}
+.pill{margin-top:6px;border-radius:999px;padding:5px 12px;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;transition:.2s}
+.st-new{background:rgba(223,181,77,.14);color:var(--gold);border:1px solid rgba(223,181,77,.4)}
+.st-converted{background:var(--blue);color:var(--on-blue);border:1px solid var(--blue)}
+.st-lost{background:none;color:var(--faint);border:1px solid var(--line2);text-decoration:line-through}
+.empty{padding:46px 20px;text-align:center;color:var(--dim);font-size:13px}
+/* events list */
+.evRow{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--line)}
+.evRow:last-child{border:0}
+.swatch{width:44px;height:44px;border-radius:12px;background-size:cover;background-position:center;flex:none;display:grid;place-items:center;font:italic 600 19px var(--serif);color:#f4ead6;overflow:hidden}
+.evRow .m{flex:1;min-width:0}
+.evRow b{display:block;font:italic 500 15.5px var(--serif)}
+.evRow span{display:block;font-size:11.5px;color:var(--dim);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.evMeta{font-size:11.5px;color:var(--dim);flex:none;text-align:right}
+.evMeta b{display:block;font:600 13px var(--sans);color:var(--ink)}
+/* add sheet */
+.veil{position:fixed;inset:0;background:rgba(5,5,8,.65);opacity:0;pointer-events:none;transition:.3s;z-index:40}
+.veil.open{opacity:1;pointer-events:auto}
+.sheet{position:fixed;left:50%;bottom:0;transform:translate(-50%,105%);width:100%;max-width:540px;
+  background:var(--panel);border-radius:26px 26px 0 0;border-top:1px solid var(--line2);z-index:50;
+  transition:transform .45s cubic-bezier(.22,1,.3,1);max-height:88dvh;display:flex;flex-direction:column}
+.sheet.open{transform:translate(-50%,0)}
+.shHead{display:flex;align-items:center;justify-content:space-between;padding:18px 20px 8px}
+.shHead h3{font:italic 500 24px var(--serif)}
+.shBody{overflow-y:auto;padding:8px 20px 20px}
+.fLab{display:block;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);margin:14px 0 6px}
+.fIn{width:100%;background:var(--panel2);border:1px solid var(--line2);border-radius:14px;padding:12px 14px;font-size:14.5px;outline:0}
+.fIn:focus{border-color:var(--blue)}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fRow{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.fRow input{background:var(--panel2);border:1px solid var(--line2);border-radius:12px;padding:10px 12px;font-size:13.5px;outline:0;min-width:0}
+.fRow input:focus{border-color:var(--blue)}
+.fRow .rowX{width:32px;height:32px;border-radius:10px;color:var(--faint);flex:none;font-size:18px}
+.nRow input:nth-child(1){flex:1.2}.nRow input:nth-child(2){flex:.8}.nRow input:nth-child(3){flex:.9}
+.pRow input:nth-child(1){flex:1}.pRow input:nth-child(2){flex:1.6}.pRow input:nth-child(3){flex:.7}
+.miniBtn{border:1px dashed var(--line2);border-radius:12px;padding:9px 14px;font-size:12.5px;color:var(--dim)}
+.miniBtn:hover{color:var(--ink)}
+.bigBtn{width:100%;background:var(--blue);color:var(--on-blue);border-radius:16px;padding:15px;font-size:15px;font-weight:700;margin-top:18px}
+.bigBtn:disabled{opacity:.5}
+/* toast */
+.toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,14px);background:#26262f;color:var(--ink);
+  font-size:13px;padding:11px 17px;border-radius:999px;border:1px solid var(--line2);opacity:0;transition:.3s;z-index:60;pointer-events:none;white-space:nowrap;max-width:92%;overflow:hidden;text-overflow:ellipsis}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.spin{animation:spn 1s linear infinite}
+@keyframes spn{to{transform:rotate(360deg)}}
+
+/* Image Preview Box */
+.imgPreviewBox {
+  margin-top: 8px; height: 60px; width: 100%; border-radius: 10px;
+  border: 1px dashed var(--line2); display: flex; align-items: center;
+  justify-content: center; overflow: hidden; background: var(--panel2);
+}
+.imgPreviewBox img { height: 100%; width: auto; max-width: 100%; object-fit: cover; }
+.imgPreviewBox span { font-size: 11px; color: var(--faint); }
+</style>
+<link rel="stylesheet" href="scenezy-ui.css">
+<script src="scenezy-api.js"></script>
+</head>
+<body>
+<div id="app">
+
+  <!-- key gate -->
+  <!-- key gate -->
+  <section id="gate">
+    <img class="mark" src="scenezy-logo.png" alt="Scenezy" width="38" height="38">
+    <h1>scenezy admin</h1>
+    <p>Admin key daalo — Code.gs wali hi</p>
+    <form id="gateForm" style="width:100%;display:flex;flex-direction:column;align-items:center;gap:12px">
+      <input id="keyInput" type="password" placeholder="admin key" autocomplete="off"/>
+      
+      <!-- NEW: Login Button Added Here -->
+      <button type="submit" class="bigBtn" style="max-width:300px;margin-top:4px;padding:14px">
+        Enter Admin
+      </button>
+      
+      <p id="gateErr"></p>
+    </form>
+  </section>
+
+  <!-- dashboard -->
+  <main id="main" hidden>
+    <header class="top">
+      <img class="mark" src="scenezy-logo.png" alt="Scenezy" width="38" height="38">
+      <div class="wordmark">scenezy · admin</div>
+      <div class="grow"></div>
+      <button class="iconBtn" id="refreshBtn" aria-label="Refresh"><svg class="ic" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 6.3M20 5v6h-6"/></svg></button>
+      <button class="iconBtn" id="addBtn" aria-label="Add event"><svg class="ic" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+      <button class="iconBtn" id="logoutBtn" aria-label="Logout"><svg class="ic" viewBox="0 0 24 24"><path d="M15 4h4v16h-4M10 8l-4 4 4 4M6 12h9"/></svg></button>
+    </header>
+
+    <div class="wrap">
+      <div class="statGrid">
+        <div class="stat"><small>Total leads</small><b id="stLeads">—</b></div>
+        <div class="stat"><small>Converted</small><b id="stConv">—</b></div>
+        <div class="stat"><small>Passes sold</small><b id="stSold">—</b></div>
+        <div class="stat hero"><small>Revenue</small><b id="stRev">—</b></div>
+      </div>
+
+      <div class="panel">
+        <div class="pTitle">revenue by pass · converted only</div>
+        <div id="byPass"><div class="empty" style="padding:14px">Abhi tak koi conversion nahi</div></div>
+      </div>
+
+      <div class="chips" id="chips"></div>
+      <div id="leadList"></div>
+
+      <div class="panel" style="margin-top:26px">
+        <div class="pTitle">live events · app me dikh rahe</div>
+        <div id="evList"></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- add event sheet -->
+  <div class="veil" id="veil"></div>
+  <div class="sheet" id="addSheet">
+    <div class="shHead">
+      <h3>Naya event</h3>
+      <button class="iconBtn" id="sheetX"><svg class="ic" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <div class="shBody">
+      <label class="fLab">Event name *</label>
+      <input class="fIn" id="fName" placeholder="Rajpath Rang Garba"/>
+      <label class="fLab">Tagline</label>
+      <input class="fIn" id="fTag" placeholder="One line ka vibe"/>
+      <div class="f2">
+        <div><label class="fLab">Venue *</label><input class="fIn" id="fVenue" placeholder="Farm / Hall"/></div>
+        <div><label class="fLab">Area</label><input class="fIn" id="fArea" placeholder="Area / Road"/></div>
+      </div>
+      <div class="f2">
+        <div><label class="fLab">Theme colour</label><input class="fIn" id="fColor" type="color" value="#2b4edc" style="padding:6px;height:46px"/></div>
+        <div>
+          <label class="fLab">Poster Image URL</label>
+          <input class="fIn" id="fImg" placeholder="https://.../poster.jpg"/>
+        </div>
+      </div>
+      
+      <!-- Image Preview -->
+      <div class="imgPreviewBox" id="imgPreview">
+        <span>No image selected</span>
+      </div>
+
+      <label class="fLab">Nights — date · day · price</label>
+      <div id="nRows"></div>
+      <div style="display:flex;gap:8px">
+        <button class="miniBtn" id="nAdd" type="button">+ night</button>
+        <button class="miniBtn" id="nPreset" type="button">⚡ 11–19 Oct · 9 nights</button>
+      </div>
+
+      <label class="fLab">Passes — name · note · extra ₹</label>
+      <div id="pRows"></div>
+      <button class="miniBtn" id="pAdd" type="button">+ pass type</button>
+
+      <button class="bigBtn" id="fSave">Create event</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+</div>
+
+<script>
+/* ══════════ CONFIG ═════════ */
+const API = 'https://script.google.com/macros/s/AKfycbwc4RDdlvvkQth7jgoAI7iqt68IXf89VwVW3XxzZByWAw9paejwVIJ5fXqjyu633VoWGw/exec';
+let KEY = ScenezyAPI.read('admin.session') || '';
+if(!KEY){try{KEY=sessionStorage.getItem('sz_key')||'';if(KEY)ScenezyAPI.write('admin.session',KEY)}catch{}}
+let leads = [], events = [], filter = 'All', busy = false;
+let editingIndex = null;
+
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const inr=n=>'₹'+(+n||0).toLocaleString('en-IN');
+const ORDER=['New','Converted','Lost'];
+const cls=s=>'st-'+(ORDER.includes(s)?s:'New').toLowerCase();
+let toastT;
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2600)}
+
+// FIXED: Ab har request mein key automatically jud jayegi
+async function apiCall(params){
+  try { return await ScenezyAPI.call(params,KEY); }
+  catch(error){if(/Unauthorized/i.test(error.message)){ScenezyAPI.remove('admin.session');ScenezyAPI.remove('admin.v2');KEY='';$('#gate').hidden=false;$('#main').hidden=true;}throw error}
+}
+function saveDashboardCache(){
+  const previous=ScenezyAPI.read('admin.v2');
+  ScenezyAPI.cacheAdmin({events,leads},KEY,previous?.at||0);
+}
+function when(ts){const d=new Date(ts);if(isNaN(d))return'';return d.toLocaleDateString('en-IN',{day:'numeric',month:'short'})+', '+d.toLocaleTimeString('en-IN',{hour:'numeric',minute:'2-digit'})}
+
+/* ══════════ auth gate ══════════ */
+function gateErr(msg){$('#gateErr').textContent=msg;$('#gateForm').classList.add('shake');setTimeout(()=>$('#gateForm').classList.remove('shake'),400)}
+ $('#gateForm').onsubmit=async e=>{
+  e.preventDefault();
+  const btn=$('#gateForm button'); if(btn.disabled)return;
+  KEY=$('#keyInput').value.trim();
+  if(!KEY)return gateErr('Key daalo');
+  $('#gateErr').textContent='';
+  ScenezyAPI.busy(btn,true,'Opening your dashboard');
+  try{
+    const d=await apiCall({action:'getAllData'});
+    if(d.error) return gateErr('Galat key ya API error');
+    ScenezyAPI.write('admin.session',KEY);
+    ScenezyAPI.cacheAdmin(d,KEY); ScenezyAPI.cacheEvents(d.events);
+    leads=d.leads||[]; events=d.events||[];
+    enter();
+  }catch(error){gateErr(error.message)}finally{ScenezyAPI.busy(btn,false)}
+};
+
+function enter(){$('#gate').hidden=true;$('#main').hidden=false;render()}
+ $('#logoutBtn').onclick=()=>{ScenezyAPI.remove('admin.session');ScenezyAPI.remove('admin.v2');try{sessionStorage.removeItem('sz_key')}catch{}location.reload()};
+
+/* ══════════ render functions (Same as before) ══════════ */
+function render(){renderStats();renderByPass();renderChips();renderLeads();renderEvents()}
+function renderStats(){
+  const conv=leads.filter(l=>l.status==='Converted');
+  const rev=conv.reduce((s,l)=>s+(+l.amount||0),0);
+  const sold=conv.reduce((s,l)=>s+(+l.qty||0),0);
+  $('#stLeads').textContent=leads.length; $('#stConv').textContent=conv.length;
+  $('#stSold').textContent=sold; $('#stRev').textContent=inr(rev);
+}
+function renderByPass(){
+  const conv=leads.filter(l=>l.status==='Converted'); const g={};
+  conv.forEach(l=>{const k=l.pass||'—';g[k]=g[k]||{q:0,a:0};g[k].q+=(+l.qty||0);g[k].a+=(+l.amount||0)});
+  const rows=Object.entries(g).sort((a,b)=>b[1].a-a[1].a);
+  $('#byPass').innerHTML=rows.length?rows.map(([n,v])=>`<div class="bpRow"><span>${esc(n)}</span><span class="ld"></span><span class="qty">${v.q} sold</span><b>${inr(v.a)}</b></div>`).join(''):`<div class="empty" style="padding:14px">Abhi tak koi conversion nahi</div>`;
+}
+function renderChips(){
+  const counts={All:leads.length,New:0,Converted:0,Lost:0};
+  leads.forEach(l=>counts[l.status]=(counts[l.status]||0)+1);
+  $('#chips').innerHTML=['All','New','Converted','Lost'].map(f=>`<button class="chip ${filter===f?'on':''}" data-f="${f}">${f}<i>${counts[f]}</i></button>`).join('');
+}
+ $('#chips').onclick=e=>{const c=e.target.closest('.chip');if(!c)return;filter=c.dataset.f;renderChips();renderLeads()};
+function renderLeads(){
+  const list=leads.filter(l=>filter==='All'||l.status===filter).sort((a,b)=>new Date(b.ts)-new Date(a.ts));
+  $('#leadList').innerHTML=list.length?list.map(l=>`<div class="lead"><div class="lMain"><b>${esc(l.event)}</b><span>${esc(l.night)} · ${esc(l.pass)}${l.qty?` × ${l.qty}`:''}</span><small>${esc(l.ref)} · ${esc(l.venue)} · ${when(l.ts)}</small></div><div class="lSide"><b>${inr(l.amount)}</b><select aria-label="Booking status for ${esc(l.ref)}" class="pill ${cls(l.status)}" data-ref="${esc(l.ref)}" ${busy?'disabled':''}>${ORDER.map(status=>`<option value="${status}" ${status===l.status?'selected':''}>${status}</option>`).join('')}</select></div></div>`).join(''):`<div class="empty">Is filter me kuch nahi</div>`;
+}
+ $('#leadList').onchange=async e=>{
+  const b=e.target.closest('.pill'); if(!b||busy)return;
+  const l=leads.find(x=>String(x.ref)===b.dataset.ref); if(!l)return;
+  const next=b.value; const old=l.status; busy=true;
+  b.disabled=true; b.setAttribute('aria-busy','true');
+  $('#leadList').querySelectorAll('select').forEach(s=>s.disabled=true);
+  try{
+    const d=await apiCall({action:'updateStatus',ref:l.ref,newStatus:next});
+    if(d.error) throw 0; l.status=next; saveDashboardCache(); ScenezyAPI.write('status.changed',{ref:l.ref,status:next,at:Date.now()}); render(); toast(`${l.ref} → ${next}`);
+  }catch(_){l.status=old;renderLeads();renderStats();renderByPass();renderChips();toast('Save fail')}
+  busy=false; render();
+};
+function renderEvents(){
+  $('#evList').innerHTML=events.length?events.map((ev,index)=>{
+    const min=Math.min(...(ev.nights?.length?ev.nights:[{price:0}]).map(n=>+n.price||0));
+    let bgStyle = `background-color:${esc(ev.poster?.bg||'#2b4edc')}`;
+    if(ev.img) bgStyle += `;background-image:url('${esc(ev.img)}')`;
+    return `<div class="evRow"><span class="swatch" style="${bgStyle}">${ev.img?'':esc((ev.name||'?')[0])}</span><div class="m"><b>${esc(ev.name)}</b><span>${esc(ev.venue)}${ev.area?' · '+esc(ev.area):''}</span><span>${ev.hidden===true?'Hidden from users':'Visible to users'}</span></div><div class="evActions"><button class="miniBtn" data-edit="${index}" aria-label="Edit ${esc(ev.name)}" ${busy?'disabled':''}>Edit</button><button class="miniBtn" data-visibility="${index}" aria-label="${ev.hidden===true?'Show':'Hide'} ${esc(ev.name)}" ${busy?'disabled':''}>${ev.hidden===true?'Show':'Hide'}</button></div></div>`;}).join(''):`<div class="empty" style="padding:14px">Sheet me events nahi — “+” se add karo</div>`;
+}
+$('#evList').onclick=async e=>{
+  if(busy)return;
+  const edit=e.target.closest('[data-edit]');if(edit){openSheet(Number(edit.dataset.edit));return}
+  const button=e.target.closest('[data-visibility]');if(!button)return;
+  const index=Number(button.dataset.visibility),original=events[index];
+  const event={...original,id:original.id||crypto.randomUUID(),hidden:original.hidden!==true};
+  busy=true;ScenezyAPI.busy(button,true,event.hidden?'Hiding':'Showing');
+  try {
+    await apiCall({action:'updateEvent',original,event});
+    events[index]=event;saveDashboardCache();ScenezyAPI.cacheEvents(events);
+    toast(event.hidden?'Event hidden from users':'Event visible to users');
+  }catch(error){toast(error.message)}
+  finally{busy=false;renderEvents()}
+};
+
+/* ══════════ refresh & add-event ══════════ */
+ $('#refreshBtn').onclick=async()=>{
+  if(busy)return; busy=true; const btn=$('#refreshBtn'); ScenezyAPI.busy(btn,true,'');
+  try{ const d=await apiCall({action:'getAllData'}); if(d.error)throw 0; leads=d.leads||[];events=d.events||[];ScenezyAPI.cacheAdmin(d,KEY);ScenezyAPI.cacheEvents(events);render();toast('Refreshed'); }
+  catch(error){toast(error.message)} finally {busy=false;ScenezyAPI.busy(btn,false);renderLeads();renderEvents()}
+};
+
+function nRow(d='',day='',p=''){
+  const div=document.createElement('div');div.className='fRow nRow';
+  div.innerHTML=`<input placeholder="11 Oct" value="${esc(d)}"><input placeholder="Sun" value="${esc(day)}"><input type="number" placeholder="750" value="${esc(p)}"><button type="button" class="rowX">×</button>`;
+  div.querySelector('.rowX').onclick=()=>div.remove(); $('#nRows').appendChild(div);
+}
+function pRow(n='',note='',add=''){
+  const div=document.createElement('div');div.className='fRow pRow';
+  div.innerHTML=`<input placeholder="VIP" value="${esc(n)}"><input placeholder="note" value="${esc(note)}"><input type="number" placeholder="+300" value="${esc(add)}"><button type="button" class="rowX">×</button>`;
+  div.querySelector('.rowX').onclick=()=>div.remove(); $('#pRows').appendChild(div);
+}
+ $('#nAdd').onclick=()=>nRow(); $('#pAdd').onclick=()=>pRow();
+ $('#nPreset').onclick=()=>{ $('#nRows').innerHTML=''; const days=['Sun','Mon','Tue','Wed','Thu','Fri','Sat']; for(let d=11;d<=19;d++)nRow(d+' Oct',days[(d+3)%7],''); toast('9 nights fill ho gaye'); };
+
+$('#fImg').addEventListener('input', (e) => {
+  const url = e.target.value.trim(); const box = $('#imgPreview');
+  if(url) box.innerHTML = `<img src="${esc(url)}" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span style="display:none">Invalid URL</span>`;
+  else box.innerHTML = `<span>No image selected</span>`;
+});
+
+function openSheet(index=null){
+  if(busy)return;
+  editingIndex=typeof index==='number'?index:null;
+  const ev=editingIndex===null?null:events[editingIndex];
+  $('#addSheet h3').textContent=ev?'Edit event':'Naya event';
+  $('#fSave').textContent=ev?'Save changes':'Create event';
+  for(const [id,key] of [['fName','name'],['fTag','tagline'],['fVenue','venue'],['fArea','area'],['fImg','img']])$('#'+id).value=ev?.[key]||'';
+  $('#fColor').value=ev?.poster?.bg||'#2b4edc';
+  $('#fImg').dispatchEvent(new Event('input'));
+  $('#nRows').innerHTML='';$('#pRows').innerHTML='';
+  if(ev){(ev.nights||[]).forEach(n=>nRow(n.d,n.day,n.price));(ev.passes||[]).forEach(p=>pRow(p.name,p.note,p.add))}
+  else{$('#nPreset').click();pRow('Regular','General entry',0);pRow('VIP','Front zone + seats',300);pRow('Couple','One pass, entry for two',550)}
+  $('#veil').classList.add('open');$('#addSheet').classList.add('open');
+}
+function closeSheet(){if($('#fSave').disabled && busy)return;$('#veil').classList.remove('open');$('#addSheet').classList.remove('open')}
+ $('#addBtn').onclick=openSheet; $('#sheetX').onclick=$('#veil').onclick=closeSheet;
+
+ $('#fSave').onclick=async()=>{
+  const btn=$('#fSave'); if(btn.disabled || busy)return; const name=$('#fName').value.trim(),venue=$('#fVenue').value.trim();
+  if(!name||!venue)return toast('Name & venue required');
+  const nights=[...$('#nRows').children].map(r=>({d:r.children[0].value.trim(),day:r.children[1].value.trim(),price:+r.children[2].value||0})).filter(n=>n.d);
+  const passes=[...$('#pRows').children].map(r=>({name:r.children[0].value.trim(),note:r.children[1].value.trim(),add:+r.children[2].value||0})).filter(p=>p.name);
+  if(!nights.length)return toast('Kam se kam 1 night chahiye');
+  
+  if(!passes.length)return toast('Kam se kam 1 pass type chahiye');
+  if(nights.some(n=>n.price<0)||passes.some(p=>p.add<0))return toast('Prices cannot be negative');
+  busy=true; ScenezyAPI.busy(btn,true,editingIndex===null?'Publishing your event':'Polishing the details');
+  try{
+    const original=editingIndex===null?null:events[editingIndex];
+    const payload={ action: original?'updateEvent':'addEvent', original, event: { ...original, id:original?.id||crypto.randomUUID(), name, tagline:$('#fTag').value.trim(), venue, area:$('#fArea').value.trim(), poster: { ...original?.poster, bg: $('#fColor').value }, img: $('#fImg').value.trim(), nights, passes } };
+    const d=await apiCall(payload);
+    if(d.error) throw 0;
+    ['fName','fTag','fVenue','fArea','fImg'].forEach(id=>$('#'+id).value='');
+    $('#imgPreview').innerHTML = `<span>No image selected</span>`; $('#nRows').innerHTML='';$('#pRows').innerHTML='';
+    $('#veil').classList.remove('open');$('#addSheet').classList.remove('open');
+    if(editingIndex===null)events.push(payload.event);else events[editingIndex]=payload.event;
+    saveDashboardCache(); ScenezyAPI.cacheEvents(events);
+    renderEvents(); renderStats(); toast('Event live — app me refresh pe dikh jayega');
+  }catch(error){toast(error.message)}
+  finally { busy=false; ScenezyAPI.busy(btn,false); renderEvents(); }
+};
+
+/* ══════════ boot ══════════ */
+if(KEY){
+  const cached=ScenezyAPI.read('admin.v2');
+  if(cached?.key===KEY && Array.isArray(cached.events) && Array.isArray(cached.leads)){
+    events=cached.events;leads=cached.leads;enter();
+    if(Date.now()-cached.at>=ScenezyAPI.adminTTL)$('#refreshBtn').click();
+  }else{$('#keyInput').value=KEY;$('#gateForm').requestSubmit()}
+}
+</script>
+</body>
+</html>
