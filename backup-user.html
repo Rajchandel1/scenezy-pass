@@ -5791,12 +5791,405 @@ const $$ =
     [...document.querySelectorAll(selector)];
 
 
-const EVENTS =
-  SCENEZY.events;
+/* =========================================================
+   SHARED LOCAL STORAGE
+   ADMIN + USER SAME TEST DATABASE
+========================================================= */
+
+const SCENEZY_SHARED_KEY =
+  "scenezy.shared.v1";
 
 
-const TOTAL =
-  EVENTS.length;
+let EVENTS = [];
+
+let TOTAL = 0;
+
+
+function readScenezyShared() {
+
+  try {
+
+    const raw =
+      localStorage.getItem(
+        SCENEZY_SHARED_KEY
+      );
+
+
+    if (!raw) {
+      return null;
+    }
+
+
+    const data =
+      JSON.parse(raw);
+
+
+    if (
+      !data ||
+      !Array.isArray(data.events)
+    ) {
+      return null;
+    }
+
+
+    return data;
+
+  } catch (error) {
+
+    console.error(
+      "Scenezy shared storage read failed",
+      error
+    );
+
+
+    return null;
+  }
+}
+
+
+function writeScenezyShared(
+  data
+) {
+
+  try {
+
+    data.updatedAt =
+      Date.now();
+
+
+    localStorage.setItem(
+      SCENEZY_SHARED_KEY,
+      JSON.stringify(data)
+    );
+
+
+    return true;
+
+  } catch (error) {
+
+    console.error(
+      "Scenezy shared storage write failed",
+      error
+    );
+
+
+    return false;
+  }
+}
+
+
+function createInitialScenezyShared() {
+
+  const now =
+    Date.now();
+
+
+  const database = {
+
+    version: 1,
+
+    settings: {
+      whatsapp: SCENEZY.whatsapp,
+      city: SCENEZY.city,
+      season: SCENEZY.season
+    },
+
+    events:
+      SCENEZY.events.map(
+        event => ({
+          ...event,
+          visible:
+            event.visible !== false,
+          mapUrl:
+            event.mapUrl || "",
+          adminNotes:
+            event.adminNotes || "",
+          createdAt:
+            event.createdAt || now,
+          updatedAt:
+            event.updatedAt || now
+        })
+      ),
+
+    leads: [],
+
+    activity: [
+      {
+        id:
+          "system_" + now,
+        type:
+          "system",
+        text:
+          "Scenezy local testing initialized",
+        createdAt:
+          now
+      }
+    ],
+
+    updatedAt:
+      now
+  };
+
+
+  writeScenezyShared(
+    database
+  );
+
+
+  return database;
+}
+
+
+function getScenezyShared() {
+
+  return (
+    readScenezyShared() ||
+    createInitialScenezyShared()
+  );
+}
+
+
+function loadEventsFromLocalStorage() {
+
+  const database =
+    getScenezyShared();
+
+
+  const settings =
+    database.settings || {};
+
+
+  SCENEZY.whatsapp =
+    settings.whatsapp ||
+    SCENEZY.whatsapp;
+
+
+  SCENEZY.city =
+    settings.city ||
+    SCENEZY.city;
+
+
+  SCENEZY.season =
+    settings.season ||
+    SCENEZY.season;
+
+
+  EVENTS =
+    (database.events || [])
+      .filter(
+        event =>
+          event &&
+          event.visible !== false
+      );
+
+
+  TOTAL =
+    EVENTS.length;
+
+
+  return database;
+}
+
+
+function showNoLiveEvents() {
+
+  if (
+    typeof deck !== "undefined" &&
+    deck
+  ) {
+    deck.innerHTML = "";
+  }
+
+
+  const dots =
+    $("#deckDots");
+
+  if (dots) {
+    dots.innerHTML = "";
+  }
+
+
+  const title =
+    $("#homeTitle");
+
+  if (title) {
+    title.textContent =
+      "The stage is being set.";
+  }
+
+
+  const prev =
+    $("#prevBtn");
+
+  const next =
+    $("#nextBtn");
+
+
+  if (prev) prev.hidden = true;
+  if (next) next.hidden = true;
+}
+
+
+function refreshScenezyFromShared(
+  notify = false
+) {
+
+  loadEventsFromLocalStorage();
+
+
+  state.position = 0;
+  state.active = 0;
+  state.current = null;
+
+
+  $("#detail")
+    ?.classList
+    .remove("open");
+
+
+  const kicker =
+    $("#homeKicker");
+
+  if (kicker) {
+    kicker.textContent =
+      `${SCENEZY.season} · ${SCENEZY.city}`;
+  }
+
+
+  const prev =
+    $("#prevBtn");
+
+  const next =
+    $("#nextBtn");
+
+
+  if (TOTAL > 0) {
+
+    if (prev) prev.hidden = false;
+    if (next) next.hidden = false;
+
+    buildDeck();
+
+  } else {
+
+    showNoLiveEvents();
+  }
+
+
+  renderSearch(
+    $("#searchInput")?.value || ""
+  );
+
+
+  if (
+    $("#passesScreen")
+      ?.classList
+      .contains("open")
+  ) {
+    renderMyPasses();
+  }
+
+
+  updatePassBadge();
+
+
+  if (notify) {
+    toast(
+      "Events updated from admin"
+    );
+  }
+}
+
+
+function registerWhatsAppLead(
+  booking
+) {
+
+  const database =
+    getScenezyShared();
+
+
+  database.leads ??= [];
+  database.activity ??= [];
+
+
+  const lead = {
+
+    id:
+      "lead_" +
+      Date.now().toString(36) +
+      "_" +
+      Math.random()
+        .toString(36)
+        .slice(2,7),
+
+    eventId:
+      booking.eventId,
+
+    eventName:
+      booking.event,
+
+    ref:
+      booking.ref,
+
+    night:
+      booking.night,
+
+    passName:
+      booking.pass,
+
+    quantity:
+      booking.qty,
+
+    expectedAmount:
+      booking.total,
+
+    source:
+      "WhatsApp CTA",
+
+    status:
+      "New",
+
+    revenue:
+      null,
+
+    clickedAt:
+      Date.now(),
+
+    convertedAt:
+      null
+  };
+
+
+  database.leads.unshift(
+    lead
+  );
+
+
+  database.activity.unshift({
+
+    id:
+      "activity_" +
+      Date.now().toString(36),
+
+    type:
+      "lead",
+
+    text:
+      `WhatsApp click · ${booking.event}`,
+
+    createdAt:
+      Date.now()
+  });
+
+
+  writeScenezyShared(
+    database
+  );
+
+
+  return lead;
+}
 
 
 const STORAGE = {
@@ -10464,6 +10857,17 @@ $("#bookBtn")
       createBooking();
 
 
+    /*
+       Test-mode analytics:
+       every WhatsApp booking click becomes
+       a lead inside the shared local database.
+    */
+
+    registerWhatsAppLead(
+      booking
+    );
+
+
     state.lastTicket =
       booking;
 
@@ -11203,6 +11607,14 @@ window.addEventListener(
 
 function boot() {
 
+  /*
+     Shared localStorage is now the public
+     app's source of truth during testing.
+  */
+
+  loadEventsFromLocalStorage();
+
+
   $("#homeKicker")
     .textContent =
     `${SCENEZY.season} · ${SCENEZY.city}`;
@@ -11210,7 +11622,16 @@ function boot() {
 
   loadSaved();
 
-  buildDeck();
+
+  if (TOTAL > 0) {
+
+    buildDeck();
+
+  } else {
+
+    showNoLiveEvents();
+  }
+
 
   buildRatingWheel();
 
@@ -11219,6 +11640,30 @@ function boot() {
   updatePassBadge();
 
 }
+
+
+/*
+   Admin and user can remain open in separate tabs.
+   A save in Admin immediately refreshes User.
+*/
+
+window.addEventListener(
+  "storage",
+  event => {
+
+    if (
+      event.key !==
+      SCENEZY_SHARED_KEY
+    ) {
+      return;
+    }
+
+
+    refreshScenezyFromShared(
+      true
+    );
+  }
+);
 
 
 boot();

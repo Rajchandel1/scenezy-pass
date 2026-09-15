@@ -2504,202 +2504,11 @@ svg {
   }
 }
 
-
-/* =========================================================
-   SUPABASE ADMIN UX
-========================================================= */
-
-.cloud-status {
-  min-height: 30px;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 0 10px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  color: var(--muted);
-  background: rgba(255,255,255,.025);
-  font-size: 8px;
-  font-weight: 700;
-  white-space: nowrap;
-}
-
-.cloud-status::before {
-  content: "";
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--faint);
-}
-
-.cloud-status.live::before {
-  background: var(--green);
-}
-
-.cloud-status.syncing::before {
-  background: var(--orange);
-  box-shadow: 0 0 0 0 rgba(244,178,83,.4);
-  animation: adminCloudPulse 1.1s ease-out infinite;
-}
-
-.cloud-status.error::before {
-  background: var(--red);
-}
-
-@keyframes adminCloudPulse {
-  70% { box-shadow: 0 0 0 7px rgba(244,178,83,0); }
-  100% { box-shadow: 0 0 0 0 rgba(244,178,83,0); }
-}
-
-.auth-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 5000;
-  display: none;
-  place-items: center;
-  padding: 20px;
-  background:
-    radial-gradient(circle at 50% 20%, rgba(49,87,237,.18), transparent 35%),
-    rgba(6,7,11,.96);
-  backdrop-filter: blur(14px);
-}
-
-.auth-overlay.open {
-  display: grid;
-}
-
-.auth-card {
-  width: min(100%, 390px);
-  padding: 22px;
-  border: 1px solid var(--line-2);
-  border-radius: 24px;
-  background:
-    linear-gradient(160deg, rgba(27,28,37,.98), rgba(14,15,21,.99));
-  box-shadow: 0 30px 90px rgba(0,0,0,.48);
-}
-
-.auth-mark {
-  width: 48px;
-  height: 48px;
-  display: grid;
-  place-items: center;
-  margin-bottom: 15px;
-  border-radius: 16px;
-  background: linear-gradient(145deg,#4165f3,#2949d1);
-  font-size: 18px;
-  font-weight: 800;
-}
-
-.auth-card h2 {
-  font-size: 23px;
-  letter-spacing: -.03em;
-}
-
-.auth-card p {
-  margin-top: 6px;
-  color: var(--muted);
-  font-size: 10px;
-  line-height: 1.5;
-}
-
-.auth-fields {
-  display: grid;
-  gap: 10px;
-  margin-top: 18px;
-}
-
-.auth-error {
-  min-height: 16px;
-  margin-top: 9px;
-  color: #ff969d;
-  font-size: 9px;
-}
-
-.auth-card .primary-btn {
-  width: 100%;
-  margin-top: 5px;
-}
-
-.auth-card .primary-btn[disabled],
-.primary-btn[disabled],
-.secondary-btn[disabled] {
-  opacity: .58;
-  cursor: wait;
-}
-
-@media (max-width: 520px) {
-  .cloud-status {
-    max-width: 86px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-}
-
 </style>
 </head>
 
 
 <body>
-
-<div
-  class="auth-overlay"
-  id="adminAuthOverlay"
->
-
-  <form
-    class="auth-card"
-    id="adminAuthForm"
-  >
-
-    <div class="auth-mark">
-      S
-    </div>
-
-    <h2>
-      Scenezy Admin
-    </h2>
-
-    <p>
-      Sign in with the Supabase Auth account you created
-      for Scenezy administration.
-    </p>
-
-    <div class="auth-fields">
-
-      <input
-        id="adminAuthEmail"
-        type="email"
-        autocomplete="username"
-        placeholder="Admin email"
-        required
-      >
-
-      <input
-        id="adminAuthPassword"
-        type="password"
-        autocomplete="current-password"
-        placeholder="Password"
-        required
-      >
-
-    </div>
-
-    <div
-      class="auth-error"
-      id="adminAuthError"
-    ></div>
-
-    <button
-      class="primary-btn"
-      id="adminAuthSubmit"
-      type="submit"
-    >
-      Sign in
-    </button>
-
-  </form>
-
-</div>
 
 <div class="admin-shell">
 
@@ -2808,13 +2617,6 @@ svg {
 
       </div>
 
-
-      <span
-        class="cloud-status"
-        id="cloudStatus"
-      >
-        Local cache
-      </span>
 
       <button
         class="primary-btn"
@@ -3357,33 +3159,25 @@ svg {
         <div class="setting-block">
 
           <h3>
-            Supabase Production
+            Production Tracking
           </h3>
 
           <p>
-            Events, images, WhatsApp leads, conversion status
-            and revenue sync to Supabase. Local storage remains
-            only as a fast cache for instant admin UX.
+            For real cross-device WhatsApp click tracking,
+            connect the public app and this admin to the same
+            backend/database. Local browser storage cannot
+            receive visitor activity from other phones.
           </p>
 
 
           <div class="setting-actions">
 
             <span
-              class="status live"
+              class="status hidden"
               style="min-height:30px"
-              id="settingsCloudMode"
             >
-              Cloud + local cache
+              Local Prototype Mode
             </span>
-
-            <button
-              class="secondary-btn"
-              id="adminLogout"
-              type="button"
-            >
-              Sign out
-            </button>
 
           </div>
 
@@ -4024,8 +3818,6 @@ svg {
 ></div>
 
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script>
 /* =========================================================
    SCENEZY ADMIN DATA
@@ -4033,61 +3825,22 @@ svg {
 
 const ADMIN_CONFIG = {
 
-  /*
-     Local storage is now only an instant cache.
-  */
+  /* USER + ADMIN SAME DATABASE */
 
   storageKey:
-    "scenezy.admin.cache.v2",
-
-  legacyStorageKey:
     "scenezy.shared.v1",
 
-  olderLegacyStorageKey:
+
+  /* old data automatically migrate ho jayega */
+
+  legacyStorageKey:
     "scenezy.admin.v1",
 
+
   bookingWhatsapp:
-    "919265461135",
-
-  supabaseUrl:
-    "https://hpvsemxmaesprrnwyuqw.supabase.co",
-
-  supabasePublishableKey:
-    "sb_publishable_zs_CKudUqZNeZmbr3EvXpQ_fn1p1zwf"
+    "919999999999"
 
 };
-
-
-const SUPABASE_READY =
-  Boolean(
-    window.supabase &&
-    ADMIN_CONFIG.supabasePublishableKey &&
-    !ADMIN_CONFIG.supabasePublishableKey.includes(
-      "PASTE_SUPABASE"
-    )
-  );
-
-
-const sbAdmin =
-  SUPABASE_READY
-  ?
-  window.supabase.createClient(
-
-    ADMIN_CONFIG.supabaseUrl,
-
-    ADMIN_CONFIG.supabasePublishableKey,
-
-    {
-      auth: {
-        persistSession: true,
-        autoRefreshToken: true,
-        detectSessionInUrl: true
-      }
-    }
-
-  )
-  :
-  null;
 
 
 /*
@@ -4477,7 +4230,11 @@ let confirmAction =
 
 
 /* =========================================================
-   LOCAL-FIRST CACHE + SUPABASE SYNC
+   STORAGE
+========================================================= */
+
+/* =========================================================
+   SHARED LOCAL DATABASE
 ========================================================= */
 
 function defaultDatabase() {
@@ -4489,7 +4246,8 @@ function defaultDatabase() {
   return {
 
     version:
-      2,
+      1,
+
 
     settings: {
 
@@ -4504,23 +4262,51 @@ function defaultDatabase() {
 
     },
 
+
     events:
+
       structuredCloneSafe(
         SEED_EVENTS
       )
       .map(
-        event =>
-          normalizeEvent(
+        event => ({
+
+          ...normalizeEvent(
             event
-          )
+          ),
+
+          visible:
+            event.visible !==
+            false,
+
+          mapUrl:
+            event.mapUrl ||
+            "",
+
+          adminNotes:
+            event.adminNotes ||
+            "",
+
+          createdAt:
+            event.createdAt ||
+            now,
+
+          updatedAt:
+            event.updatedAt ||
+            now
+
+        })
       ),
+
 
     leads:
       [],
 
+
     activity: [
 
       {
+
         id:
           uid(),
 
@@ -4528,13 +4314,15 @@ function defaultDatabase() {
           "system",
 
         text:
-          "Scenezy Admin cache initialized",
+          "Scenezy local database initialized",
 
         createdAt:
           now
+
       }
 
     ],
+
 
     updatedAt:
       now
@@ -4544,11 +4332,15 @@ function defaultDatabase() {
 }
 
 
+/* ---------------------------------------------------------
+   NORMALIZE WHOLE DATABASE
+--------------------------------------------------------- */
+
 function normalizeDatabase(
   data
 ) {
 
-  const db =
+  const database =
     data &&
     typeof data ===
     "object"
@@ -4558,82 +4350,110 @@ function normalizeDatabase(
     {};
 
 
-  db.version ??=
-    2;
+  database.version ??=
+    1;
 
 
-  db.settings ??=
+  database.settings ??=
     {};
 
 
-  db.settings.whatsapp ??=
+  database.settings.whatsapp ??=
     ADMIN_CONFIG.bookingWhatsapp;
 
 
-  if (
-    !String(db.settings.whatsapp || "").replace(/\D/g, "") ||
-    String(db.settings.whatsapp).replace(/\D/g, "") === "919999999999"
-  ) {
-
-    db.settings.whatsapp =
-      ADMIN_CONFIG.bookingWhatsapp;
-
-  }
-
-
-  db.settings.city ??=
+  database.settings.city ??=
     "Ahmedabad";
 
 
-  db.settings.season ??=
+  database.settings.season ??=
     "Navratri 2026";
 
 
-  db.events =
+  database.events =
     Array.isArray(
-      db.events
+      database.events
     )
     ?
-    db.events.map(
+    database.events.map(
       normalizeEvent
     )
     :
     [];
 
 
-  db.leads =
+  database.events.forEach(
+    event => {
+
+      event.visible =
+        event.visible !==
+        false;
+
+
+      event.mapUrl ??=
+        "";
+
+
+      event.adminNotes ??=
+        "";
+
+
+      event.createdAt ??=
+        Date.now();
+
+
+      event.updatedAt ??=
+        Date.now();
+
+    }
+  );
+
+
+  database.leads =
     Array.isArray(
-      db.leads
+      database.leads
     )
     ?
-    db.leads.map(
+    database.leads
+    :
+    [];
+
+
+  database.leads =
+    database.leads.map(
       lead => ({
 
         id:
           lead.id ||
           uid(),
 
+
         eventId:
           lead.eventId ||
           "",
+
 
         eventName:
           lead.eventName ||
           lead.event ||
           "Unknown Event",
 
+
         ref:
           lead.ref ||
           "",
+
 
         night:
           lead.night ||
           "",
 
+
         passName:
           lead.passName ||
           lead.pass ||
           "",
+
 
         quantity:
           Number(
@@ -4642,7 +4462,9 @@ function normalizeDatabase(
             1
           ),
 
+
         expectedAmount:
+
           lead.expectedAmount ===
           null ||
           lead.expectedAmount ===
@@ -4653,13 +4475,13 @@ function normalizeDatabase(
             null
           )
           :
-          Number(
-            lead.expectedAmount
-          ),
+          lead.expectedAmount,
+
 
         source:
           lead.source ||
           "WhatsApp CTA",
+
 
         status:
           [
@@ -4676,122 +4498,135 @@ function normalizeDatabase(
           :
           "New",
 
+
         revenue:
-          lead.revenue ===
-          null ||
+
           lead.revenue ===
           undefined
           ?
           null
           :
-          Number(
-            lead.revenue
-          ),
+          lead.revenue,
+
 
         clickedAt:
-          Number(
-            lead.clickedAt ||
-            lead.createdAt ||
-            lead.ts ||
-            Date.now()
-          ),
+          lead.clickedAt ||
+          lead.createdAt ||
+          lead.ts ||
+          Date.now(),
+
 
         convertedAt:
-          lead.convertedAt
-          ?
-          Number(
-            lead.convertedAt
-          )
-          :
+          lead.convertedAt ||
           null
 
-      }))
-    :
-    [];
+      })
+    );
 
 
-  db.activity =
+  database.activity =
     Array.isArray(
-      db.activity
+      database.activity
     )
     ?
-    db.activity
+    database.activity
     :
     [];
 
 
-  db.updatedAt ??=
+  database.updatedAt ??=
     Date.now();
 
 
-  return db;
+  return database;
 
 }
 
+
+/* ---------------------------------------------------------
+   LOAD DATABASE
+
+   Priority:
+   1. shared storage
+   2. old admin storage migration
+   3. seed database
+--------------------------------------------------------- */
 
 function loadDatabase() {
 
   try {
 
-    const keys = [
+    /* SHARED STORE */
 
-      ADMIN_CONFIG.storageKey,
-
-      ADMIN_CONFIG.legacyStorageKey,
-
-      ADMIN_CONFIG.olderLegacyStorageKey
-
-    ];
+    const shared =
+      localStorage.getItem(
+        ADMIN_CONFIG.storageKey
+      );
 
 
-    for (
-      const key
-      of keys
+    if (
+      shared
     ) {
 
-      const raw =
-        localStorage.getItem(
-          key
-        );
+      return normalizeDatabase(
+        JSON.parse(
+          shared
+        )
+      );
+
+    }
 
 
-      if (
-        !raw
-      ) {
-        continue;
-      }
+    /* OLD ADMIN STORE MIGRATION */
+
+    const legacy =
+      localStorage.getItem(
+        ADMIN_CONFIG.legacyStorageKey
+      );
 
 
-      const loaded =
+    if (
+      legacy
+    ) {
+
+      const migrated =
         normalizeDatabase(
           JSON.parse(
-            raw
+            legacy
           )
         );
 
 
       localStorage.setItem(
+
         ADMIN_CONFIG.storageKey,
+
         JSON.stringify(
-          loaded
+          migrated
         )
+
       );
 
 
-      return loaded;
+      return migrated;
 
     }
 
+
+    /* BRAND NEW */
 
     const fresh =
       defaultDatabase();
 
 
     localStorage.setItem(
+
       ADMIN_CONFIG.storageKey,
+
       JSON.stringify(
         fresh
       )
+
     );
 
 
@@ -4802,7 +4637,7 @@ function loadDatabase() {
   ) {
 
     console.error(
-      "Scenezy admin cache load failed",
+      "Scenezy database load failed",
       error
     );
 
@@ -4814,7 +4649,11 @@ function loadDatabase() {
 }
 
 
-function cacheDatabase() {
+/* ---------------------------------------------------------
+   SAVE DATABASE
+--------------------------------------------------------- */
+
+function saveDatabase() {
 
   database =
     normalizeDatabase(
@@ -4829,695 +4668,31 @@ function cacheDatabase() {
   try {
 
     localStorage.setItem(
+
       ADMIN_CONFIG.storageKey,
+
       JSON.stringify(
         database
       )
+
     );
-
-
-    return true;
 
   } catch (
     error
   ) {
 
     console.error(
-      "Scenezy cache save failed",
+      "Scenezy save failed",
       error
     );
 
 
-    return false;
-
-  }
-
-}
-
-
-function setCloudStatus(
-  mode,
-  text
-) {
-
-  const badge =
-    $("#cloudStatus");
-
-
-  if (
-    !badge
-  ) {
-    return;
-  }
-
-
-  badge.classList.remove(
-    "live",
-    "syncing",
-    "error"
-  );
-
-
-  if (
-    mode
-  ) {
-
-    badge.classList.add(
-      mode
-    );
-
-  }
-
-
-  badge.textContent =
-    text;
-
-}
-
-
-function toISO(
-  value
-) {
-
-  const date =
-    new Date(
-      Number(
-        value ||
-        Date.now()
-      )
-    );
-
-
-  return date.toISOString();
-}
-
-
-function eventToSupabaseRow(
-  event,
-  index
-) {
-
-  const data =
-    structuredCloneSafe(
-      event
-    );
-
-
-  delete data.visible;
-  delete data.adminNotes;
-  delete data.createdAt;
-  delete data.updatedAt;
-
-
-  return {
-
-    id:
-      event.id,
-
-    data,
-
-    visible:
-      event.visible !==
-      false,
-
-    admin_notes:
-      event.adminNotes ||
-      "",
-
-    sort_order:
-      index,
-
-    created_at:
-      toISO(
-        event.createdAt
-      ),
-
-    updated_at:
-      toISO(
-        event.updatedAt
-      )
-
-  };
-
-}
-
-
-function eventFromSupabaseRow(
-  row
-) {
-
-  return normalizeEvent({
-
-    ...(
-      row.data ||
-      {}
-    ),
-
-    id:
-      row.id,
-
-    visible:
-      row.visible !==
-      false,
-
-    adminNotes:
-      row.admin_notes ||
-      "",
-
-    createdAt:
-      row.created_at
-      ?
-      Date.parse(
-        row.created_at
-      )
-      :
-      Date.now(),
-
-    updatedAt:
-      row.updated_at
-      ?
-      Date.parse(
-        row.updated_at
-      )
-      :
-      Date.now()
-
-  });
-
-}
-
-
-function leadToSupabaseRow(
-  lead
-) {
-
-  return {
-
-    id:
-      lead.id,
-
-    event_id:
-      lead.eventId,
-
-    event_name:
-      lead.eventName,
-
-    booking_ref:
-      lead.ref,
-
-    night:
-      lead.night,
-
-    pass_name:
-      lead.passName,
-
-    quantity:
-      Number(
-        lead.quantity ||
-        1
-      ),
-
-    expected_amount:
-      lead.expectedAmount,
-
-    source:
-      lead.source ||
-      "WhatsApp CTA",
-
-    status:
-      lead.status ||
-      "New",
-
-    revenue:
-      lead.revenue,
-
-    clicked_at:
-      toISO(
-        lead.clickedAt
-      ),
-
-    converted_at:
-      lead.convertedAt
-      ?
-      toISO(
-        lead.convertedAt
-      )
-      :
-      null,
-
-    updated_at:
-      new Date()
-        .toISOString()
-
-  };
-
-}
-
-
-function leadFromSupabaseRow(
-  row
-) {
-
-  return {
-
-    id:
-      row.id,
-
-    eventId:
-      row.event_id ||
-      "",
-
-    eventName:
-      row.event_name ||
-      "Unknown Event",
-
-    ref:
-      row.booking_ref ||
-      "",
-
-    night:
-      row.night ||
-      "",
-
-    passName:
-      row.pass_name ||
-      "",
-
-    quantity:
-      Number(
-        row.quantity ||
-        1
-      ),
-
-    expectedAmount:
-      row.expected_amount ===
-      null
-      ?
-      null
-      :
-      Number(
-        row.expected_amount
-      ),
-
-    source:
-      row.source ||
-      "WhatsApp CTA",
-
-    status:
-      row.status ||
-      "New",
-
-    revenue:
-      row.revenue ===
-      null
-      ?
-      null
-      :
-      Number(
-        row.revenue
-      ),
-
-    clickedAt:
-      row.clicked_at
-      ?
-      Date.parse(
-        row.clicked_at
-      )
-      :
-      Date.now(),
-
-    convertedAt:
-      row.converted_at
-      ?
-      Date.parse(
-        row.converted_at
-      )
-      :
-      null
-
-  };
-
-}
-
-
-function activityToSupabaseRow(
-  item
-) {
-
-  return {
-
-    id:
-      item.id,
-
-    type:
-      item.type ||
-      "admin",
-
-    text:
-      item.text ||
-      "",
-
-    created_at:
-      toISO(
-        item.createdAt
-      )
-
-  };
-
-}
-
-
-function activityFromSupabaseRow(
-  row
-) {
-
-  return {
-
-    id:
-      row.id,
-
-    type:
-      row.type ||
-      "admin",
-
-    text:
-      row.text ||
-      "",
-
-    createdAt:
-      row.created_at
-      ?
-      Date.parse(
-        row.created_at
-      )
-      :
-      Date.now()
-
-  };
-
-}
-
-
-let adminSyncTimer = null;
-
-let adminSyncInFlight = false;
-
-let adminRealtimeChannel = null;
-
-let adminRealtimeTimer = null;
-
-
-async function currentAdminSession() {
-
-  if (
-    !sbAdmin
-  ) {
-    return null;
-  }
-
-
-  const {
-    data,
-    error
-  } =
-    await sbAdmin.auth.getSession();
-
-
-  if (
-    error
-  ) {
-    return null;
-  }
-
-
-  return data.session ||
-    null;
-}
-
-
-async function syncDatabaseToSupabase() {
-
-  if (
-    !sbAdmin ||
-    adminSyncInFlight
-  ) {
-    return false;
-  }
-
-
-  const session =
-    await currentAdminSession();
-
-
-  if (
-    !session
-  ) {
-    return false;
-  }
-
-
-  adminSyncInFlight =
-    true;
-
-
-  setCloudStatus(
-    "syncing",
-    "Syncing…"
-  );
-
-
-  try {
-
-    const eventRows =
-      database.events.map(
-        eventToSupabaseRow
-      );
-
-
-    if (
-      eventRows.length
-    ) {
-
-      const {
-        error
-      } =
-        await sbAdmin
-          .from(
-            "events"
-          )
-          .upsert(
-            eventRows,
-            {
-              onConflict:
-                "id"
-            }
-          );
-
-
-      if (
-        error
-      ) {
-        throw error;
-      }
-
-    }
-
-
-    const {
-      error:
-        settingsError
-    } =
-      await sbAdmin
-        .from(
-          "settings"
-        )
-        .upsert(
-          {
-            id:
-              "scenezy",
-
-            whatsapp:
-              database.settings.whatsapp ||
-              "",
-
-            city:
-              database.settings.city ||
-              "Ahmedabad",
-
-            season:
-              database.settings.season ||
-              "Navratri 2026",
-
-            updated_at:
-              new Date()
-                .toISOString()
-          },
-          {
-            onConflict:
-              "id"
-          }
-        );
-
-
-    if (
-      settingsError
-    ) {
-      throw settingsError;
-    }
-
-
-    if (
-      database.leads.length
-    ) {
-
-      const {
-        error:
-          leadsError
-      } =
-        await sbAdmin
-          .from(
-            "leads"
-          )
-          .upsert(
-            database.leads.map(
-              leadToSupabaseRow
-            ),
-            {
-              onConflict:
-                "id"
-            }
-          );
-
-
-      if (
-        leadsError
-      ) {
-        throw leadsError;
-      }
-
-    }
-
-
-    if (
-      database.activity.length
-    ) {
-
-      const {
-        error:
-          activityError
-      } =
-        await sbAdmin
-          .from(
-            "activity_log"
-          )
-          .upsert(
-            database.activity
-              .slice(
-                0,
-                100
-              )
-              .map(
-                activityToSupabaseRow
-              ),
-            {
-              onConflict:
-                "id"
-            }
-          );
-
-
-      if (
-        activityError
-      ) {
-        throw activityError;
-      }
-
-    }
-
-
-    setCloudStatus(
-      "live",
-      "Cloud live"
-    );
-
-
-    return true;
-
-  } catch (
-    error
-  ) {
-
-    console.error(
-      "Supabase admin sync failed",
-      error
-    );
-
-
-    setCloudStatus(
-      "error",
-      "Cloud retry"
-    );
-
-
     toast(
-      "Saved locally · cloud sync will retry"
+      "Storage full · try a smaller event image"
     );
 
 
     return false;
-
-  } finally {
-
-    adminSyncInFlight =
-      false;
-
-  }
-
-}
-
-
-function queueSupabaseSync() {
-
-  if (
-    !sbAdmin
-  ) {
-    return;
-  }
-
-
-  clearTimeout(
-    adminSyncTimer
-  );
-
-
-  adminSyncTimer =
-    setTimeout(
-      () => {
-
-        syncDatabaseToSupabase();
-
-      },
-      180
-    );
-
-}
-
-
-function saveDatabase({
-  sync = true
-} = {}) {
-
-  const cached =
-    cacheDatabase();
-
-
-  if (
-    !cached
-  ) {
-
-    toast(
-      "Could not update local cache"
-    );
 
   }
 
@@ -5525,435 +4700,9 @@ function saveDatabase({
   renderAll();
 
 
-  if (
-    sync
-  ) {
-
-    queueSupabaseSync();
-
-  }
-
-
-  return cached;
+  return true;
 
 }
-
-
-async function deleteEventFromSupabase(
-  id
-) {
-
-  if (
-    !sbAdmin
-  ) {
-    return;
-  }
-
-
-  try {
-
-    const {
-      error
-    } =
-      await sbAdmin
-        .from(
-          "events"
-        )
-        .delete()
-        .eq(
-          "id",
-          id
-        );
-
-
-    if (
-      error
-    ) {
-      throw error;
-    }
-
-  } catch (
-    error
-  ) {
-
-    console.error(
-      "Remote event deletion failed",
-      error
-    );
-
-
-    toast(
-      "Deleted locally · cloud delete needs retry"
-    );
-
-  }
-
-}
-
-
-async function seedSupabaseIfEmpty() {
-
-  if (
-    !sbAdmin
-  ) {
-    return;
-  }
-
-
-  const {
-    count,
-    error
-  } =
-    await sbAdmin
-      .from(
-        "events"
-      )
-      .select(
-        "id",
-        {
-          count:
-            "exact",
-          head:
-            true
-        }
-      );
-
-
-  if (
-    error
-  ) {
-    throw error;
-  }
-
-
-  if (
-    Number(
-      count ||
-      0
-    ) >
-    0
-  ) {
-    return;
-  }
-
-
-  /*
-     First cloud launch:
-     migrate the CURRENT local cache (including any work
-     already done in the prototype), rather than replacing it
-     with fresh seed data.
-  */
-
-  await migrateInlineImagesToStorage();
-
-
-  cacheDatabase();
-
-
-  await syncDatabaseToSupabase();
-
-}
-
-
-async function hydrateAdminFromSupabase({
-  quiet = false
-} = {}) {
-
-  if (
-    !sbAdmin
-  ) {
-    return false;
-  }
-
-
-  const session =
-    await currentAdminSession();
-
-
-  if (
-    !session
-  ) {
-    return false;
-  }
-
-
-  if (
-    !quiet
-  ) {
-
-    setCloudStatus(
-      "syncing",
-      "Loading…"
-    );
-
-  }
-
-
-  try {
-
-    const [
-      eventsResult,
-      settingsResult,
-      leadsResult,
-      activityResult
-    ] =
-      await Promise.all([
-
-        sbAdmin
-          .from(
-            "events"
-          )
-          .select(
-            "id,data,visible,admin_notes,sort_order,created_at,updated_at"
-          )
-          .order(
-            "sort_order",
-            {
-              ascending: true
-            }
-          ),
-
-
-        sbAdmin
-          .from(
-            "settings"
-          )
-          .select(
-            "id,whatsapp,city,season,updated_at"
-          )
-          .eq(
-            "id",
-            "scenezy"
-          )
-          .maybeSingle(),
-
-
-        sbAdmin
-          .from(
-            "leads"
-          )
-          .select(
-            "id,event_id,event_name,booking_ref,night,pass_name,quantity,expected_amount,source,status,revenue,clicked_at,converted_at,updated_at"
-          )
-          .order(
-            "clicked_at",
-            {
-              ascending: false
-            }
-          ),
-
-
-        sbAdmin
-          .from(
-            "activity_log"
-          )
-          .select(
-            "id,type,text,created_at"
-          )
-          .order(
-            "created_at",
-            {
-              ascending: false
-            }
-          )
-          .limit(
-            100
-          )
-
-      ]);
-
-
-    for (
-      const result
-      of [
-        eventsResult,
-        settingsResult,
-        leadsResult,
-        activityResult
-      ]
-    ) {
-
-      if (
-        result.error
-      ) {
-        throw result.error;
-      }
-
-    }
-
-
-    database =
-      normalizeDatabase({
-
-        version: 2,
-
-        settings: {
-
-          whatsapp:
-            settingsResult.data
-              ?.whatsapp ||
-            ADMIN_CONFIG.bookingWhatsapp,
-
-          city:
-            settingsResult.data
-              ?.city ||
-            "Ahmedabad",
-
-          season:
-            settingsResult.data
-              ?.season ||
-            "Navratri 2026"
-
-        },
-
-        events:
-          (
-            eventsResult.data ||
-            []
-          )
-          .map(
-            eventFromSupabaseRow
-          ),
-
-        leads:
-          (
-            leadsResult.data ||
-            []
-          )
-          .map(
-            leadFromSupabaseRow
-          ),
-
-        activity:
-          (
-            activityResult.data ||
-            []
-          )
-          .map(
-            activityFromSupabaseRow
-          ),
-
-        updatedAt:
-          Date.now()
-
-      });
-
-
-    cacheDatabase();
-
-    renderAll();
-
-
-    setCloudStatus(
-      "live",
-      "Cloud live"
-    );
-
-
-    return true;
-
-  } catch (
-    error
-  ) {
-
-    console.error(
-      "Supabase hydrate failed",
-      error
-    );
-
-
-    setCloudStatus(
-      "error",
-      "Using cache"
-    );
-
-
-    if (
-      !quiet
-    ) {
-
-      toast(
-        "Cloud unavailable · using local cache"
-      );
-
-    }
-
-
-    return false;
-
-  }
-
-}
-
-
-function scheduleAdminRealtimeRefresh() {
-
-  clearTimeout(
-    adminRealtimeTimer
-  );
-
-
-  adminRealtimeTimer =
-    setTimeout(
-      () => {
-
-        hydrateAdminFromSupabase({
-          quiet: true
-        });
-
-      },
-      180
-    );
-
-}
-
-
-function startAdminRealtime() {
-
-  if (
-    !sbAdmin ||
-    adminRealtimeChannel
-  ) {
-    return;
-  }
-
-
-  adminRealtimeChannel =
-    sbAdmin
-      .channel(
-        "scenezy-admin-live"
-      )
-      .on(
-        "postgres_changes",
-        {
-          event: "*",
-          schema: "public",
-          table: "events"
-        },
-        scheduleAdminRealtimeRefresh
-      )
-      .on(
-        "postgres_changes",
-        {
-          event: "*",
-          schema: "public",
-          table: "settings"
-        },
-        scheduleAdminRealtimeRefresh
-      )
-      .on(
-        "postgres_changes",
-        {
-          event: "*",
-          schema: "public",
-          table: "leads"
-        },
-        scheduleAdminRealtimeRefresh
-      )
-      .subscribe();
-
-}
-
 
 function structuredCloneSafe(
   value
@@ -7560,11 +6309,6 @@ function askDeleteEvent(
               item.id !==
               id
           );
-
-
-        deleteEventFromSupabase(
-          id
-        );
 
 
         addActivity(
@@ -9467,11 +8211,6 @@ function saveEventFromEditor() {
       idChanged
     ) {
 
-      deleteEventFromSupabase(
-        editingEventId
-      );
-
-
       database.leads.forEach(
         lead => {
 
@@ -10782,404 +9521,28 @@ window.addDemoLead =
 
 
 /* =========================================================
-   ONE-TIME LOCAL IMAGE MIGRATION
-
-   If the prototype stored an uploaded image as a Base64 data
-   URL, the first authenticated cloud seed moves it into
-   Supabase Storage automatically.
+   BOOT
 ========================================================= */
 
-function scenezyDataURLToBlob(
-  dataURL
-) {
+function boot() {
 
-  const [
-    header,
-    payload
-  ] =
-    String(
-      dataURL
-    )
-    .split(
-      ","
-    );
+  renderAll();
 
-
-  const mime =
-    header
-      .match(
-        /data:([^;]+)/
-      )?.[1] ||
-    "image/webp";
-
-
-  const binary =
-    atob(
-      payload
-    );
-
-
-  const bytes =
-    new Uint8Array(
-      binary.length
-    );
-
-
-  for (
-    let index = 0;
-    index < binary.length;
-    index++
-  ) {
-
-    bytes[
-      index
-    ] =
-      binary.charCodeAt(
-        index
-      );
-
-  }
-
-
-  return new Blob(
-    [
-      bytes
-    ],
-    {
-      type:
-        mime
-    }
+  goPage(
+    "dashboard"
   );
 
 }
-
-
-async function migrateInlineImagesToStorage() {
-
-  if (
-    !sbAdmin ||
-    !await currentAdminSession()
-  ) {
-    return;
-  }
-
-
-  const inlineEvents =
-    database.events.filter(
-      event =>
-        String(
-          event.image ||
-          ""
-        )
-        .startsWith(
-          "data:image/"
-        )
-    );
-
-
-  if (
-    !inlineEvents.length
-  ) {
-    return;
-  }
-
-
-  setCloudStatus(
-    "syncing",
-    "Moving images…"
-  );
-
-
-  for (
-    const event
-    of inlineEvents
-  ) {
-
-    try {
-
-      const blob =
-        scenezyDataURLToBlob(
-          event.image
-        );
-
-
-      const extension =
-        blob.type ===
-        "image/png"
-        ?
-        "png"
-        :
-        blob.type ===
-        "image/jpeg"
-        ?
-        "jpg"
-        :
-        "webp";
-
-
-      const path =
-        `events/${slugify(event.id || event.name)}/${Date.now()}-${Math.random()
-          .toString(36)
-          .slice(2,8)}.${extension}`;
-
-
-      const {
-        error
-      } =
-        await sbAdmin
-          .storage
-          .from(
-            "event-images"
-          )
-          .upload(
-            path,
-            blob,
-            {
-              contentType:
-                blob.type ||
-                "image/webp",
-
-              cacheControl:
-                "31536000",
-
-              upsert:
-                false
-            }
-          );
-
-
-      if (
-        error
-      ) {
-        throw error;
-      }
-
-
-      const {
-        data
-      } =
-        sbAdmin
-          .storage
-          .from(
-            "event-images"
-          )
-          .getPublicUrl(
-            path
-          );
-
-
-      event.image =
-        data.publicUrl;
-
-
-      event.updatedAt =
-        Date.now();
-
-
-    } catch (
-      error
-    ) {
-
-      console.warn(
-        `Could not migrate image for ${event.name}`,
-        error
-      );
-
-    }
-
-  }
-
-}
-
 
 /* =========================================================
-   SUPABASE AUTH
+   LOCAL IMAGE UPLOAD
+   JS ITSELF ADDS THE FILE INPUT TO EXISTING ADMIN UI
 ========================================================= */
 
-function showAdminAuth(
-  message = ""
-) {
-
-  $("#adminAuthOverlay")
-    .classList
-    .add(
-      "open"
-    );
-
-
-  $("#adminAuthError")
-    .textContent =
-    message;
-
-
-  setCloudStatus(
-    "error",
-    "Sign in"
-  );
-
-}
-
-
-function hideAdminAuth() {
-
-  $("#adminAuthOverlay")
-    .classList
-    .remove(
-      "open"
-    );
-
-
-  $("#adminAuthError")
-    .textContent =
-    "";
-
-}
-
-
-$("#adminAuthForm")
-  .addEventListener(
-    "submit",
-    async event => {
-
-      event.preventDefault();
-
-
-      if (
-        !sbAdmin
-      ) {
-
-        $("#adminAuthError")
-          .textContent =
-          "Paste the Supabase publishable key in ADMIN_CONFIG first.";
-
-
-        return;
-
-      }
-
-
-      const submit =
-        $("#adminAuthSubmit");
-
-
-      submit.disabled =
-        true;
-
-
-      submit.textContent =
-        "Signing in…";
-
-
-      $("#adminAuthError")
-        .textContent =
-        "";
-
-
-      try {
-
-        const {
-          error
-        } =
-          await sbAdmin
-            .auth
-            .signInWithPassword({
-
-              email:
-                $("#adminAuthEmail")
-                  .value
-                  .trim(),
-
-              password:
-                $("#adminAuthPassword")
-                  .value
-
-            });
-
-
-        if (
-          error
-        ) {
-          throw error;
-        }
-
-
-        hideAdminAuth();
-
-
-        setCloudStatus(
-          "syncing",
-          "Loading…"
-        );
-
-
-        await seedSupabaseIfEmpty();
-
-        await hydrateAdminFromSupabase();
-
-        startAdminRealtime();
-
-        installScenezyImageUploader();
-
-
-      } catch (
-        error
-      ) {
-
-        console.error(
-          error
-        );
-
-
-        $("#adminAuthError")
-          .textContent =
-          error.message ||
-          "Could not sign in.";
-
-      } finally {
-
-        submit.disabled =
-          false;
-
-
-        submit.textContent =
-          "Sign in";
-
-      }
-
-    }
-  );
-
-
-$("#adminLogout")
-  ?.addEventListener(
-    "click",
-    async () => {
-
-      if (
-        sbAdmin
-      ) {
-
-        await sbAdmin.auth.signOut();
-
-      }
-
-
-      showAdminAuth(
-        "Signed out."
-      );
-
-    }
-  );
-
-
-/* =========================================================
-   CLOUD IMAGE UPLOAD
-========================================================= */
-
-function compressScenezyImageBlob(
+function compressScenezyImage(
   file,
-  maxDimension = 1200,
-  quality = .82
+  maxDimension = 900,
+  quality = .72
 ) {
 
   return new Promise(
@@ -11280,42 +9643,42 @@ function compressScenezyImageBlob(
               );
 
 
-              canvas.toBlob(
-                blob => {
+              let output;
 
-                  if (
-                    blob
-                  ) {
 
-                    resolve(
-                      blob
-                    );
+              try {
 
-                  } else {
+                output =
+                  canvas.toDataURL(
+                    "image/webp",
+                    quality
+                  );
 
-                    reject(
-                      new Error(
-                        "Image compression failed"
-                      )
-                    );
+              } catch {
 
-                  }
+                output =
+                  reader.result;
 
-                },
-                "image/webp",
-                quality
+              }
+
+
+              resolve(
+                output
               );
 
             };
 
 
           image.onerror =
-            () =>
+            () => {
+
               reject(
                 new Error(
                   "Could not read image"
                 )
               );
+
+            };
 
 
           image.src =
@@ -11325,12 +9688,15 @@ function compressScenezyImageBlob(
 
 
       reader.onerror =
-        () =>
+        () => {
+
           reject(
             new Error(
               "Could not read image"
             )
           );
+
+        };
 
 
       reader.readAsDataURL(
@@ -11343,47 +9709,18 @@ function compressScenezyImageBlob(
 }
 
 
-function blobToDataURL(
-  blob
-) {
-
-  return new Promise(
-    (
-      resolve,
-      reject
-    ) => {
-
-      const reader =
-        new FileReader();
-
-
-      reader.onload =
-        () =>
-          resolve(
-            reader.result
-          );
-
-
-      reader.onerror =
-        reject;
-
-
-      reader.readAsDataURL(
-        blob
-      );
-
-    }
-  );
-
-}
-
+/* ---------------------------------------------------------
+   INSTALL UPLOAD UI
+--------------------------------------------------------- */
 
 function installScenezyImageUploader() {
 
   if (
-    $("#scenezyCloudImageUpload")
+    $("#scenezyLocalImageUpload")
   ) {
+
     return;
+
   }
 
 
@@ -11394,7 +9731,9 @@ function installScenezyImageUploader() {
   if (
     !imageInput
   ) {
+
     return;
+
   }
 
 
@@ -11407,7 +9746,9 @@ function installScenezyImageUploader() {
   if (
     !imageField
   ) {
+
     return;
+
   }
 
 
@@ -11428,14 +9769,17 @@ function installScenezyImageUploader() {
         Upload Event Image
       </label>
 
+
       <input
-        id="scenezyCloudImageUpload"
+        id="scenezyLocalImageUpload"
         type="file"
         accept="image/jpeg,image/png,image/webp,image/*"
       >
 
-      <small id="scenezyUploadStatus">
-        Image is compressed to WebP and uploaded to Scenezy cloud storage.
+
+      <small>
+        Testing mode · image is compressed and saved
+        inside browser localStorage.
       </small>
 
     `;
@@ -11447,342 +9791,213 @@ function installScenezyImageUploader() {
   );
 
 
-  $("#scenezyCloudImageUpload")
-    .addEventListener(
-      "change",
-      async event => {
-
-        const input =
-          event.currentTarget;
-
-
-        const file =
-          input.files?.[
-            0
-          ];
-
-
-        if (
-          !file
-        ) {
-          return;
-        }
-
-
-        if (
-          !file.type.startsWith(
-            "image/"
-          )
-        ) {
-
-          toast(
-            "Please select an image"
-          );
-
-
-          input.value =
-            "";
-
-
-          return;
-        }
-
-
-        const status =
-          $("#scenezyUploadStatus");
-
-
-        input.disabled =
-          true;
-
-
-        status.textContent =
-          "Optimising image…";
-
-
-        try {
-
-          const blob =
-            await compressScenezyImageBlob(
-              file
-            );
-
-
-          let imageURL;
-
-
-          if (
-            sbAdmin &&
-            await currentAdminSession()
-          ) {
-
-            status.textContent =
-              "Uploading to Supabase Storage…";
-
-
-            const baseId =
-              slugify(
-                eventDraft?.id ||
-                $("#fId")?.value ||
-                $("#fName")?.value ||
-                "event"
-              ) ||
-              "event";
-
-
-            const path =
-              `events/${baseId}/${Date.now()}-${Math.random()
-                .toString(36)
-                .slice(2,8)}.webp`;
-
-
-            const {
-              error:
-                uploadError
-            } =
-              await sbAdmin
-                .storage
-                .from(
-                  "event-images"
-                )
-                .upload(
-                  path,
-                  blob,
-                  {
-                    contentType:
-                      "image/webp",
-
-                    cacheControl:
-                      "31536000",
-
-                    upsert:
-                      false
-                  }
-                );
-
-
-            if (
-              uploadError
-            ) {
-              throw uploadError;
-            }
-
-
-            const {
-              data
-            } =
-              sbAdmin
-                .storage
-                .from(
-                  "event-images"
-                )
-                .getPublicUrl(
-                  path
-                );
-
-
-            imageURL =
-              data.publicUrl;
-
-
-            status.textContent =
-              "Uploaded · save the event to publish it.";
-
-          } else {
-
-            /*
-               Local fallback only when Supabase isn't configured.
-            */
-
-            imageURL =
-              await blobToDataURL(
-                blob
-              );
-
-
-            status.textContent =
-              "Saved in local cache mode.";
-
-          }
-
-
-          $("#fImage")
-            .value =
-            imageURL;
-
-
-          if (
-            eventDraft
-          ) {
-
-            eventDraft.image =
-              imageURL;
-
-          }
-
-
-          updateImagePreview();
-
-
-          toast(
-            "Image ready"
-          );
-
-
-        } catch (
-          error
-        ) {
-
-          console.error(
-            error
-          );
-
-
-          status.textContent =
-            "Upload failed · choose the image again.";
-
-
-          toast(
-            error.message ||
-            "Could not upload image"
-          );
-
-        } finally {
-
-          input.disabled =
-            false;
-
-
-          input.value =
-            "";
-
-        }
+  $(
+    "#scenezyLocalImageUpload"
+  )
+  .addEventListener(
+    "change",
+    async event => {
+
+      const file =
+        event.target.files?.[
+          0
+        ];
+
+
+      if (
+        !file
+      ) {
+
+        return;
 
       }
-    );
+
+
+      if (
+        !file.type.startsWith(
+          "image/"
+        )
+      ) {
+
+        toast(
+          "Please select an image"
+        );
+
+
+        event.target.value =
+          "";
+
+
+        return;
+
+      }
+
+
+      toast(
+        "Optimising image..."
+      );
+
+
+      try {
+
+        const imageData =
+          await compressScenezyImage(
+            file
+          );
+
+
+        /*
+           LocalStorage gets uncomfortable with huge Base64.
+        */
+
+        if (
+          imageData.length >
+          1200000
+        ) {
+
+          toast(
+            "Image is large · a smaller image is recommended"
+          );
+
+        }
+
+
+        $("#fImage").value =
+          imageData;
+
+
+        if (
+          eventDraft
+        ) {
+
+          eventDraft.image =
+            imageData;
+
+        }
+
+
+        updateImagePreview();
+
+
+        toast(
+          "Image saved locally"
+        );
+
+      } catch (
+        error
+      ) {
+
+        console.error(
+          error
+        );
+
+
+        toast(
+          "Could not process image"
+        );
+
+      }
+
+
+      event.target.value =
+        "";
+
+    }
+  );
 
 }
+
+
+/* =========================================================
+   LIVE USER → ADMIN SYNC
+
+   When user clicks WhatsApp in another tab,
+   lead instantly arrives here.
+========================================================= */
+
+window.addEventListener(
+  "storage",
+  event => {
+
+    if (
+      event.key !==
+      ADMIN_CONFIG.storageKey
+    ) {
+
+      return;
+
+    }
+
+
+    if (
+      !event.newValue
+    ) {
+
+      return;
+
+    }
+
+
+    try {
+
+      const oldLeadCount =
+        database.leads?.length ||
+        0;
+
+
+      const incoming =
+        normalizeDatabase(
+          JSON.parse(
+            event.newValue
+          )
+        );
+
+
+      database =
+        incoming;
+
+
+      renderAll();
+
+
+      const newLeadCount =
+        database.leads.length;
+
+
+      if (
+        newLeadCount >
+        oldLeadCount
+      ) {
+
+        toast(
+          "New WhatsApp lead received"
+        );
+
+      }
+
+    } catch (
+      error
+    ) {
+
+      console.error(
+        "Live Scenezy sync failed",
+        error
+      );
+
+    }
+
+  }
+);
 
 
 /* =========================================================
    BOOT
 ========================================================= */
 
-async function boot() {
-
-  /*
-     Paint cached data instantly.
-  */
-
-  renderAll();
-
-
-  goPage(
-    "dashboard"
-  );
-
-
-  installScenezyImageUploader();
-
-
-  if (
-    !SUPABASE_READY
-  ) {
-
-    setCloudStatus(
-      "error",
-      "Key missing"
-    );
-
-
-    hideAdminAuth();
-
-
-    toast(
-      "Supabase key missing · running local cache mode"
-    );
-
-
-    return;
-  }
-
-
-  setCloudStatus(
-    "syncing",
-    "Checking…"
-  );
-
-
-  try {
-
-    const session =
-      await currentAdminSession();
-
-
-    if (
-      !session
-    ) {
-
-      showAdminAuth();
-
-      return;
-    }
-
-
-    hideAdminAuth();
-
-
-    await seedSupabaseIfEmpty();
-
-    await hydrateAdminFromSupabase();
-
-    startAdminRealtime();
-
-
-  } catch (
-    error
-  ) {
-
-    console.error(
-      error
-    );
-
-
-    setCloudStatus(
-      "error",
-      "Using cache"
-    );
-
-
-    toast(
-      "Cloud unavailable · using local cache"
-    );
-
-  }
-
-}
-
-
-/*
-   Retry queued local changes when the browser comes online.
-*/
-
-window.addEventListener(
-  "online",
-  () => {
-
-    queueSupabaseSync();
-
-    hydrateAdminFromSupabase({
-      quiet: true
-    });
-
-  }
-);
-
-
 boot();
 
+
+installScenezyImageUploader();
 </script>
 
 </body>
