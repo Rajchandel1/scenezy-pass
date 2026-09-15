@@ -19,3 +19,99 @@ button[aria-busy="true"]{display:inline-flex;align-items:center;justify-content:
 @keyframes orbit{to{transform:rotate(360deg)}}
 @keyframes breathe{50%{opacity:.55;transform:translateY(-4px)}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;scroll-behavior:auto!important;transition:none!important}}
+/* ══════════════════════════════════════════════════════════════
+   RESPONSIVE PATCH · scenezy-ui.css ke SABSE END me paste karo
+   (sirf overrides — existing kuch nahi tootta)
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── 0 · base hardening ── */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+button{touch-action:manipulation}                 /* double-tap zoom off */
+.list,.dBody,.tBody,.pTrack{overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+
+/* 100dvh fallback (purane iOS Safari) */
+#app{height:100vh}
+@supports (height:100dvh){#app{height:100dvh}}
+
+/* safe-area — notch / home-indicator ke peeche na chipke */
+.home{padding-bottom:calc(86px + env(safe-area-inset-bottom))}
+.tabbar{bottom:calc(14px + env(safe-area-inset-bottom))}
+.toast{bottom:calc(88px + env(safe-area-inset-bottom))}
+.pDots{padding:10px 0 calc(98px + env(safe-area-inset-bottom))}
+.dCta{padding-left:max(18px,env(safe-area-inset-left));padding-right:max(18px,env(safe-area-inset-right))}
+.tBody{padding-left:max(18px,env(safe-area-inset-left));padding-right:max(18px,env(safe-area-inset-right))}
+
+/* iOS: input font <16px pe focus me page zoom karta hai — guard */
+@media (pointer:coarse){
+  .sInput input{font-size:16px}
+  .step{width:42px;height:42px}
+  .qty{width:38px}
+}
+
+/* hover effects sirf mouse walo ke liye — touch pe sticky-hover nahi */
+@media (hover:hover){
+  .iconBtn:hover,.ctlBtn:hover{border-color:rgba(241,234,217,.4)}
+  .tab:hover{color:var(--ink)}
+  .row:hover{background:rgba(241,234,217,.03)}
+}
+
+/* logo ab <img> hai — fit theek, radius inherit */
+img.mark{object-fit:contain;border-radius:inherit}
+/* agar tumhara logo apne colours wala hai to blue background hata do: */
+/* img.mark{background:transparent} */
+
+/* fluid type — heading chhoti screen pe khud squeeze */
+.dTitle{font-size:clamp(26px,8.5vw,34px)}
+.tTop h3{font-size:clamp(23px,7vw,30px)}
+.tHero h2{font-size:clamp(27px,8vw,36px)}
+.ptName{font-size:clamp(19px,6vw,22px)}
+.rateTitle{font-size:clamp(22px,7vw,26px)}
+
+/* ── 1 · chhote phones (320–360px: iPhone SE, Android compact) ── */
+@media (max-width:360px){
+  .top{padding:14px 14px 4px;gap:9px}
+  .iconBtn{width:36px;height:36px}
+  .wordmark{font-size:19px}
+  .evSub{gap:7px;font-size:11px}
+  .stage{margin-top:8px}
+  .cardHead{padding:9px 8px 8px}
+  .cardHead h3{font-size:18px}
+  .cardHead p{font-size:9px}
+  .deckCtl{gap:10px}
+  .ctlBtn{width:38px;height:38px}
+  .pticket{flex-basis:88%}
+  .ptArt{height:128px}
+  .tArt{height:112px}
+  .tGrid b{font-size:12px}
+  .banner{height:184px}
+}
+
+/* ── 2 · chhoti HEIGHT (chhota phone ya landscape) ── */
+@media (max-height:700px){
+  .kicker{margin-top:6px}
+  .evName,.evMeta,.evSub{margin-top:4px}
+  .stage{min-height:240px;margin-top:8px}
+  .hint{bottom:58px}
+}
+@media (max-height:620px){
+  .evSub{display:none}                /* teesri line hatao — card ko jagah do */
+  .stage{min-height:210px}
+  .cardHead{padding:8px 8px 7px}
+  .cardHead h3{font-size:16.5px}
+  .banner{height:158px}
+}
+
+/* landscape phone — sabse tight case */
+@media (max-height:480px) and (orientation:landscape){
+  .kicker,.evSub{display:none}
+  .evName{font-size:22px;margin-top:2px}
+  .evMeta{margin-top:2px;font-size:11px}
+  .stage{min-height:180px;margin-top:4px}
+  .home{padding-bottom:calc(70px + env(safe-area-inset-bottom))}
+}
+
+/* ── 3 · tablet / desktop — centered phone frame hi identity hai ── */
+@media (min-width:768px){
+  #app{max-width:448px}
+  body::after{opacity:.04}
+}
