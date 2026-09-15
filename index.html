@@ -2991,7 +2991,7 @@ Ref: ${ref}`;
     const d=await ScenezyAPI.data(SCENEZY.key,{force});
     if(!d.cached)applyTicketStatuses(d.leads);
     if(d.stale)toast('Showing saved events. Refresh when you’re back online.');
-    EVENTS=d.events.filter(e=>e && e.hidden!==true && e.name && Array.isArray(e.nights) && e.nights.length).map((e,i)=>({
+    EVENTS=d.events.filter(e=>e && e.name && Array.isArray(e.nights) && e.nights.length).map((e,i)=>({
       ...e, id:String(e.id || 'event-'+i+'-'+e.name), area:e.area||'', tagline:e.tagline||'',
       poster:{bg:/^#[0-9a-f]{3,8}$/i.test(e.poster?.bg)?e.poster.bg:'#2b4edc',ink:'#f4ead6'},
       nights:e.nights.map(n=>({...n,price:Math.max(0,Number(n.price)||0)})),
