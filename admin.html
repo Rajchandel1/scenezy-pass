@@ -312,15 +312,28 @@ function renderEvents(){
     const min=Math.min(...(ev.nights?.length?ev.nights:[{price:0}]).map(n=>+n.price||0));
     let bgStyle = `background-color:${esc(ev.poster?.bg||'#2b4edc')}`;
     if(ev.img) bgStyle += `;background-image:url('${esc(ev.img)}')`;
-    return `<div class="evRow"><span class="swatch" style="${bgStyle}">${ev.img?'':esc((ev.name||'?')[0])}</span><div class="m"><b>${esc(ev.name)}</b><span>${esc(ev.venue)}${ev.area?' · '+esc(ev.area):''}</span></div><div class="evMeta"><b>${inr(min)}</b>${(ev.nights||[]).length} nights</div><button class="miniBtn" data-edit="${index}" aria-label="Edit ${esc(ev.name)}">Edit</button></div>`;}).join(''):`<div class="empty" style="padding:14px">Sheet me events nahi — “+” se add karo</div>`;
+    return `<div class="evRow"><span class="swatch" style="${bgStyle}">${ev.img?'':esc((ev.name||'?')[0])}</span><div class="m"><b>${esc(ev.name)}</b><span>${esc(ev.venue)}${ev.area?' · '+esc(ev.area):''}</span><span>${ev.hidden===true?'Hidden from users':'Visible to users'}</span></div><div class="evActions"><button class="miniBtn" data-edit="${index}" aria-label="Edit ${esc(ev.name)}" ${busy?'disabled':''}>Edit</button><button class="miniBtn" data-visibility="${index}" aria-label="${ev.hidden===true?'Show':'Hide'} ${esc(ev.name)}" ${busy?'disabled':''}>${ev.hidden===true?'Show':'Hide'}</button></div></div>`;}).join(''):`<div class="empty" style="padding:14px">Sheet me events nahi — “+” se add karo</div>`;
 }
-$('#evList').onclick=e=>{const b=e.target.closest('[data-edit]');if(b&&!busy)openSheet(Number(b.dataset.edit))};
+$('#evList').onclick=async e=>{
+  if(busy)return;
+  const edit=e.target.closest('[data-edit]');if(edit){openSheet(Number(edit.dataset.edit));return}
+  const button=e.target.closest('[data-visibility]');if(!button)return;
+  const index=Number(button.dataset.visibility),original=events[index];
+  const event={...original,id:original.id||crypto.randomUUID(),hidden:original.hidden!==true};
+  busy=true;ScenezyAPI.busy(button,true,event.hidden?'Hiding':'Showing');
+  try {
+    await apiCall({action:'updateEvent',original,event});
+    events[index]=event;saveDashboardCache();ScenezyAPI.cacheEvents(events);
+    toast(event.hidden?'Event hidden from users':'Event visible to users');
+  }catch(error){toast(error.message)}
+  finally{busy=false;renderEvents()}
+};
 
 /* ══════════ refresh & add-event ══════════ */
  $('#refreshBtn').onclick=async()=>{
   if(busy)return; busy=true; const btn=$('#refreshBtn'); ScenezyAPI.busy(btn,true,'');
   try{ const d=await apiCall({action:'getAllData'}); if(d.error)throw 0; leads=d.leads||[];events=d.events||[];ScenezyAPI.cacheAdmin(d,KEY);ScenezyAPI.cacheEvents(events);render();toast('Refreshed'); }
-  catch(error){toast(error.message)} finally {busy=false;ScenezyAPI.busy(btn,false);renderLeads()}
+  catch(error){toast(error.message)} finally {busy=false;ScenezyAPI.busy(btn,false);renderLeads();renderEvents()}
 };
 
 function nRow(d='',day='',p=''){
@@ -381,7 +394,7 @@ function closeSheet(){if($('#fSave').disabled && busy)return;$('#veil').classLis
     saveDashboardCache(); ScenezyAPI.cacheEvents(events);
     renderEvents(); renderStats(); toast('Event live — app me refresh pe dikh jayega');
   }catch(error){toast(error.message)}
-  finally { busy=false; ScenezyAPI.busy(btn,false); }
+  finally { busy=false; ScenezyAPI.busy(btn,false); renderEvents(); }
 };
 
 /* ══════════ boot ══════════ */
