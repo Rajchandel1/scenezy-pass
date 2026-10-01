@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-IN">
 <head>
 <meta charset="UTF-8">
 
@@ -9,13 +9,85 @@
 >
 
 <meta name="theme-color" content="#08080b">
+<meta name="color-scheme" content="dark">
 
-<title>Scenezy · Navratri 2026 Ahmedabad</title>
+<title>Navratri 2026 Ahmedabad Garba Events &amp; Passes | Scenezy</title>
 
 <meta
   name="description"
-  content="Discover Navratri 2026 Garba events across Ahmedabad with Scenezy."
+  content="Discover Navratri 2026 Garba events in Ahmedabad. Compare venues, dates, locations and pass prices, save favourite events and book Garba passes with Scenezy."
 >
+
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+<meta name="googlebot" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+<meta name="author" content="Scenezy">
+<meta name="application-name" content="Scenezy">
+
+<link rel="canonical" href="https://scenezy.in/">
+<link rel="icon" type="image/png" href="/scenezy-logo.png">
+<link rel="apple-touch-icon" href="/scenezy-logo.png">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Scenezy">
+<meta property="og:locale" content="en_IN">
+<meta property="og:url" content="https://scenezy.in/">
+<meta property="og:title" content="Navratri 2026 Ahmedabad Garba Events &amp; Passes | Scenezy">
+<meta property="og:description" content="Discover Navratri 2026 Garba events in Ahmedabad. Compare venues, dates, locations and pass prices, save favourites and book Garba passes with Scenezy.">
+<meta property="og:image" content="https://scenezy.in/garba_golden_bg.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:alt" content="Scenezy Navratri 2026 Ahmedabad Garba events and passes">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Navratri 2026 Ahmedabad Garba Events &amp; Passes | Scenezy">
+<meta name="twitter:description" content="Find Navratri 2026 Garba events, venues, dates and pass prices in Ahmedabad with Scenezy.">
+<meta name="twitter:image" content="https://scenezy.in/garba_golden_bg.jpg">
+<meta name="twitter:image:alt" content="Scenezy Navratri 2026 Ahmedabad Garba events and passes">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://scenezy.in/#organization",
+      "name": "Scenezy",
+      "url": "https://scenezy.in/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://scenezy.in/scenezy-logo.png"
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://scenezy.in/#website",
+      "url": "https://scenezy.in/",
+      "name": "Scenezy",
+      "description": "Discover Navratri 2026 Garba events in Ahmedabad, compare venues, dates and pass prices, save favourites and book Garba passes.",
+      "inLanguage": "en-IN",
+      "publisher": {
+        "@id": "https://scenezy.in/#organization"
+      }
+    },
+    {
+      "@type": "CollectionPage",
+      "@id": "https://scenezy.in/#webpage",
+      "url": "https://scenezy.in/",
+      "name": "Navratri 2026 Ahmedabad Garba Events & Passes | Scenezy",
+      "description": "Discover Navratri 2026 Garba events in Ahmedabad and compare venues, dates, locations and pass prices.",
+      "isPartOf": {
+        "@id": "https://scenezy.in/#website"
+      },
+      "about": {
+        "@id": "https://scenezy.in/#organization"
+      },
+      "inLanguage": "en-IN"
+    }
+  ]
+}
+</script>
+
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="preconnect" href="https://hpvsemxmaesprrnwyuqw.supabase.co" crossorigin>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -114,6 +186,19 @@ svg {
 
 [hidden] {
   display: none !important;
+}
+
+/* Semantic homepage heading for search engines and assistive technology. */
+.seoHomeTitle {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
 
 .ic {
@@ -4411,6 +4496,10 @@ body::after {
 
   <section class="homeIntro">
 
+    <h1 class="seoHomeTitle">
+      Navratri 2026 Ahmedabad Garba Events &amp; Passes
+    </h1>
+
     <p
       class="kicker"
       id="homeKicker"
@@ -4419,12 +4508,13 @@ body::after {
 
     <div class="homeTitleWrap">
 
-      <h1
+      <h2
         class="homeTitle"
         id="homeTitle"
+        aria-live="polite"
       >
         —
-      </h1>
+      </h2>
 
     </div>
 
@@ -6426,7 +6516,7 @@ function refreshScenezyUI(
   if (kicker) {
 
     kicker.textContent =
-      `${SCENEZY.season} · ${SCENEZY.city}`;
+      `${SCENEZY.season} · ${SCENEZY.city} Garba Events`;
 
   }
 
@@ -8002,6 +8092,7 @@ function posterHTML(
           <img
             class="posterImage"
             src="${escapeHTML(event.image)}"
+            decoding="async"
             alt=""
             onerror="this.remove()"
           >
@@ -11792,7 +11883,9 @@ function renderSearch(
 
                       <img
                         src="${escapeHTML(event.image)}"
-                        alt=""
+                        alt="${escapeHTML(event.name)} event poster"
+                        loading="lazy"
+                        decoding="async"
                         onerror="this.remove()"
                       >
 
@@ -13067,7 +13160,7 @@ function boot() {
 
   $("#homeKicker")
     .textContent =
-    `${SCENEZY.season} · ${SCENEZY.city}`;
+    `${SCENEZY.season} · ${SCENEZY.city} Garba Events`;
 
 
   loadSaved();

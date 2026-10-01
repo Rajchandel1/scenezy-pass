@@ -1,0 +1,48 @@
+SCENEZY.IN — GOOGLE SEARCH CONSOLE SETUP
+========================================
+
+1) Upload these files to the ROOT of scenezy.in:
+   - index.html
+   - robots.txt
+   - sitemap.xml
+
+2) Confirm in a browser:
+   https://scenezy.in/robots.txt
+   https://scenezy.in/sitemap.xml
+
+3) Open Google Search Console:
+   https://search.google.com/search-console/
+
+4) Add Property -> choose DOMAIN.
+   Enter only:
+   scenezy.in
+
+5) Google will give you a DNS TXT record similar to:
+   google-site-verification=XXXXXXXXXXXX
+
+6) Open the DNS provider for scenezy.in and add that TXT record exactly.
+   Do NOT paste a made-up token into the HTML.
+
+7) Return to Search Console and click Verify.
+
+8) After verification:
+   Indexing -> Sitemaps -> submit:
+   sitemap.xml
+
+9) URL Inspection -> inspect:
+   https://scenezy.in/
+   Then click Request Indexing.
+
+10) In the next phase, once real /events/{slug} URLs exist, regenerate sitemap.xml to include each event URL. Do not add fake event URLs before those routes actually work.
+
+SEO INCLUDED IN index.html
+--------------------------
+- Improved title and meta description
+- index/follow robots directives
+- Canonical URL
+- Open Graph metadata
+- Twitter card metadata
+- Scenezy favicon references
+- Organization + WebSite JSON-LD
+- Stable semantic homepage H1
+- Existing Scenezy app, Supabase flow and current ad integrations preserved
