@@ -23,7 +23,6 @@
 <meta name="author" content="Scenezy">
 <meta name="application-name" content="Scenezy">
 
-<link rel="canonical" href="https://scenezy.in/">
 <link rel="icon" type="image/png" href="/scenezy-logo.png">
 <link rel="apple-touch-icon" href="/scenezy-logo.png">
 
@@ -4413,6 +4412,351 @@ body::after {
   100% { box-shadow: 0 0 0 0 rgba(142,162,255,0); }
 }
 
+
+
+/* =========================================================
+   SCENEZY SEO ROUTES
+   Dynamic event URLs + Ahmedabad search-intent landing pages
+========================================================= */
+
+.seoRouteOnly {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+#landingScreen {
+  background:
+    radial-gradient(circle at 50% 12%, rgba(49, 87, 237, .20), transparent 29%),
+    linear-gradient(180deg, rgba(8, 8, 12, .76) 0%, rgba(8, 8, 12, .94) 44%, rgba(8, 8, 11, .99) 100%),
+    url("./garba_golden_bg.jpg") center / cover no-repeat !important;
+  isolation: isolate;
+}
+
+#landingScreen::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(8, 8, 11, .08), rgba(8, 8, 11, .70)),
+    radial-gradient(circle at 50% 25%, rgba(221, 180, 84, .07), transparent 35%);
+}
+
+#landingScreen .screenHeader {
+  position: relative;
+  z-index: 6;
+  background: linear-gradient(180deg, rgba(8, 8, 12, .90), rgba(8, 8, 12, .34), transparent);
+}
+
+.landingContent {
+  position: relative;
+  z-index: 3;
+  height: calc(100% - 74px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 4px 16px calc(118px + var(--safe-bottom));
+  scrollbar-width: none;
+}
+
+.landingContent::-webkit-scrollbar {
+  display: none;
+}
+
+.landingHero {
+  padding: 14px 2px 16px;
+}
+
+.landingEyebrow {
+  margin-bottom: 9px;
+  color: var(--gold);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.landingHero h1 {
+  max-width: 360px;
+  color: var(--ink2);
+  font-family: var(--serif);
+  font-size: clamp(31px, 8.1vw, 42px);
+  font-weight: 520;
+  line-height: .99;
+  letter-spacing: -.04em;
+}
+
+.landingLead {
+  max-width: 390px;
+  margin-top: 14px;
+  color: #c1bbc6;
+  font-size: 14px;
+  line-height: 1.62;
+}
+
+.landingPills {
+  display: flex;
+  gap: 8px;
+  margin: 17px 0 4px;
+  overflow-x: auto;
+  padding-bottom: 3px;
+  scrollbar-width: none;
+}
+
+.landingPills::-webkit-scrollbar {
+  display: none;
+}
+
+.landingPill {
+  flex: 0 0 auto;
+  padding: 9px 12px;
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 999px;
+  background: rgba(19,19,26,.72);
+  color: #c9c4cd;
+  font-size: 11px;
+  font-weight: 650;
+  text-decoration: none;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.landingPill.on {
+  color: #fff;
+  border-color: rgba(103,130,255,.52);
+  background: linear-gradient(145deg, rgba(49,87,237,.92), rgba(32,48,117,.92));
+  box-shadow: 0 8px 24px rgba(30,53,160,.22);
+}
+
+.landingStats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0,1fr));
+  gap: 8px;
+  margin: 15px 0 4px;
+}
+
+.landingStat {
+  min-width: 0;
+  padding: 12px 10px;
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 16px;
+  background: rgba(18,18,24,.72);
+  backdrop-filter: blur(13px);
+  -webkit-backdrop-filter: blur(13px);
+}
+
+.landingStat small {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--faint);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+
+.landingStat strong {
+  display: block;
+  overflow: hidden;
+  color: var(--ink2);
+  font-size: 13px;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.landingSection {
+  padding-top: 18px;
+}
+
+.landingSectionHead {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 10px;
+}
+
+.landingSectionHead h2,
+.landingGuide h2,
+.landingFAQ h2 {
+  color: var(--ink2);
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 520;
+  letter-spacing: -.02em;
+}
+
+.landingSectionHead span {
+  color: var(--faint);
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+.landingResults {
+  display: grid;
+  gap: 9px;
+}
+
+.landingEvent {
+  display: grid;
+  grid-template-columns: 58px minmax(0,1fr) auto;
+  align-items: center;
+  gap: 11px;
+  min-width: 0;
+  padding: 10px;
+  border: 1px solid rgba(255,255,255,.075);
+  border-radius: 17px;
+  background: rgba(18,18,25,.76);
+  color: inherit;
+  text-decoration: none;
+  box-shadow: 0 12px 28px rgba(0,0,0,.13);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  transition: transform .18s ease, border-color .18s ease, background .18s ease;
+}
+
+.landingEvent:active {
+  transform: scale(.985);
+}
+
+@media (hover:hover) {
+  .landingEvent:hover {
+    transform: translateY(-2px);
+    border-color: rgba(93,121,255,.38);
+    background: rgba(25,25,34,.88);
+  }
+}
+
+.landingThumb {
+  position: relative;
+  width: 58px;
+  height: 72px;
+  overflow: hidden;
+  border-radius: 12px;
+  background: linear-gradient(145deg, var(--a), var(--b));
+}
+
+.landingThumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.landingEventMain {
+  min-width: 0;
+}
+
+.landingEventMain strong {
+  display: block;
+  overflow: hidden;
+  color: #f8f2e7;
+  font-size: 13px;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.landingEventMain span {
+  display: block;
+  overflow: hidden;
+  margin-top: 4px;
+  color: #8e8995;
+  font-size: 10px;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.landingPrice {
+  min-width: 64px;
+  text-align: right;
+}
+
+.landingPrice small {
+  display: block;
+  color: #726d79;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.landingPrice strong {
+  display: block;
+  margin-top: 3px;
+  color: #fff;
+  font-size: 12px;
+}
+
+.landingGuide,
+.landingFAQ {
+  margin-top: 24px;
+  padding: 17px;
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 20px;
+  background: rgba(15,15,21,.70);
+  backdrop-filter: blur(13px);
+  -webkit-backdrop-filter: blur(13px);
+}
+
+.landingGuide p {
+  margin-top: 10px;
+  color: #aaa5b0;
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+.landingFAQItem {
+  padding: 13px 0;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+
+.landingFAQItem:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.landingFAQItem strong {
+  display: block;
+  color: #eee8dc;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.landingFAQItem p {
+  margin-top: 6px;
+  color: #9994a0;
+  font-size: 11px;
+  line-height: 1.58;
+}
+
+@media (max-width: 360px) {
+  .landingStats {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .landingStat:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .landingEvent {
+    grid-template-columns: 52px minmax(0,1fr) auto;
+  }
+
+  .landingThumb {
+    width: 52px;
+    height: 66px;
+  }
+}
+
 </style>
 
 
@@ -4816,6 +5160,78 @@ body::after {
 </section>
 
 
+
+
+<!-- ======================================================
+     SEO LANDING ROUTES
+====================================================== -->
+
+<section
+  class="screen"
+  id="landingScreen"
+  aria-labelledby="landingTitle"
+>
+
+  <header class="screenHeader">
+
+    <button
+      class="iconBtn"
+      id="landingBack"
+      aria-label="Back to Scenezy"
+      type="button"
+    >
+      <svg class="ic" viewBox="0 0 24 24">
+        <path d="M15 5l-7 7 7 7"></path>
+      </svg>
+    </button>
+
+    <span class="screenTitle">
+      scenezy · ahmedabad
+    </span>
+
+  </header>
+
+  <div class="landingContent" id="landingContent">
+
+    <section class="landingHero">
+      <div class="landingEyebrow" id="landingEyebrow">
+        Navratri 2026 · Ahmedabad
+      </div>
+
+      <h1 id="landingTitle">Ahmedabad Garba Events</h1>
+
+      <p class="landingLead" id="landingLead"></p>
+
+      <nav class="landingPills" aria-label="Ahmedabad Navratri guides">
+        <a class="landingPill" data-landing-link="/garba-events-ahmedabad" href="/garba-events-ahmedabad">Events</a>
+        <a class="landingPill" data-landing-link="/garba-passes-ahmedabad" href="/garba-passes-ahmedabad">Passes</a>
+        <a class="landingPill" data-landing-link="/garba-pass-price-ahmedabad" href="/garba-pass-price-ahmedabad">Pass prices</a>
+      </nav>
+
+      <div class="landingStats" id="landingStats"></div>
+    </section>
+
+    <section class="landingSection">
+      <div class="landingSectionHead">
+        <h2 id="landingListTitle">Explore events</h2>
+        <span id="landingUpdated">Live Scenezy listings</span>
+      </div>
+
+      <div class="landingResults" id="landingResults"></div>
+    </section>
+
+    <section class="landingGuide" id="landingGuide"></section>
+
+    <section class="landingFAQ">
+      <h2>Quick answers</h2>
+      <div id="landingFAQ"></div>
+    </section>
+
+  </div>
+
+</section>
+
+
 <!-- ======================================================
      DETAIL
 ====================================================== -->
@@ -4892,6 +5308,8 @@ body::after {
 
 
     <div class="detailContent">
+
+      <h1 class="seoRouteOnly" id="eventSeoH1"></h1>
 
       <div class="detailEyebrow">
         scenezy · ahmedabad
@@ -6030,6 +6448,1050 @@ const $$ =
     [...document.querySelectorAll(selector)];
 
 
+
+/* =========================================================
+   ROUTING + SEO
+   Keeps the current SPA, but gives important views real URLs.
+========================================================= */
+
+const SCENEZY_ORIGIN =
+  "https://scenezy.in";
+
+
+const SCENEZY_HOME_SEO = {
+  path: "/",
+  title: "Navratri 2026 Ahmedabad Garba Events & Passes | Scenezy",
+  description: "Discover Navratri 2026 Garba events in Ahmedabad. Compare venues, dates, locations and pass prices, save favourite events and book Garba passes with Scenezy.",
+  image: "/garba_golden_bg.jpg"
+};
+
+
+const SCENEZY_LANDING_ROUTES = {
+
+  "/garba-events-ahmedabad": {
+    title: "Garba & Navratri Events in Ahmedabad 2026 | Scenezy",
+    description: "Explore Garba and Navratri events in Ahmedabad for 2026. Compare venues, dates, areas and pass prices, then open any event for booking details on Scenezy.",
+    eyebrow: "Navratri 2026 · Ahmedabad",
+    heading: "Garba & Navratri Events in Ahmedabad 2026",
+    lead: "Browse Scenezy's current Ahmedabad Garba listings in one place. Compare event dates, venues, areas and starting pass prices before opening the event you want.",
+    listTitle: "Garba events in Ahmedabad",
+    mode: "events",
+    guideTitle: "Find your Ahmedabad Garba night",
+    guide: [
+      "Use this page when you are still deciding where to play Garba. Scenezy keeps the event name, venue, Ahmedabad area, dates and current starting price together so you can compare before opening a specific event.",
+      "Event information can change during the season. Open the event page for the latest Scenezy listing and use the booking flow there for the night and pass type you want."
+    ],
+    faqs: [
+      ["Where can I find Garba events in Ahmedabad for Navratri 2026?", "This page lists the Ahmedabad events currently available on Scenezy and links each listing to its own event URL."],
+      ["Can I search by Ahmedabad area or venue?", "Yes. Scenezy search includes event names, venues, areas and addresses, so you can narrow the live listings around the part of Ahmedabad you prefer."],
+      ["Do all Ahmedabad Garba events have the same dates and prices?", "No. Dates, venues and pass prices vary by event. Scenezy shows each event's current listing separately instead of treating every Garba as the same offer."]
+    ]
+  },
+
+  "/garba-passes-ahmedabad": {
+    title: "Garba & Navratri Passes Ahmedabad 2026 | Scenezy",
+    description: "Compare Garba and Navratri passes in Ahmedabad for 2026 by event, date, venue and starting price. Open an event to check pass options and booking details.",
+    eyebrow: "Ahmedabad · Tickets & passes",
+    heading: "Garba & Navratri Passes in Ahmedabad 2026",
+    lead: "Compare Scenezy's Ahmedabad Garba pass listings by event, venue and starting price. Events with a known price are shown first, while announced events with pricing still to come remain visible as TBA.",
+    listTitle: "Ahmedabad Garba pass listings",
+    mode: "passes",
+    guideTitle: "Compare passes before you choose a night",
+    guide: [
+      "Pass options can differ by event and by night. Scenezy keeps the latest pass information attached to the individual event instead of showing one generic Navratri price for Ahmedabad.",
+      "Open an event to choose an available night, see the pass type currently listed and continue to the Scenezy WhatsApp booking enquiry when you are ready."
+    ],
+    faqs: [
+      ["Where can I check Navratri passes in Ahmedabad?", "Use the Scenezy pass listings above, then open the individual event to see its current dates, pass options and booking details."],
+      ["What if an Ahmedabad Garba pass says TBA?", "TBA means Scenezy does not currently have a confirmed starting price for that event. The event stays discoverable while the price is updated."],
+      ["Can pass prices change for different Garba nights?", "They can. Scenezy supports night-specific pass data, so the event detail is the right place to check the currently listed option for the night you choose."]
+    ]
+  },
+
+  "/garba-pass-price-ahmedabad": {
+    title: "Garba Pass Price Ahmedabad 2026 – Compare Tickets | Scenezy",
+    description: "Compare current Garba pass prices in Ahmedabad for Navratri 2026. Check starting prices, event dates, venues and areas, then open an event for details.",
+    eyebrow: "Ahmedabad · Price comparison",
+    heading: "Garba Pass Prices in Ahmedabad 2026",
+    lead: "See the current starting prices in Scenezy's Ahmedabad listings and compare them alongside venue, area and dates. Known prices are sorted from lower to higher; unannounced prices stay marked TBA.",
+    listTitle: "Compare starting pass prices",
+    mode: "price",
+    guideTitle: "What the price on Scenezy means",
+    guide: [
+      "The amount shown here is the lowest currently listed starting price Scenezy can derive from that event's available pass data. It is a comparison aid, not a promise that every night or every pass tier costs the same.",
+      "For the most relevant amount, open the event and select the night and pass type available in its Scenezy listing before sending a booking enquiry."
+    ],
+    faqs: [
+      ["How can I compare Garba pass prices in Ahmedabad?", "This page sorts Scenezy events with known starting prices from lower to higher and keeps TBA events visible separately."],
+      ["Is the starting price the final price for every night?", "Not necessarily. An event can have different pass types or night-specific pricing, so check the event detail before booking."],
+      ["Why do some Ahmedabad Garba events show TBA?", "It means a usable price has not yet been published in the Scenezy event data. Scenezy can update the listing when the event information changes."]
+    ]
+  }
+
+};
+
+
+const SCENEZY_ROUTE_ALIASES = {
+  "/navratri-passes": "/garba-passes-ahmedabad",
+  "/navratri-passes-ahmedabad": "/garba-passes-ahmedabad",
+  "/navratri-events-ahmedabad": "/garba-events-ahmedabad"
+};
+
+
+function normalizedScenezyPath(
+  value = window.location.pathname
+) {
+
+  let path =
+    String(value || "/")
+      .split("?")[0]
+      .split("#")[0]
+      .replace(/\/{2,}/g, "/");
+
+
+  if (
+    path.length > 1
+  ) {
+    path =
+      path.replace(/\/+$/, "");
+  }
+
+
+  return path || "/";
+}
+
+
+function scenezyCanonicalPath(
+  path = normalizedScenezyPath()
+) {
+
+  return (
+    SCENEZY_ROUTE_ALIASES[path] ||
+    path
+  );
+}
+
+
+function scenezyAbsoluteURL(
+  path
+) {
+
+  return new URL(
+    path || "/",
+    SCENEZY_ORIGIN
+  ).href;
+}
+
+
+function eventRoute(
+  event
+) {
+
+  return (
+    "/events/" +
+    encodeURIComponent(
+      String(event?.id || "")
+    )
+  );
+}
+
+
+function eventFromRoute(
+  path
+) {
+
+  const match =
+    normalizedScenezyPath(path)
+      .match(/^\/events\/([^/]+)$/);
+
+
+  if (!match) {
+    return null;
+  }
+
+
+  let id = match[1];
+
+  try {
+    id = decodeURIComponent(id);
+  } catch {}
+
+
+  return (
+    EVENTS.find(
+      event =>
+        String(event.id) === id
+    ) ||
+    null
+  );
+}
+
+
+function setMetaByName(
+  name,
+  content
+) {
+
+  let node =
+    document.querySelector(
+      `meta[name="${name}"]`
+    );
+
+
+  if (!node) {
+    node =
+      document.createElement(
+        "meta"
+      );
+
+    node.setAttribute(
+      "name",
+      name
+    );
+
+    document.head.appendChild(
+      node
+    );
+  }
+
+
+  node.setAttribute(
+    "content",
+    content
+  );
+}
+
+
+function setMetaByProperty(
+  property,
+  content
+) {
+
+  let node =
+    document.querySelector(
+      `meta[property="${property}"]`
+    );
+
+
+  if (!node) {
+    node =
+      document.createElement(
+        "meta"
+      );
+
+    node.setAttribute(
+      "property",
+      property
+    );
+
+    document.head.appendChild(
+      node
+    );
+  }
+
+
+  node.setAttribute(
+    "content",
+    content
+  );
+}
+
+
+function setScenezyCanonical(
+  path
+) {
+
+  let link =
+    document.querySelector(
+      'link[rel="canonical"]'
+    );
+
+
+  if (!link) {
+    link =
+      document.createElement(
+        "link"
+      );
+
+    link.setAttribute(
+      "rel",
+      "canonical"
+    );
+
+    document.head.appendChild(
+      link
+    );
+  }
+
+
+  link.setAttribute(
+    "href",
+    scenezyAbsoluteURL(path)
+  );
+}
+
+
+function setScenezyPageSEO({
+  title,
+  description,
+  path,
+  image = SCENEZY_HOME_SEO.image,
+  type = "website"
+}) {
+
+  const absoluteURL =
+    scenezyAbsoluteURL(path);
+
+
+  const absoluteImage =
+    /^https?:\/\//i.test(image || "")
+    ?
+    image
+    :
+    scenezyAbsoluteURL(
+      String(image || "")
+        .replace(/^\.\//, "/")
+    );
+
+
+  document.title = title;
+
+  setMetaByName(
+    "description",
+    description
+  );
+
+  setScenezyCanonical(
+    path
+  );
+
+  setMetaByProperty(
+    "og:type",
+    type
+  );
+
+  setMetaByProperty(
+    "og:url",
+    absoluteURL
+  );
+
+  setMetaByProperty(
+    "og:title",
+    title
+  );
+
+  setMetaByProperty(
+    "og:description",
+    description
+  );
+
+  setMetaByProperty(
+    "og:image",
+    absoluteImage
+  );
+
+  setMetaByName(
+    "twitter:title",
+    title
+  );
+
+  setMetaByName(
+    "twitter:description",
+    description
+  );
+
+  setMetaByName(
+    "twitter:image",
+    absoluteImage
+  );
+}
+
+
+function setScenezyRouteSchema(
+  value
+) {
+
+  let node =
+    document.getElementById(
+      "scenezyRouteSchema"
+    );
+
+
+  if (!value) {
+    node?.remove();
+    return;
+  }
+
+
+  if (!node) {
+    node =
+      document.createElement(
+        "script"
+      );
+
+    node.type =
+      "application/ld+json";
+
+    node.id =
+      "scenezyRouteSchema";
+
+    document.head.appendChild(
+      node
+    );
+  }
+
+
+  node.textContent =
+    JSON.stringify(value);
+}
+
+
+function restoreScenezyHomeSEO() {
+
+  setScenezyPageSEO(
+    SCENEZY_HOME_SEO
+  );
+
+  setScenezyRouteSchema(
+    null
+  );
+
+  const h1 =
+    $("#eventSeoH1");
+
+  if (h1) {
+    h1.textContent = "";
+  }
+}
+
+
+function eventSEODescription(
+  event
+) {
+
+  const price =
+    eventBasePrice(event);
+
+
+  const pricePart =
+    price == null
+    ?
+    "pass details"
+    :
+    `passes from ${priceText(price)}`;
+
+
+  return (
+    `Check ${event.name} in Ahmedabad for Navratri 2026: ` +
+    `${event.dateLabel}, ${event.venue}, ${event.area}, ${pricePart} ` +
+    `and booking details on Scenezy.`
+  );
+}
+
+
+function applyEventSEO(
+  event
+) {
+
+  const path =
+    eventRoute(event);
+
+
+  const title =
+    `${event.name} Ahmedabad 2026 – Passes & Details | Scenezy`;
+
+
+  const description =
+    eventSEODescription(event);
+
+
+  setScenezyPageSEO({
+    title,
+    description,
+    path,
+    image:
+      event.image ||
+      SCENEZY_HOME_SEO.image,
+    type: "website"
+  });
+
+
+  const routeH1 =
+    $("#eventSeoH1");
+
+
+  if (routeH1) {
+    routeH1.textContent =
+      `${event.name} Ahmedabad 2026`;
+  }
+
+
+  const price =
+    eventBasePrice(event);
+
+
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": event.startDate ? "Event" : "WebPage",
+    name: event.name,
+    url: scenezyAbsoluteURL(path),
+    description,
+    image: [
+      /^https?:\/\//i.test(event.image || "")
+      ?
+      event.image
+      :
+      scenezyAbsoluteURL(
+        String(
+          event.image ||
+          SCENEZY_HOME_SEO.image
+        )
+        .replace(/^\.\//, "/")
+      )
+    ]
+  };
+
+
+  if (
+    event.startDate
+  ) {
+
+    schema.startDate =
+      event.startDate;
+
+    if (event.endDate) {
+      schema.endDate =
+        event.endDate;
+    }
+
+    schema.eventAttendanceMode =
+      "https://schema.org/OfflineEventAttendanceMode";
+
+    schema.eventStatus =
+      "https://schema.org/EventScheduled";
+
+    schema.location = {
+      "@type": "Place",
+      name:
+        event.venue ||
+        event.area ||
+        "Ahmedabad",
+      address: {
+        "@type": "PostalAddress",
+        streetAddress:
+          event.address ||
+          undefined,
+        addressLocality:
+          "Ahmedabad",
+        addressRegion:
+          "Gujarat",
+        addressCountry:
+          "IN"
+      }
+    };
+
+
+    if (
+      price != null
+    ) {
+      schema.offers = {
+        "@type": "Offer",
+        url:
+          scenezyAbsoluteURL(path),
+        price:
+          Number(price),
+        priceCurrency:
+          "INR",
+        availability:
+          "https://schema.org/InStock"
+      };
+    }
+  }
+
+
+  setScenezyRouteSchema(
+    schema
+  );
+}
+
+
+function landingEventsForMode(
+  mode
+) {
+
+  const items =
+    [...EVENTS];
+
+
+  if (
+    mode === "passes" ||
+    mode === "price"
+  ) {
+
+    items.sort(
+      (a, b) => {
+
+        const ap =
+          eventBasePrice(a);
+
+        const bp =
+          eventBasePrice(b);
+
+
+        if (
+          ap == null &&
+          bp == null
+        ) return 0;
+
+        if (
+          ap == null
+        ) return 1;
+
+        if (
+          bp == null
+        ) return -1;
+
+
+        return ap - bp;
+      }
+    );
+  }
+
+
+  return items;
+}
+
+
+function renderLandingPage(
+  path
+) {
+
+  const route =
+    SCENEZY_LANDING_ROUTES[path];
+
+
+  if (!route) {
+    return false;
+  }
+
+
+  $("#searchScreen")
+    ?.classList
+    .remove("open");
+
+  $("#passesScreen")
+    ?.classList
+    .remove("open");
+
+  $("#detail")
+    ?.classList
+    .remove("open");
+
+
+  state.current = null;
+
+  $("#landingScreen")
+    ?.classList
+    .add("open");
+
+  setTab("home");
+
+
+  $("#landingEyebrow").textContent =
+    route.eyebrow;
+
+  $("#landingTitle").textContent =
+    route.heading;
+
+  $("#landingLead").textContent =
+    route.lead;
+
+  $("#landingListTitle").textContent =
+    route.listTitle;
+
+
+  const items =
+    landingEventsForMode(
+      route.mode
+    );
+
+
+  const knownPrices =
+    items
+      .map(eventBasePrice)
+      .filter(
+        price =>
+          Number.isFinite(price)
+      );
+
+
+  const minPrice =
+    knownPrices.length
+    ?
+    Math.min(...knownPrices)
+    :
+    null;
+
+
+  const areaCount =
+    new Set(
+      items
+        .map(event => event.area)
+        .filter(Boolean)
+    ).size;
+
+
+  $("#landingStats").innerHTML = `
+    <div class="landingStat">
+      <small>live listings</small>
+      <strong>${items.length} event${items.length === 1 ? "" : "s"}</strong>
+    </div>
+    <div class="landingStat">
+      <small>starting from</small>
+      <strong>${minPrice == null ? "TBA" : escapeHTML(priceText(minPrice))}</strong>
+    </div>
+    <div class="landingStat">
+      <small>areas</small>
+      <strong>${areaCount || "Ahmedabad"}</strong>
+    </div>
+  `;
+
+
+  $("#landingResults").innerHTML =
+    items.length
+    ?
+    items.map(
+      event => {
+
+        const price =
+          eventBasePrice(event);
+
+
+        return `
+          <a
+            class="landingEvent"
+            href="${eventRoute(event)}"
+            data-scenezy-event="${escapeHTML(event.id)}"
+          >
+            <span
+              class="landingThumb"
+              style="--a:${escapeHTML(event.poster?.a || "#31458f")};--b:${escapeHTML(event.poster?.b || "#141a49")};"
+            >
+              ${
+                event.image
+                ?
+                `<img src="${escapeHTML(event.image)}" alt="${escapeHTML(event.name)} Garba event Ahmedabad" loading="lazy" decoding="async" onerror="this.remove()">`
+                :
+                ""
+              }
+            </span>
+
+            <span class="landingEventMain">
+              <strong>${escapeHTML(event.name)}</strong>
+              <span>${escapeHTML(event.venue)} · ${escapeHTML(event.area)}</span>
+              <span>${escapeHTML(event.dateLabel)}</span>
+            </span>
+
+            <span class="landingPrice">
+              <small>from</small>
+              <strong>${escapeHTML(priceText(price))}</strong>
+            </span>
+          </a>
+        `;
+      }
+    ).join("")
+    :
+    `<div class="passEmpty"><h3>No live listings yet.</h3><p>Scenezy will show Ahmedabad events here as they become available.</p></div>`;
+
+
+  $("#landingGuide").innerHTML = `
+    <h2>${escapeHTML(route.guideTitle)}</h2>
+    ${route.guide.map(text => `<p>${escapeHTML(text)}</p>`).join("")}
+  `;
+
+
+  $("#landingFAQ").innerHTML =
+    route.faqs
+      .map(
+        ([question, answer]) => `
+          <div class="landingFAQItem">
+            <strong>${escapeHTML(question)}</strong>
+            <p>${escapeHTML(answer)}</p>
+          </div>
+        `
+      )
+      .join("");
+
+
+  $$("#landingResults [data-scenezy-event]")
+    .forEach(
+      link => {
+        link.onclick =
+          event => {
+            event.preventDefault();
+
+            const item =
+              EVENTS.find(
+                current =>
+                  current.id ===
+                  link.dataset.scenezyEvent
+              );
+
+            if (item) {
+              openDetail(item);
+            }
+          };
+      }
+    );
+
+
+  $$("[data-landing-link]")
+    .forEach(
+      link => {
+
+        const target =
+          normalizedScenezyPath(
+            link.getAttribute("href")
+          );
+
+        link.classList.toggle(
+          "on",
+          target === path
+        );
+
+        link.onclick =
+          event => {
+            event.preventDefault();
+            navigateScenezy(
+              target
+            );
+          };
+      }
+    );
+
+
+  setScenezyPageSEO({
+    title: route.title,
+    description: route.description,
+    path,
+    image: SCENEZY_HOME_SEO.image,
+    type: "website"
+  });
+
+
+  setScenezyRouteSchema({
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: route.heading,
+    description: route.description,
+    url: scenezyAbsoluteURL(path),
+    isPartOf: {
+      "@id": "https://scenezy.in/#website"
+    },
+    mainEntity: {
+      "@type": "ItemList",
+      itemListElement:
+        items.map(
+          (event, index) => ({
+            "@type": "ListItem",
+            position: index + 1,
+            name: event.name,
+            url:
+              scenezyAbsoluteURL(
+                eventRoute(event)
+              )
+          })
+        )
+    }
+  });
+
+
+  const content =
+    $("#landingContent");
+
+  if (content) {
+    content.scrollTop = 0;
+  }
+
+
+  return true;
+}
+
+
+function closeLandingScreen() {
+  $("#landingScreen")
+    ?.classList
+    .remove("open");
+}
+
+
+function navigateScenezy(
+  path,
+  {
+    replace = false
+  } = {}
+) {
+
+  const target =
+    scenezyCanonicalPath(
+      normalizedScenezyPath(path)
+    );
+
+
+  const method =
+    replace
+    ?
+    "replaceState"
+    :
+    "pushState";
+
+
+  history[method](
+    {
+      scenezyRoute: true
+    },
+    "",
+    target
+  );
+
+
+  syncScenezyRoute();
+}
+
+
+function syncScenezyRoute({
+  afterRemote = false
+} = {}) {
+
+  const rawPath =
+    normalizedScenezyPath();
+
+
+  const path =
+    scenezyCanonicalPath(
+      rawPath
+    );
+
+
+  if (
+    rawPath !== path
+  ) {
+    history.replaceState(
+      {
+        scenezyRoute: true,
+        aliasFrom: rawPath
+      },
+      "",
+      path
+    );
+  }
+
+
+  if (
+    SCENEZY_LANDING_ROUTES[path]
+  ) {
+    return renderLandingPage(path);
+  }
+
+
+  const event =
+    eventFromRoute(path);
+
+
+  if (event) {
+
+    closeLandingScreen();
+    closeScreens();
+
+    state.returnPath =
+      history.state?.returnPath ||
+      "/";
+
+    openDetail(
+      event,
+      {
+        syncUrl: false,
+        hapticFeedback: false
+      }
+    );
+
+    return true;
+  }
+
+
+  if (
+    /^\/events\/[^/]+$/.test(path)
+  ) {
+
+    if (
+      afterRemote
+    ) {
+      history.replaceState(
+        {
+          scenezyRoute: true
+        },
+        "",
+        "/"
+      );
+
+      closeLandingScreen();
+
+      $("#detail")
+        ?.classList
+        .remove("open");
+
+      state.current = null;
+
+      restoreScenezyHomeSEO();
+
+      toast(
+        "That event is not live on Scenezy"
+      );
+    }
+
+    return false;
+  }
+
+
+  if (
+    path === "/"
+  ) {
+
+    closeLandingScreen();
+
+    $("#detail")
+      ?.classList
+      .remove("open");
+
+    state.current = null;
+
+    restoreScenezyHomeSEO();
+
+    return true;
+  }
+
+
+  if (
+    afterRemote
+  ) {
+    history.replaceState(
+      {
+        scenezyRoute: true
+      },
+      "",
+      "/"
+    );
+
+    closeLandingScreen();
+    restoreScenezyHomeSEO();
+  }
+
+
+  return false;
+}
+
+
+
 /* =========================================================
    SUPABASE + LOCAL-FIRST DATA LAYER
 
@@ -6570,6 +8032,37 @@ function refreshScenezyUI(
   updatePassBadge();
 
 
+  const activePath =
+    scenezyCanonicalPath(
+      normalizedScenezyPath()
+    );
+
+
+  if (
+    SCENEZY_LANDING_ROUTES[activePath]
+  ) {
+    renderLandingPage(
+      activePath
+    );
+  }
+
+
+  if (
+    state.current &&
+    activePath.startsWith(
+      "/events/"
+    )
+  ) {
+    openDetail(
+      state.current,
+      {
+        syncUrl: false,
+        hapticFeedback: false
+      }
+    );
+  }
+
+
   if (
     notify
   ) {
@@ -6748,6 +8241,11 @@ async function fetchScenezyFromSupabase({
       );
 
     }
+
+
+    syncScenezyRoute({
+      afterRemote: true
+    });
 
 
     return true;
@@ -9620,11 +11118,70 @@ function openEventMap(
 ========================================================= */
 
 function openDetail(
-  event
+  event,
+  {
+    syncUrl = true,
+    replaceUrl = false,
+    hapticFeedback = true
+  } = {}
 ) {
+
+  if (!event) {
+    return;
+  }
+
+
+  if (
+    syncUrl
+  ) {
+
+    const currentPath =
+      scenezyCanonicalPath(
+        normalizedScenezyPath()
+      );
+
+
+    if (
+      !currentPath.startsWith(
+        "/events/"
+      )
+    ) {
+      state.returnPath =
+        currentPath;
+    }
+
+
+    const method =
+      replaceUrl
+      ?
+      "replaceState"
+      :
+      "pushState";
+
+
+    history[method](
+      {
+        scenezyEvent: true,
+        returnPath:
+          state.returnPath ||
+          "/"
+      },
+      "",
+      eventRoute(event)
+    );
+  }
+
+
+  closeLandingScreen();
+
 
   state.current =
     event;
+
+
+  applyEventSEO(
+    event
+  );
 
 
   state.selectedNight[
@@ -9774,7 +11331,11 @@ function openDetail(
     0;
 
 
-  haptic(7);
+  if (
+    hapticFeedback
+  ) {
+    haptic(7);
+  }
 
 }
 
@@ -9783,11 +11344,30 @@ $("#detailBack")
   .onclick =
   () => {
 
-    $("#detail")
-      .classList
-      .remove(
-        "open"
-      );
+    if (
+      history.state
+        ?.scenezyEvent
+    ) {
+      history.back();
+      return;
+    }
+
+
+    const target =
+      state.returnPath ||
+      "/";
+
+
+    history.replaceState(
+      {
+        scenezyRoute: true
+      },
+      "",
+      target
+    );
+
+
+    syncScenezyRoute();
 
   };
 
@@ -12102,6 +13682,14 @@ function openPasses() {
 }
 
 
+$("#landingBack")
+  .onclick =
+  () =>
+    navigateScenezy(
+      "/"
+    );
+
+
 $("#headerSearch")
   .onclick =
   openSearch;
@@ -12130,6 +13718,15 @@ $$(".tab")
           ) {
 
             closeScreens();
+
+            if (
+              normalizedScenezyPath() !==
+              "/"
+            ) {
+              navigateScenezy(
+                "/"
+              );
+            }
 
           }
 
@@ -13187,6 +14784,9 @@ function boot() {
   updatePassBadge();
 
 
+  syncScenezyRoute();
+
+
   /*
      Network work starts after the UI is interactive.
   */
@@ -13265,6 +14865,15 @@ window.addEventListener(
 
   }
 );
+
+window.addEventListener(
+  "popstate",
+  () => {
+    closeScreens();
+    syncScenezyRoute();
+  }
+);
+
 
 boot();
 </script>
